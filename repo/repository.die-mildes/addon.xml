@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.die-mildes" name="Die Mildes Repository" provider-name="Die Mildes" version="1.0.1">
+<addon id="repository.die-mildes" name="Die Mildes Repository" provider-name="Die Mildes" version="1.0.2">
   <extension point="xbmc.addon.repository" name="Die Mildes Repository">
     <dir>
       <info compressed="false">https://mildman1848.github.io/repo/addons.xml</info>
@@ -19,3 +19,4 @@
     </assets>
   </extension>
 </addon>
+
