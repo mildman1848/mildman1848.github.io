@@ -325,7 +325,7 @@ def list_continue(client, library_id=""):
     data = client.items_in_progress(limit=200)
     items = parse_items(data)
     for entry in items:
-        library_item = entry.get("libraryItem") or entry
+        library_item = entry.get("libraryItem") or {}
         media_progress = entry.get("mediaProgress") or {}
 
         lib_id = ""
@@ -349,9 +349,23 @@ def list_continue(client, library_id=""):
             continue
 
         ep = entry.get("episode") or {}
-        item_id = library_item.get("id")
+        item_id = (
+            (library_item.get("id") if isinstance(library_item, dict) else "")
+            or str(entry.get("itemId") or "")
+            or str(entry.get("libraryItemId") or "")
+            or str(media_progress.get("itemId") or "")
+            or str(media_progress.get("libraryItemId") or "")
+        )
         if not item_id:
             continue
+
+        # Some ABS variants return only IDs in items-in-progress. Fetch full item lazily.
+        if not isinstance(library_item, dict) or not library_item:
+            try:
+                library_item = client.item(item_id) or {}
+            except Exception:
+                library_item = {"id": item_id}
+
         title = item_title(library_item)
         ep_id = ep.get("id")
         if ep_id:
