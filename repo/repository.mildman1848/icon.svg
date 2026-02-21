@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mildman1848 Repository icon">
+  <defs>
+    <linearGradient id="ring" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c5fc5"/>
+      <stop offset="100%" stop-color="#083f88"/>
+    </linearGradient>
+    <linearGradient id="shieldTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef5ff"/>
+      <stop offset="100%" stop-color="#dbe9ff"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="242" fill="#052f69"/>
+  <circle cx="256" cy="256" r="224" fill="url(#ring)"/>
+  <circle cx="256" cy="256" r="190" fill="#ffffff"/>
+
+  <path d="M256 86 L392 142 L357 346 L256 432 L155 346 L120 142 Z" fill="#ffffff" stroke="#0a4b9f" stroke-width="8"/>
+  <path d="M136 169 H376 L360 214 H152 Z" fill="url(#shieldTop)"/>
+
+  <text x="256" y="286" text-anchor="middle" font-size="150" font-weight="800" font-family="DejaVu Sans, Arial, sans-serif" fill="#0a4b9f">M</text>
+  <text x="256" y="352" text-anchor="middle" font-size="54" font-weight="700" letter-spacing="1" font-family="DejaVu Sans, Arial, sans-serif" fill="#083f88">1848</text>
+
+  <text x="256" y="56" text-anchor="middle" font-size="34" font-weight="700" letter-spacing="1" font-family="DejaVu Sans, Arial, sans-serif" fill="#ffffff">MILDMAN REPOSITORY</text>
+</svg>
