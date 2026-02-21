@@ -649,8 +649,8 @@ def rename_favorite(name, new_nickname):
 
 def move_favorite(name, direction):
     """
-    Move a favorite up or down in the list.
-    Direction: 'up' or 'down'
+    Move a favorite in the list.
+    Direction: 'up', 'down', 'top', or 'bottom'
     """
     favorites = _load_favorites()
     # Find index of item
@@ -675,6 +675,20 @@ def move_favorite(name, direction):
         _save_favorites(favorites)
         log_debug(f"Moved favorite {name} DOWN", "move_favorite")
 
+    elif direction == "top" and idx > 0:
+        # Move to beginning of list
+        item = favorites.pop(idx)
+        favorites.insert(0, item)
+        _save_favorites(favorites)
+        log_debug(f"Moved favorite {name} TO TOP", "move_favorite")
+
+    elif direction == "bottom" and idx < len(favorites) - 1:
+        # Move to end of list
+        item = favorites.pop(idx)
+        favorites.append(item)
+        _save_favorites(favorites)
+        log_debug(f"Moved favorite {name} TO BOTTOM", "move_favorite")
+
 
 def remove_favorite(name):
     """Remove a channel from TV favorites."""
@@ -693,3 +707,85 @@ def clear_all_favorites():
 def is_favorite(name):
     """Check if a channel is in TV favorites."""
     return name in get_favorite_names()
+
+
+def export_favorites():
+    """
+    Export TV favorites to a user-chosen location via file manager.
+    Saves as VavooTV-Favorites-YYYY-MM-DD.json.
+    """
+    from datetime import datetime
+
+    favorites = _load_favorites()
+    if not favorites:
+        xbmcgui.Dialog().ok("VavooTV", "No favorites to export.")
+        return
+
+    # Prompt user to pick a folder
+    dest_folder = xbmcgui.Dialog().browse(0, "Select Export Location", "files")
+    if not dest_folder:
+        return
+
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    filename = f"VavooTV-Favorites-{date_str}.json"
+    # Use dest_folder directly (keep VFS protocol paths like smb:// intact)
+    dest_path = dest_folder + filename
+
+    try:
+        content = json.dumps(favorites, indent=2)
+        f = xbmcvfs.File(dest_path, "w")
+        f.write(content)
+        f.close()
+        log_debug(f"Exported {len(favorites)} favorites to {dest_path}", "export_favorites")
+        xbmcgui.Dialog().ok(
+            "VavooTV",
+            "Favorites successfully exported!\n"
+            f"Path: {dest_path}"
+        )
+    except (IOError, OSError) as e:
+        log(f"Error exporting favorites: {e}", "export_favorites", force=True)
+        xbmcgui.Dialog().ok("VavooTV", f"Export failed:\n{e}")
+
+
+def import_favorites():
+    """
+    Import TV favorites from a user-chosen JSON file via file manager.
+    Replaces current favorites with imported ones.
+    """
+    # Prompt user to pick a .json file
+    source_file = xbmcgui.Dialog().browse(1, "Select Favorites File", "files", ".json")
+    if not source_file:
+        return
+
+    # source_file is already a VFS-compatible path from the browse dialog
+    source_path = source_file
+
+    try:
+        f = xbmcvfs.File(source_path, "r")
+        content = f.read()
+        f.close()
+        data = json.loads(content)
+
+        # Validate structure: must be a list of dicts with at least "name"
+        if not isinstance(data, list):
+            xbmcgui.Dialog().ok("VavooTV", "Invalid file format.\nExpected a list of favorites.")
+            return
+
+        for item in data:
+            if not isinstance(item, dict) or "name" not in item:
+                xbmcgui.Dialog().ok("VavooTV", "Invalid file format.\nEach entry must have a 'name' field.")
+                return
+
+        _save_favorites(data)
+        log_debug(f"Imported {len(data)} favorites from {source_path}", "import_favorites")
+        xbmcgui.Dialog().ok(
+            "VavooTV",
+            f"Favorites imported successfully!\n{len(data)} channels loaded."
+        )
+        xbmc.executebuiltin("Container.Refresh")
+
+    except json.JSONDecodeError:
+        xbmcgui.Dialog().ok("VavooTV", "Invalid JSON file.\nPlease select a valid favorites file.")
+    except (IOError, OSError) as e:
+        log(f"Error importing favorites: {e}", "import_favorites", force=True)
+        xbmcgui.Dialog().ok("VavooTV", f"Import failed:\n{e}")

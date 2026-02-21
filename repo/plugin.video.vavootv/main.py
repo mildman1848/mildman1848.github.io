@@ -71,6 +71,12 @@ if __name__ == "__main__":
         
     elif channel_name and action == "moveTvFavoritDown":
         vjlive.move_favorit_logic(channel_name, "down")
+
+    elif channel_name and action == "moveTvFavoritTop":
+        vjlive.move_favorit_logic(channel_name, "top")
+
+    elif channel_name and action == "moveTvFavoritBottom":
+        vjlive.move_favorit_logic(channel_name, "bottom")
     
     elif channel_name:
         urls = None
@@ -111,6 +117,12 @@ if __name__ == "__main__":
         utils.clear_all_favorites()
         utils.notify("All TV Favorites removed")
         xbmc.executebuiltin("Container.Refresh")
+    
+    elif action == "exportFavorites":
+        utils.export_favorites()
+    
+    elif action == "importFavorites":
+        utils.import_favorites()
     
     else:
         handler = getattr(vjackson, f"_{action}", None)

@@ -912,10 +912,14 @@ def favchannels():
                  f"RunPlugin({sys.argv[0]}?action=delTvFavorit&name={safe_name})"),
                 ("Change Channel Name",
                  f"RunPlugin({sys.argv[0]}?action=renameTvFavorit&name={safe_name})"),
+                ("Move to Top",
+                 f"RunPlugin({sys.argv[0]}?action=moveTvFavoritTop&name={safe_name})"),
                 ("Move Up",
                  f"RunPlugin({sys.argv[0]}?action=moveTvFavoritUp&name={safe_name})"),
                 ("Move Down",
                  f"RunPlugin({sys.argv[0]}?action=moveTvFavoritDown&name={safe_name})"),
+                ("Move to Bottom",
+                 f"RunPlugin({sys.argv[0]}?action=moveTvFavoritBottom&name={safe_name})"),
                 ("Settings", f"RunPlugin({sys.argv[0]}?action=settings)")
             ]
             listitem.addContextMenuItems(cm)
@@ -1014,65 +1018,104 @@ def move_favorit_logic(name, direction):
 
 def makem3u(group):
     """
-    Generate an M3U playlist for a specific group/country and save it.
+    Generate an M3U playlist for a specific group/country or Favorites and save it.
     The M3U will contain plugin:// links that trigger playback via this addon.
     """
     
     if not group:
-        utils.error_dialog("Error", "No country specified.")
+        utils.error_dialog("Error", "No group specified.")
         return
 
-    # 1. Fetch channels
-    progress = xbmcgui.DialogProgress()
-    progress.create("VavooTV", f"Fetching channels for {group}...")
-    
-    # Ensure cache is populated
-    try:
-        channels = getchannels_by_group(group)
-    except Exception as e:
-        progress.close()
-        utils.error_dialog("Error", f"Could not fetch channels: {e}")
-        return
-    
-    if not channels:
-        progress.close()
-        utils.notify(f"No channels found for {group}")
-        return
+    # Check if this is the special "favorites" group request
+    if group == "favorites":
+        # 1. Load Favorites
+        progress = xbmcgui.DialogProgress()
+        progress.create("VavooTV", "Loading Favorites...")
+        
+        channels_data = utils.get_favorites()
+        if not channels_data:
+            progress.close()
+            utils.notify("No favorites found")
+            return
+            
+        progress.update(50, "Generating M3U data...")
+        
+        lines = ["#EXTM3U\n"]
+        
+        for fav in channels_data:
+            if not isinstance(fav, dict): continue
+            
+            name = fav.get("name")
+            grp = fav.get("group")
+            nickname = fav.get("nickname", "") # Get nickname
+            
+            if not name or not grp: continue
+            
+            # Determine display name: Nickname if available, else Real Name
+            display_name = nickname if nickname else name
+            
+            # Escape real name for URL (Must be real name for playback)
+            safe_name = quote_plus(name)
+            safe_group = quote_plus(grp)
+            
+            # Construct plugin path
+            base_url = f"plugin://{utils.addonID}/"
+            stream_url = f"{base_url}?name={safe_name}&group={safe_group}"
+            
+            # Use display_name for the label, but keep original group
+            lines.append(f'#EXTINF:-1 group-title="{grp}",{display_name}\n{stream_url}\n')
+            
+        clean_group = "Favorites"
+        
+    else:
+        # Existing logic for standard country groups
+        progress = xbmcgui.DialogProgress()
+        progress.create("VavooTV", f"Fetching channels for {group}...")
+        
+        # Ensure cache is populated
+        try:
+            channels = getchannels_by_group(group)
+        except Exception as e:
+            progress.close()
+            utils.error_dialog("Error", f"Could not fetch channels: {e}")
+            return
+        
+        if not channels:
+            progress.close()
+            utils.notify(f"No channels found for {group}")
+            return
 
-    progress.update(50, "Generating M3U data...")
-    
-    # 2. Build M3U Content
-    lines = ["#EXTM3U\n"]
-    
-    # Sort by channel name
-    for name in sorted(channels.keys()):
-        # Escape special chars for URL
-        safe_name = quote_plus(name)
-        safe_group = quote_plus(group)
+        progress.update(50, "Generating M3U data...")
         
-        # Construct plugin path
-        # Using utils.addonID ensures we point to this specific plugin
-        # Format: plugin://plugin.video.vavootv/?name=X&group=Y
-        base_url = f"plugin://{utils.addonID}/"
-        stream_url = f"{base_url}?name={safe_name}&group={safe_group}"
+        lines = ["#EXTM3U\n"]
         
-        lines.append(f'#EXTINF:-1 group-title="{group}",{name}\n{stream_url}\n')
+        for name in sorted(channels.keys()):
+            # Escape special chars for URL
+            safe_name = quote_plus(name)
+            safe_group = quote_plus(group)
+            
+            # Construct plugin path
+            base_url = f"plugin://{utils.addonID}/"
+            stream_url = f"{base_url}?name={safe_name}&group={safe_group}"
+            
+            lines.append(f'#EXTINF:-1 group-title="{group}",{name}\n{stream_url}\n')
+            
+        clean_group = re.sub(r'[\\/*?:"<>| ]', "_", group)
 
     progress.update(100, "Waiting for save location...")
     progress.close()
 
     # 3. Select Save Directory
     dialog = xbmcgui.Dialog()
-    # type 3: Browse for folder (write)
-    save_path = dialog.browse(3, 'Select Save Directory for M3U', 'files')
+    # type 0: Browse for folder (all sources including network)
+    save_path = dialog.browse(0, 'Select Save Directory for M3U', 'files')
     
     if not save_path:
         return
 
     # 4. Save File
-    # Format: VavooTV-CountryName-YYYY-MM-DD.m3u
+    # Format: VavooTV-GroupName-YYYY-MM-DD.m3u
     date_str = datetime.date.today().strftime("%Y-%m-%d")
-    clean_group = re.sub(r'[\\/*?:"<>| ]', "_", group) # Replace spaces/illegal chars with underscore
     filename = f"VavooTV-{clean_group}-{date_str}.m3u"
     
     full_path = os.path.join(save_path, filename)

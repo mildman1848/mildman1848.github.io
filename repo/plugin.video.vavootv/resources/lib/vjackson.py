@@ -70,6 +70,9 @@ def _index(params):
     # 2. TV Favorites
     # Keep context menu for quick cleanup
     fav_ctx = [
+        ("Make M3U", f"RunPlugin({sys.argv[0]}?action=makem3u&group=favorites)"),
+        ("Import Favorites", f"RunPlugin({sys.argv[0]}?action=importFavorites)"),
+        ("Export Favorites", f"RunPlugin({sys.argv[0]}?action=exportFavorites)"),
         ("Remove All Favorites", f"RunPlugin({sys.argv[0]}?action=delallTvFavorit)"),
         ("Settings", f"RunPlugin({sys.argv[0]}?action=settings)")
     ]
