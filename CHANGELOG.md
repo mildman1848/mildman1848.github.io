@@ -25,3 +25,4 @@
 - Released `plugin.audio.audiobookshelf` `0.1.15` fixing series click-through on ABS instances where item references exist only in the entity list payload (`/series`) but not in `/series/{id}`.
 - Bumped `repository.mildman1848` to `1.0.4` to force repository metadata/icon refresh in Kodi.
 - Released `plugin.audio.audiobookshelf` `0.1.16` improving `Weiterhören`/`Serien fortsetzen` by merging `items-in-progress` with paged `listening-sessions` fallback and deduplicating unfinished entries.
+- Released `plugin.audio.audiobookshelf` `0.1.17` with a new API-driven navigation model (Audiobooks/Podcasts hubs, personalized home sections, per-library search, and stats views).

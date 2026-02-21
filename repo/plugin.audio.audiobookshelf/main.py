@@ -125,55 +125,212 @@ def podcast_libraries(client):
 
 
 def root(client):
-    utils.add_dir(t("connection_test", "Server Connection Test"), "connection_test", folder=False)
     utils.add_dir(t("audio", "Audiobooks"), "audiobooks", folder=True)
     utils.add_dir(t("podcasts", "Podcasts"), "podcasts", folder=True)
     utils.add_dir(t("continue", "Continue Listening"), "continue", folder=True)
+    utils.add_dir("Search", "search_root", folder=True)
+    utils.add_dir("Stats", "stats_root", folder=True)
     utils.add_dir(t("sync_strm", "Sync STRM files"), "sync_strm", folder=False)
+    utils.add_dir(t("connection_test", "Server Connection Test"), "connection_test", folder=False)
     utils.add_dir(t("auth_test", "Login / Connection Test"), "auth_test", folder=False)
     utils.add_dir(t("settings", "Settings"), "settings", folder=False)
     utils.end("files")
 
 
-def list_audiobook_libraries(client):
-    libs = audiobook_libraries(client)
+def _select_library_menu(client, kind, action):
+    libs = audiobook_libraries(client) if kind == "audiobook" else podcast_libraries(client)
     if len(libs) == 1:
-        audiobook_home(client, libs[0].get("id"), libs[0].get("name") or "")
+        lib = libs[0]
+        if action == "audiobooks_root":
+            list_audiobooks_root(client, lib.get("id"))
+        else:
+            list_podcasts_root(client, lib.get("id"))
         return
     for lib in libs:
         lib_id = lib.get("id")
         if not lib_id:
             continue
-        utils.add_dir(lib.get("name") or lib_id, "audiobooks_home", folder=True, library_id=lib_id, library_name=lib.get("name") or lib_id)
+        utils.add_dir(lib.get("name") or lib_id, action, folder=True, library_id=lib_id, kind=kind)
     utils.end("files")
 
 
+def list_audiobook_libraries(client):
+    _select_library_menu(client, "audiobook", "audiobooks_root")
+
+
 def list_podcast_libraries(client):
-    libs = podcast_libraries(client)
-    if len(libs) == 1:
-        list_library(client, libs[0].get("id"), kind="podcast")
+    _select_library_menu(client, "podcast", "podcasts_root")
+
+
+def _personalized_sections(client, library_id):
+    payload = client.library_personalized(library_id)
+    return payload if isinstance(payload, list) else []
+
+
+def list_audiobooks_root(client, library_id):
+    utils.add_dir("Startseite", "personalized_sections", folder=True, library_id=library_id, kind="audiobook")
+    utils.add_dir(t("continue_series", "Series fortsetzen"), "continue", folder=True, library_id=library_id)
+    utils.add_dir(t("all_titles", "Bibliothek: Alle Titel"), "library", folder=True, library_id=library_id, kind="audiobook")
+    utils.add_dir(t("all_series", "Serien: Alle Serien"), "entities", folder=True, library_id=library_id, entity_type="series")
+    utils.add_dir(t("all_authors", "Autoren: Alle Autoren"), "entities", folder=True, library_id=library_id, entity_type="authors")
+    utils.add_dir(t("all_narrators", "Erzähler: Alle Erzähler"), "entities", folder=True, library_id=library_id, entity_type="narrators")
+    utils.add_dir(t("all_collections", "Sammlungen: Alle Sammlungen"), "entities", folder=True, library_id=library_id, entity_type="collections")
+    utils.add_dir("Suchen", "search_library_prompt", folder=False, library_id=library_id, kind="audiobook")
+    utils.add_dir("Statistiken", "library_stats", folder=False, library_id=library_id)
+    utils.end("files")
+
+
+def list_podcasts_root(client, library_id):
+    utils.add_dir("Alle Podcasts", "library", folder=True, library_id=library_id, kind="podcast")
+    utils.add_dir("Weiterhören", "continue", folder=True, library_id=library_id)
+    utils.add_dir("Neu hinzugefügt", "library_sorted", folder=True, library_id=library_id, kind="podcast", sort_key="addedAt", desc="1")
+    utils.add_dir("A-Z", "library_sorted", folder=True, library_id=library_id, kind="podcast", sort_key="media.metadata.title", desc="0")
+    utils.add_dir("Suchen", "search_library_prompt", folder=False, library_id=library_id, kind="podcast")
+    utils.add_dir("Statistiken", "library_stats", folder=False, library_id=library_id)
+    utils.end("files")
+
+
+def list_personalized_sections(client, library_id, kind="audiobook"):
+    sections = _personalized_sections(client, library_id)
+    for section in sections:
+        if not isinstance(section, dict):
+            continue
+        sid = section.get("id")
+        label = section.get("label") or sid
+        if not sid or not label:
+            continue
+        total = section.get("total")
+        if total is not None:
+            label = "%s (%s)" % (label, total)
+        utils.add_dir(label, "personalized_section", folder=True, library_id=library_id, kind=kind, section_id=sid)
+    utils.end("files")
+
+
+def list_personalized_section(client, library_id, section_id, kind="audiobook"):
+    sections = _personalized_sections(client, library_id)
+    section = None
+    for row in sections:
+        if isinstance(row, dict) and str(row.get("id") or "") == str(section_id or ""):
+            section = row
+            break
+    if not isinstance(section, dict):
+        utils.end("files")
         return
+
+    entities = section.get("entities") or []
+    section_type = (section.get("type") or "").lower()
+    if section_type in ("book", "podcast"):
+        _render_items(client, entities, kind=kind)
+        return
+
+    if section_type == "series":
+        for row in entities:
+            series = row.get("series") if isinstance(row, dict) and isinstance(row.get("series"), dict) else row
+            if not isinstance(series, dict):
+                continue
+            sid = series.get("id")
+            name = series.get("name") or sid
+            if not sid:
+                continue
+            utils.add_dir(name, "entity_items", folder=True, library_id=library_id, entity_type="series", entity_id=sid, entity_name=name)
+        utils.end("files")
+        return
+
+    if section_type in ("author", "authors"):
+        for row in entities:
+            if not isinstance(row, dict):
+                continue
+            aid = row.get("id")
+            name = row.get("name") or aid
+            if not aid:
+                continue
+            utils.add_dir(name, "entity_items", folder=True, library_id=library_id, entity_type="authors", entity_id=aid, entity_name=name)
+        utils.end("files")
+        return
+
+    _render_items(client, entities, kind=kind)
+
+
+def _prompt_text(title):
+    kb = xbmc.Keyboard("", title)
+    kb.doModal()
+    if not kb.isConfirmed():
+        return ""
+    return (kb.getText() or "").strip()
+
+
+def show_library_stats(client, library_id):
+    stats = client.library_stats(library_id) or {}
+    lines = [
+        "Items: %s" % (stats.get("totalItems", "-")),
+        "Authors: %s" % (stats.get("totalAuthors", "-")),
+        "Genres: %s" % (stats.get("totalGenres", "-")),
+        "Duration: %s" % (stats.get("totalDuration", "-")),
+        "Tracks: %s" % (stats.get("numAudioTracks", "-")),
+    ]
+    xbmcgui.Dialog().ok("Audiobookshelf Stats", "\n".join(lines))
+
+
+def list_search_root(client):
+    libs = parse_libraries(client.libraries())
     for lib in libs:
         lib_id = lib.get("id")
         if not lib_id:
             continue
-        utils.add_dir(lib.get("name") or lib_id, "library", folder=True, library_id=lib_id, library_name=lib.get("name") or lib_id, kind="podcast")
+        kind = library_kind(lib)
+        label = "Suche: %s" % (lib.get("name") or lib_id)
+        utils.add_dir(label, "search_library_prompt", folder=False, library_id=lib_id, kind=kind)
+    utils.end("files")
+
+
+def list_search_results(client, library_id, kind, query):
+    payload = client.library_search(library_id, query, limit=30) or {}
+    book_rows = payload.get("book") or payload.get("books") or []
+    books = []
+    for row in book_rows:
+        if isinstance(row, dict) and isinstance(row.get("libraryItem"), dict):
+            books.append(row.get("libraryItem"))
+        elif isinstance(row, dict):
+            books.append(row)
+    if books:
+        _render_items(client, books, kind=kind)
+        return
+
+    series_rows = payload.get("series") or []
+    authors_rows = payload.get("authors") or []
+    for row in series_rows:
+        series = row.get("series") if isinstance(row, dict) and isinstance(row.get("series"), dict) else row
+        if not isinstance(series, dict):
+            continue
+        sid = series.get("id")
+        name = series.get("name") or sid
+        if sid:
+            utils.add_dir(name, "entity_items", folder=True, library_id=library_id, entity_type="series", entity_id=sid, entity_name=name)
+    for row in authors_rows:
+        if not isinstance(row, dict):
+            continue
+        aid = row.get("id")
+        name = row.get("name") or aid
+        if aid:
+            utils.add_dir(name, "entity_items", folder=True, library_id=library_id, entity_type="authors", entity_id=aid, entity_name=name)
+    utils.end("files")
+
+
+def list_stats_root(client):
+    libs = parse_libraries(client.libraries())
+    for lib in libs:
+        lib_id = lib.get("id")
+        if not lib_id:
+            continue
+        utils.add_dir(lib.get("name") or lib_id, "library_stats", folder=False, library_id=lib_id)
     utils.end("files")
 
 
 def audiobook_home(client, library_id, library_name=""):
-    utils.add_dir(t("continue_series", "Series fortsetzen"), "audiobook_continue", folder=True, library_id=library_id)
-    utils.add_dir(t("recently_added", "Kürzlich hinzugefügt"), "audiobook_recent", folder=True, library_id=library_id)
-    utils.add_dir(t("current_series", "Aktuelle Serien"), "entities", folder=True, library_id=library_id, entity_type="series")
-    utils.add_dir(t("discover", "Entdecken"), "audiobook_discover", folder=True, library_id=library_id)
-    utils.add_dir(t("listen_again", "Erneut Anhören"), "audiobook_listen_again", folder=True, library_id=library_id)
-    utils.add_dir(t("latest_authors", "Neuste Autoren"), "entities", folder=True, library_id=library_id, entity_type="authors", sort="addedAt", desc="1")
-    utils.add_dir(t("all_titles", "Bibliothek: Alle Titel"), "library", folder=True, library_id=library_id, kind="audiobook")
-    utils.add_dir(t("all_series", "Serien: Alle Serien"), "entities", folder=True, library_id=library_id, entity_type="series")
-    utils.add_dir(t("all_collections", "Sammlungen: Alle Sammlungen"), "entities", folder=True, library_id=library_id, entity_type="collections")
-    utils.add_dir(t("all_authors", "Autoren: Alle Autoren"), "entities", folder=True, library_id=library_id, entity_type="authors")
-    utils.add_dir(t("all_narrators", "Erzähler: Alle Erzähler"), "entities", folder=True, library_id=library_id, entity_type="narrators")
-    utils.end("files")
+    # Backward-compatible alias.
+    libs = audiobook_libraries(client)
+    if libs:
+        list_audiobooks_root(client, library_id)
 
 
 def list_library(client, library_id, kind="unknown"):
@@ -807,12 +964,63 @@ def run():
             list_podcast_libraries(require_client())
             return
 
+        if action == "audiobooks_root":
+            list_audiobooks_root(require_client(), p.get("library_id", ""))
+            return
+
+        if action == "podcasts_root":
+            list_podcasts_root(require_client(), p.get("library_id", ""))
+            return
+
+        if action == "personalized_sections":
+            list_personalized_sections(require_client(), p.get("library_id", ""), p.get("kind", "audiobook"))
+            return
+
+        if action == "personalized_section":
+            list_personalized_section(
+                require_client(),
+                p.get("library_id", ""),
+                p.get("section_id", ""),
+                p.get("kind", "audiobook"),
+            )
+            return
+
+        if action == "search_root":
+            list_search_root(require_client())
+            return
+
+        if action == "search_library_prompt":
+            query = _prompt_text("Audiobookshelf Suche")
+            if not query:
+                xbmc.executebuiltin("Container.Refresh")
+                return
+            list_search_results(require_client(), p.get("library_id", ""), p.get("kind", "audiobook"), query)
+            return
+
+        if action == "stats_root":
+            list_stats_root(require_client())
+            return
+
+        if action == "library_stats":
+            show_library_stats(require_client(), p.get("library_id", ""))
+            return
+
         if action == "audiobooks_home":
             audiobook_home(require_client(), p.get("library_id", ""), p.get("library_name", ""))
             return
 
         if action == "library":
             list_library(require_client(), p.get("library_id", ""), p.get("kind", "unknown"))
+            return
+
+        if action == "library_sorted":
+            list_library_sorted(
+                require_client(),
+                p.get("library_id", ""),
+                sort_key=p.get("sort_key", "addedAt"),
+                desc=int(p.get("desc", "1") or 1),
+                kind=p.get("kind", "audiobook"),
+            )
             return
 
         if action == "episodes":

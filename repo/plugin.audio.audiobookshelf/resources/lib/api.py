@@ -137,6 +137,15 @@ class AbsClient:
             params={"minified": 1, "sort": sort, "desc": int(bool(desc)), "limit": limit, "page": page},
         )
 
+    def library_personalized(self, library_id):
+        return self.get("/api/libraries/%s/personalized" % library_id)
+
+    def library_stats(self, library_id):
+        return self.get("/api/libraries/%s/stats" % library_id)
+
+    def library_search(self, library_id, query, limit=25):
+        return self.get("/api/libraries/%s/search" % library_id, params={"q": query, "limit": limit})
+
     def item(self, item_id):
         return self.get("/api/items/%s" % item_id)
 
