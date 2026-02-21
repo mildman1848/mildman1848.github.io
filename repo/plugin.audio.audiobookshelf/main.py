@@ -172,13 +172,93 @@ def audiobook_home(client, library_id, library_name=""):
 
 
 def list_library(client, library_id, kind="unknown"):
-    items = parse_items(client.library_items(library_id))
+    items = fetch_library_items_all(client, library_id, max_pages=10)
+    if not items:
+        items = parse_items(client.library_items(library_id))
     _render_items(client, items, kind=kind)
 
 
 def list_library_sorted(client, library_id, sort_key, desc=1, kind="audiobook"):
     items = parse_items(client.library_items_sorted(library_id, sort_key=sort_key, desc=desc))
+    if not items:
+        items = fetch_library_items_all(client, library_id, max_pages=10)
     _render_items(client, items, kind=kind)
+
+
+def fetch_library_items_all(client, library_id, max_pages=12, page_size=200):
+    all_items = []
+    for page in range(0, max_pages):
+        try:
+            batch = parse_items(client.library_items(library_id, page=page, limit=page_size))
+        except Exception:
+            batch = []
+        if not batch:
+            break
+        all_items.extend(batch)
+        if len(batch) < page_size:
+            break
+    return all_items
+
+
+def _iter_entity_names(metadata, entity_type):
+    if entity_type == "series":
+        for s in metadata.get("series") or []:
+            if isinstance(s, dict):
+                name = (s.get("name") or "").strip()
+                sid = str(s.get("id") or "")
+                if name:
+                    yield name, sid
+    elif entity_type == "authors":
+        for a in metadata.get("authors") or []:
+            if isinstance(a, dict):
+                name = (a.get("name") or "").strip()
+                aid = str(a.get("id") or "")
+                if name:
+                    yield name, aid
+    elif entity_type == "narrators":
+        narrators = metadata.get("narrators") or []
+        if isinstance(narrators, list):
+            for n in narrators:
+                if isinstance(n, dict):
+                    name = (n.get("name") or "").strip()
+                    nid = str(n.get("id") or "")
+                    if name:
+                        yield name, nid
+                elif isinstance(n, str):
+                    name = n.strip()
+                    if name:
+                        yield name, ""
+        nname = (metadata.get("narratorName") or "").strip()
+        if nname:
+            yield nname, ""
+    elif entity_type == "collections":
+        for c in metadata.get("collections") or []:
+            if isinstance(c, dict):
+                name = (c.get("name") or "").strip()
+                cid = str(c.get("id") or "")
+                if name:
+                    yield name, cid
+            elif isinstance(c, str):
+                name = c.strip()
+                if name:
+                    yield name, ""
+
+
+def build_local_entities(items, entity_type):
+    by_name = {}
+    for it in items:
+        it = it.get("libraryItem") if isinstance(it, dict) and isinstance(it.get("libraryItem"), dict) else it
+        metadata = item_metadata(it)
+        for name, eid in _iter_entity_names(metadata, entity_type):
+            key = name.lower()
+            row = by_name.get(key)
+            if not row:
+                row = {"name": name, "id": eid, "count": 0}
+                by_name[key] = row
+            row["count"] += 1
+            if not row["id"] and eid:
+                row["id"] = eid
+    return sorted(by_name.values(), key=lambda x: x["name"].lower())
 
 
 def _render_items(client, items, kind="audiobook"):
@@ -216,7 +296,7 @@ def list_episodes(client, item_id, title="Podcast", art=""):
             duration = int(float(duration or 0))
         except Exception:
             duration = 0
-        info = {"title": ep_title, "album": title, "plot": ep.get("description") or "", "duration": duration}
+        info = {"title": ep_title, "album": title, "comment": ep.get("description") or "", "duration": duration}
         art_data = {"thumb": cover, "icon": cover, "poster": cover}
         utils.add_playable(label, "play", item_id=item_id, episode_id=ep_id, title=ep_title, art=art_data, info=info)
     utils.end("songs")
@@ -309,100 +389,50 @@ def extract_entity_item_ids(entity):
 
 
 def list_entities(client, library_id, entity_type, sort="name", desc=0):
-    payload = client.library_entities(library_id, entity_type, sort=sort, desc=int(desc))
-    entities = parse_entities(payload, entity_type=entity_type)
+    items = fetch_library_items_all(client, library_id, max_pages=20)
+    entities = build_local_entities(items, entity_type)
     for entity in entities:
-        eid = entity.get("id")
-        if not eid:
+        name = entity.get("name") or ""
+        if not name:
             continue
-        name = entity_name(entity)
-        num = entity.get("numBooks") or entity.get("numItems") or entity.get("totalItems") or ""
+        num = entity.get("count") or ""
+        eid = entity.get("id") or ""
         label = "%s (%s)" % (name, num) if num else name
-        utils.add_dir(label, "entity_items", folder=True, library_id=library_id, entity_type=entity_type, entity_id=eid, entity_name=name)
+        utils.add_dir(
+            label,
+            "entity_items",
+            folder=True,
+            library_id=library_id,
+            entity_type=entity_type,
+            entity_id=eid,
+            entity_name=name,
+        )
     utils.end("files")
 
 
 def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""):
-    detail = client.entity_detail(entity_type, entity_id, library_id=library_id)
-    ids = extract_entity_item_ids(detail)
     items = []
-    if ids:
-        for iid in ids[:300]:
-            try:
-                items.append(client.item(iid))
-            except Exception:
-                continue
-    else:
-        # Fallback for ABS variants that do not expose item IDs on entity details:
-        # load library items and filter by metadata references.
-        utils.notify("Audiobookshelf", t("entity_items_missing", "No items exposed by this ABS endpoint"))
-        all_items = []
-        for page in range(0, 8):
-            batch = parse_items(client.library_items(library_id, page=page, limit=200))
-            if not batch:
+    all_items = fetch_library_items_all(client, library_id, max_pages=20)
+    target_name = (entity_name or "").strip().lower()
+    target_id = (entity_id or "").strip()
+
+    for it in all_items:
+        it = it.get("libraryItem") if isinstance(it, dict) and isinstance(it.get("libraryItem"), dict) else it
+        metadata = item_metadata(it)
+        matched = False
+        for name, eid in _iter_entity_names(metadata, entity_type):
+            if target_id and eid and eid == target_id:
+                matched = True
                 break
-            all_items.extend(batch)
-            if len(batch) < 200:
+            if target_name and name.strip().lower() == target_name:
+                matched = True
                 break
-        target_name = (entity_name or "").strip().lower()
-        for it in all_items:
-            it = it.get("libraryItem") if isinstance(it, dict) and isinstance(it.get("libraryItem"), dict) else it
-            metadata = item_metadata(it)
-            if entity_type == "series":
-                series = metadata.get("series") or []
-                if isinstance(series, list):
-                    for s in series:
-                        if not isinstance(s, dict):
-                            continue
-                        sid = str(s.get("id") or "")
-                        sname = str(s.get("name") or "").strip().lower()
-                        if sid == entity_id or (target_name and sname == target_name):
-                            items.append(it)
-                            break
-            elif entity_type == "authors":
-                authors = metadata.get("authors") or []
-                if isinstance(authors, list):
-                    for a in authors:
-                        if not isinstance(a, dict):
-                            continue
-                        aid = str(a.get("id") or "")
-                        aname = str(a.get("name") or "").strip().lower()
-                        if aid == entity_id or (target_name and aname == target_name):
-                            items.append(it)
-                            break
-            elif entity_type == "narrators":
-                narrators = metadata.get("narrators") or []
-                narrator_name = str(metadata.get("narratorName") or "").strip().lower()
-                matched = False
-                if isinstance(narrators, list):
-                    for n in narrators:
-                        if isinstance(n, dict):
-                            nid = str(n.get("id") or "")
-                            nname = str(n.get("name") or "").strip().lower()
-                            if nid == entity_id or (target_name and nname == target_name):
-                                matched = True
-                                break
-                        elif isinstance(n, str) and target_name and n.strip().lower() == target_name:
-                            matched = True
-                            break
-                if matched or (target_name and narrator_name == target_name):
-                    items.append(it)
-            elif entity_type == "collections":
-                collections = metadata.get("collections") or it.get("collections") or []
-                if isinstance(collections, list):
-                    for c in collections:
-                        if isinstance(c, dict):
-                            cid = str(c.get("id") or "")
-                            cname = str(c.get("name") or "").strip().lower()
-                            if cid == entity_id or (target_name and cname == target_name):
-                                items.append(it)
-                                break
-                        elif isinstance(c, str) and target_name and c.strip().lower() == target_name:
-                            items.append(it)
-                            break
-        if not items:
-            utils.end("files")
-            return
+        if matched:
+            items.append(it)
+
+    if not items:
+        utils.end("files")
+        return
     _render_items(client, items, kind="audiobook")
 
 
