@@ -322,17 +322,76 @@ def list_entities(client, library_id, entity_type, sort="name", desc=0):
 def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""):
     detail = client.entity_detail(entity_type, entity_id)
     ids = extract_entity_item_ids(detail)
-    if not ids:
-        utils.notify("Audiobookshelf", t("entity_items_missing", "No items exposed by this ABS endpoint"))
-        utils.end("files")
-        return
-
     items = []
-    for iid in ids[:300]:
-        try:
-            items.append(client.item(iid))
-        except Exception:
-            continue
+    if ids:
+        for iid in ids[:300]:
+            try:
+                items.append(client.item(iid))
+            except Exception:
+                continue
+    else:
+        # Fallback for ABS variants that do not expose item IDs on entity details:
+        # load library items and filter by metadata references.
+        utils.notify("Audiobookshelf", t("entity_items_missing", "No items exposed by this ABS endpoint"))
+        all_items = parse_items(client.library_items(library_id, limit=500))
+        target_name = (entity_name or "").strip().lower()
+        for it in all_items:
+            metadata = item_metadata(it)
+            if entity_type == "series":
+                series = metadata.get("series") or []
+                if isinstance(series, list):
+                    for s in series:
+                        if not isinstance(s, dict):
+                            continue
+                        sid = str(s.get("id") or "")
+                        sname = str(s.get("name") or "").strip().lower()
+                        if sid == entity_id or (target_name and sname == target_name):
+                            items.append(it)
+                            break
+            elif entity_type == "authors":
+                authors = metadata.get("authors") or []
+                if isinstance(authors, list):
+                    for a in authors:
+                        if not isinstance(a, dict):
+                            continue
+                        aid = str(a.get("id") or "")
+                        aname = str(a.get("name") or "").strip().lower()
+                        if aid == entity_id or (target_name and aname == target_name):
+                            items.append(it)
+                            break
+            elif entity_type == "narrators":
+                narrators = metadata.get("narrators") or []
+                narrator_name = str(metadata.get("narratorName") or "").strip().lower()
+                matched = False
+                if isinstance(narrators, list):
+                    for n in narrators:
+                        if isinstance(n, dict):
+                            nid = str(n.get("id") or "")
+                            nname = str(n.get("name") or "").strip().lower()
+                            if nid == entity_id or (target_name and nname == target_name):
+                                matched = True
+                                break
+                        elif isinstance(n, str) and target_name and n.strip().lower() == target_name:
+                            matched = True
+                            break
+                if matched or (target_name and narrator_name == target_name):
+                    items.append(it)
+            elif entity_type == "collections":
+                collections = metadata.get("collections") or it.get("collections") or []
+                if isinstance(collections, list):
+                    for c in collections:
+                        if isinstance(c, dict):
+                            cid = str(c.get("id") or "")
+                            cname = str(c.get("name") or "").strip().lower()
+                            if cid == entity_id or (target_name and cname == target_name):
+                                items.append(it)
+                                break
+                        elif isinstance(c, str) and target_name and c.strip().lower() == target_name:
+                            items.append(it)
+                            break
+        if not items:
+            utils.end("files")
+            return
     _render_items(client, items, kind="audiobook")
 
 
@@ -376,6 +435,13 @@ def play_item(client, item_id, episode_id=None, resume=0.0, duration=0.0, title=
         li.setInfo("music", {"title": title})
 
     xbmcplugin.setResolvedUrl(utils.HANDLE, True, li)
+
+    # Bring music player UI to foreground automatically.
+    for cmd in ("ActivateWindow(visualisation)", "ActivateWindow(MusicVisualisation)", "ActivateWindow(fullscreenmusic)"):
+        try:
+            xbmc.executebuiltin(cmd)
+        except Exception:
+            pass
 
     monitor = AbsPlayerMonitor(client, item_id=item_id, episode_id=(episode_id or None), resume_time=resume)
     monitor.run()
