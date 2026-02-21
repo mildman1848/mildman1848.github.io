@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.vavootv" name="VavooTV" version="4.8" provider-name="Akisame">
+<addon id="plugin.video.vavootv" name="VavooTV" version="4.8.1" provider-name="Akisame">
 	<requires>
 		<import addon="script.module.requests"/>
 		<import addon="script.module.infotagger"/>

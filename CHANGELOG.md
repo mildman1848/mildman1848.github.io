@@ -8,3 +8,4 @@
 - Removed committed `__pycache__` artifacts from addon resources.
 - Repacked `plugin.video.vavootv-4.8.zip` with Kodi-compatible top-level folder `plugin.video.vavootv/`.
 - Removed unused dependency `script.module.pydevd` from addon metadata to prevent install failures.
+- Bumped addon/package version to `4.8.1` to invalidate Kodi cache and force download of the fixed package.
