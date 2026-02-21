@@ -17,3 +17,4 @@
 - Released `plugin.audio.audiobookshelf` `0.1.7` with hardened API retry/error handling and safer directory failure behavior.
 - Released `plugin.audio.audiobookshelf` `0.1.8` adding proxy-friendly GET token-query fallback and `/api/me` auth-test fallback for 502 environments.
 - Released `plugin.audio.audiobookshelf` `0.1.9` as rollback to the stable pre-menu-split codebase (based on `0.1.2` behavior).
+- Released `plugin.audio.audiobookshelf` `0.1.10` with 502-focused API fallback (GET retry via `?token=` and auth-test fallback from `/api/authorize` to `/api/me`).

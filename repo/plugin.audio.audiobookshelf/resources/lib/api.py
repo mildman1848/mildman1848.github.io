@@ -72,28 +72,73 @@ class AbsClient:
         return token
 
     def authorize(self):
-        r = self.session.post(self._full("/api/authorize"), headers=self.auth_headers(), timeout=20)
-        if r.status_code >= 400:
-            raise AbsApiError("Authorize failed: HTTP %s" % r.status_code)
-        return r.json()
+        # Some reverse proxies fail on /api/authorize; fallback to /api/me.
+        try:
+            return self.post("/api/authorize")
+        except AbsApiError as exc:
+            if "HTTP 502" not in str(exc):
+                raise
+        return self.get("/api/me")
 
     def get(self, path, params=None):
-        r = self.session.get(self._full(path), headers=self.auth_headers(), params=params or {}, timeout=30)
-        if r.status_code >= 400:
-            raise AbsApiError("GET %s failed: HTTP %s" % (path, r.status_code))
-        return r.json()
+        return self._request_json("GET", path, params=params)
 
     def post(self, path, payload=None):
-        r = self.session.post(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
-        if r.status_code >= 400:
-            raise AbsApiError("POST %s failed: HTTP %s" % (path, r.status_code))
-        return r.json()
+        return self._request_json("POST", path, payload=payload)
 
     def patch(self, path, payload=None):
-        r = self.session.patch(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
-        if r.status_code >= 400:
-            raise AbsApiError("PATCH %s failed: HTTP %s" % (path, r.status_code))
-        return r.json() if r.text else {}
+        return self._request_json("PATCH", path, payload=payload)
+
+    def _request_json(self, method, path, params=None, payload=None):
+        attempts = 2 if self.auth_mode == 1 else 1
+        last_status = None
+
+        for attempt in range(attempts):
+            response = self._request_once(method, path, params=params, payload=payload)
+            last_status = response.status_code
+            if response.status_code < 400:
+                return self._json_or_empty(response)
+
+            # Retry once with a fresh user/pass token.
+            if response.status_code in (401, 403) and self.auth_mode == 1 and attempt == 0:
+                self.addon.setSetting("token", "")
+                continue
+
+            # Proxy fallback: retry GET with query token (no Authorization header).
+            if response.status_code == 502 and method == "GET":
+                query_response = self._request_get_with_query_token(path, params=params)
+                last_status = query_response.status_code
+                if query_response.status_code < 400:
+                    return self._json_or_empty(query_response)
+
+            break
+
+        raise AbsApiError("%s %s failed: HTTP %s" % (method, path, last_status))
+
+    def _request_once(self, method, path, params=None, payload=None):
+        url = self._full(path)
+        headers = self.auth_headers()
+        if method == "GET":
+            return self.session.get(url, headers=headers, params=params or {}, timeout=30)
+        if method == "POST":
+            return self.session.post(url, headers=headers, data=json.dumps(payload or {}), timeout=30)
+        if method == "PATCH":
+            return self.session.patch(url, headers=headers, data=json.dumps(payload or {}), timeout=30)
+        raise AbsApiError("Unsupported HTTP method: %s" % method)
+
+    def _request_get_with_query_token(self, path, params=None):
+        query = dict(params or {})
+        query.setdefault("token", self._token())
+        return self.session.get(self._full(path), params=query, timeout=30)
+
+    @staticmethod
+    def _json_or_empty(response):
+        if not response.text:
+            return {}
+        try:
+            return response.json()
+        except Exception:
+            return {}
 
     def libraries(self):
         return self.get("/api/libraries")
