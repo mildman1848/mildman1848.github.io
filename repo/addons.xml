@@ -27,7 +27,6 @@
       <import addon="script.module.infotagger"/>
       <import addon="inputstream.adaptive" optional="true"/>
       <import addon="inputstream.ffmpegdirect" optional="true"/>
-      <import addon="script.module.pydevd" optional="true"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
       <provides>video</provides>
