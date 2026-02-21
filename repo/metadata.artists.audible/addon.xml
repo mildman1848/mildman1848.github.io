@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="metadata.artists.audible" name="Audible Artist Scraper" version="1.0.1" provider-name="mildman1848">
+<addon id="metadata.artists.audible" name="Audible Artist Scraper" version="1.0.3" provider-name="mildman1848">
   <requires>
     <import addon="xbmc.metadata" version="2.1.0"/>
   </requires>

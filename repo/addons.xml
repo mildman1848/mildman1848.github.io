@@ -60,7 +60,7 @@
     </extension>
   </addon>
 
-  <addon id="metadata.albums.audible" name="Audible Album Scraper" version="1.0.1" provider-name="mildman1848">
+  <addon id="metadata.albums.audible" name="Audible Album Scraper" version="1.0.3" provider-name="mildman1848">
     <requires>
       <import addon="xbmc.metadata" version="2.1.0"/>
     </requires>
@@ -79,7 +79,7 @@
     </extension>
   </addon>
 
-  <addon id="metadata.artists.audible" name="Audible Artist Scraper" version="1.0.1" provider-name="mildman1848">
+  <addon id="metadata.artists.audible" name="Audible Artist Scraper" version="1.0.3" provider-name="mildman1848">
     <requires>
       <import addon="xbmc.metadata" version="2.1.0"/>
     </requires>

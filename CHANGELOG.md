@@ -33,3 +33,5 @@
 - Added first Audible metadata scraper addons: `metadata.albums.audible` `1.0.0` and `metadata.artists.audible` `1.0.0` (based on the Audible API mapping from the Mp3tag source package), including repo packaging/index updates.
 - Released Audible scraper update `1.0.1` for both `metadata.albums.audible` and `metadata.artists.audible` with simplified debug workflow (`tools/debug_audible_scraper.py`), addon settings scaffolding, DE/EN language files, and prepared community translation interfaces (`strings.pot` + i18n README).
 - Bumped `repository.mildman1848` to `1.0.5` to force Kodi repository refresh and surface newly added Audible scraper addons.
+- Released Audible scraper update `1.0.2` for both `metadata.albums.audible` and `metadata.artists.audible`, fixing Kodi settings parsing by adding explicit `<control>` definitions for all scraper settings.
+- Released Audible scraper update `1.0.3` for both `metadata.albums.audible` and `metadata.artists.audible`, switching scraper settings to Kodi legacy format to restore editable settings dialogs.
