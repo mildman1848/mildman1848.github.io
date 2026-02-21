@@ -489,6 +489,18 @@ def list_entities(client, library_id, entity_type, sort="name", desc=0):
 
 def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""):
     items = []
+    detail = client.entity_detail(entity_type, entity_id, library_id=library_id)
+    ids = extract_entity_item_ids(detail)
+    if ids:
+        for iid in ids[:300]:
+            try:
+                items.append(client.item(iid))
+            except Exception:
+                continue
+        if items:
+            _render_items(client, items, kind="audiobook")
+            return
+
     all_items = fetch_library_items_all(client, library_id, max_pages=20)
     target_name = (entity_name or "").strip().lower()
     target_id = (entity_id or "").strip()
@@ -508,6 +520,7 @@ def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""
             items.append(it)
 
     if not items:
+        utils.notify("Audiobookshelf", t("entity_items_missing", "No items exposed by this ABS endpoint"))
         utils.end("files")
         return
     _render_items(client, items, kind="audiobook")

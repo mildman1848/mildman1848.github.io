@@ -21,3 +21,4 @@
 - Released `plugin.audio.audiobookshelf` `0.1.11` on the `0.1.6` functional baseline, with a dedicated server reachability test and a new addon language setting (Kodi/Deutsch/English).
 - Released `plugin.audio.audiobookshelf` `0.1.12` fixing empty entity menus by adding ABS metadata fallbacks (`seriesName`/`authorName`) and a more robust library-id filter for `Series fortsetzen`.
 - Released `plugin.audio.audiobookshelf` `0.1.13` fixing `Weiterhören` for ABS payloads that only provide `itemId/libraryItemId` by resolving item details lazily.
+- Released `plugin.audio.audiobookshelf` `0.1.14` fixing empty series item views by resolving entity detail IDs first and only then using local metadata fallback.
