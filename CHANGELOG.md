@@ -27,3 +27,4 @@
 - Released `plugin.audio.audiobookshelf` `0.1.16` improving `Weiterhören`/`Serien fortsetzen` by merging `items-in-progress` with paged `listening-sessions` fallback and deduplicating unfinished entries.
 - Released `plugin.audio.audiobookshelf` `0.1.17` with a new API-driven navigation model (Audiobooks/Podcasts hubs, personalized home sections, per-library search, and stats views).
 - Released `plugin.audio.audiobookshelf` `0.1.18` completing localization for the new menu model (DE/EN) and removing mixed hardcoded labels.
+- Released `plugin.audio.audiobookshelf` `0.1.19` adding filtered continue menus (audiobooks/podcasts), shortened audiobook labels, STRM stale-file cleanup with author subfolders, automatic STRM sync settings, and optional English debug logging.

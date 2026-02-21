@@ -19,6 +19,7 @@ class AbsPlayerMonitor(xbmc.Monitor):
         self._resume_applied = False
 
     def run(self):
+        utils.debug("Player monitor started for item_id=%s episode_id=%s" % (self.item_id, self.episode_id or ""))
         started = time.time()
         # Wait up to 15s for playback to start.
         while not self.abortRequested() and (time.time() - started) < 15:
@@ -43,6 +44,7 @@ class AbsPlayerMonitor(xbmc.Monitor):
 
         # Final sync when playback stops.
         self.sync_progress(True)
+        utils.debug("Player monitor stopped for item_id=%s" % self.item_id)
 
     def sync_progress(self, final):
         try:
@@ -59,6 +61,10 @@ class AbsPlayerMonitor(xbmc.Monitor):
                 current_time=current_time,
                 duration=total_time,
                 is_finished=is_finished,
+            )
+            utils.debug(
+                "Progress synced item_id=%s episode_id=%s current=%.2f duration=%.2f finished=%s final=%s"
+                % (self.item_id, self.episode_id or "", current_time, total_time, is_finished, final)
             )
         except Exception as exc:
             utils.log("Progress sync failed: %s" % exc, xbmc.LOGWARNING)

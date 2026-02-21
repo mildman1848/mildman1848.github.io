@@ -168,6 +168,26 @@ msgctxt "#30040"
 msgid "Audiobookshelf Search"
 msgstr "Audiobookshelf Search"
 
+msgctxt "#30041"
+msgid "Library"
+msgstr "Library"
+
+msgctxt "#30042"
+msgid "Series"
+msgstr "Series"
+
+msgctxt "#30043"
+msgid "Authors"
+msgstr "Authors"
+
+msgctxt "#30044"
+msgid "Narrators"
+msgstr "Narrators"
+
+msgctxt "#30045"
+msgid "Collections"
+msgstr "Collections"
+
 msgctxt "#32000"
 msgid "Connection"
 msgstr "Connection"
@@ -247,3 +267,19 @@ msgstr "German"
 msgctxt "#32019"
 msgid "English"
 msgstr "English"
+
+msgctxt "#32020"
+msgid "Automatic STRM sync"
+msgstr "Automatic STRM sync"
+
+msgctxt "#32021"
+msgid "Automatic STRM sync interval (hours)"
+msgstr "Automatic STRM sync interval (hours)"
+
+msgctxt "#32022"
+msgid "Last automatic STRM sync timestamp"
+msgstr "Last automatic STRM sync timestamp"
+
+msgctxt "#32023"
+msgid "Enable debug logging"
+msgstr "Enable debug logging"

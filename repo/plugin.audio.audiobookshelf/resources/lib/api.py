@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 
 import requests
 import xbmcaddon
+from resources.lib import utils
 
 
 class AbsApiError(Exception):
@@ -92,18 +93,21 @@ class AbsClient:
         return False, 0, ""
 
     def get(self, path, params=None):
+        utils.debug("HTTP GET %s params=%s" % (path, params or {}))
         r = self.session.get(self._full(path), headers=self.auth_headers(), params=params or {}, timeout=30)
         if r.status_code >= 400:
             raise AbsApiError("GET %s failed: HTTP %s" % (path, r.status_code))
         return r.json()
 
     def post(self, path, payload=None):
+        utils.debug("HTTP POST %s" % path)
         r = self.session.post(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
         if r.status_code >= 400:
             raise AbsApiError("POST %s failed: HTTP %s" % (path, r.status_code))
         return r.json()
 
     def patch(self, path, payload=None):
+        utils.debug("HTTP PATCH %s" % path)
         r = self.session.patch(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
         if r.status_code >= 400:
             raise AbsApiError("PATCH %s failed: HTTP %s" % (path, r.status_code))

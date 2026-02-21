@@ -57,6 +57,11 @@ _EN_OVERRIDES = {
     30038: "Duration",
     30039: "Tracks",
     30040: "Audiobookshelf Search",
+    30041: "Library",
+    30042: "Series",
+    30043: "Authors",
+    30044: "Narrators",
+    30045: "Collections",
 }
 
 _DE_OVERRIDES = {
@@ -101,6 +106,11 @@ _DE_OVERRIDES = {
     30038: "Dauer",
     30039: "Tracks",
     30040: "Audiobookshelf Suche",
+    30041: "Bibliothek",
+    30042: "Serien",
+    30043: "Autoren",
+    30044: "Erzähler",
+    30045: "Sammlungen",
 }
 
 
@@ -132,6 +142,11 @@ def tr(msg_id, fallback=""):
 
 def log(msg, lvl=xbmc.LOGINFO):
     xbmc.log("[%s] %s" % (ADDON_ID, msg), lvl)
+
+
+def debug(msg):
+    if ADDON.getSetting("debug_logging") == "true":
+        log("DEBUG: %s" % msg, xbmc.LOGINFO)
 
 
 def notify(title, message):

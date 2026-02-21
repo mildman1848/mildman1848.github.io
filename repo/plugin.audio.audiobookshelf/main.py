@@ -62,6 +62,11 @@ L = {
     "stats_duration": 30038,
     "stats_tracks": 30039,
     "search_prompt": 30040,
+    "menu_library": 30041,
+    "menu_series": 30042,
+    "menu_authors": 30043,
+    "menu_narrators": 30044,
+    "menu_collections": 30045,
 }
 
 
@@ -125,6 +130,20 @@ def item_info_labels(item, fallback_title=""):
     return info
 
 
+def item_author_name(item):
+    metadata = item_metadata(item)
+    author = metadata.get("authorName") or metadata.get("author") or ""
+    if not author:
+        authors = metadata.get("authors") or []
+        if isinstance(authors, list) and authors:
+            first = authors[0]
+            if isinstance(first, dict):
+                author = first.get("name") or ""
+            elif isinstance(first, str):
+                author = first
+    return (author or "").strip()
+
+
 def art_for_item(client, item_id):
     cover = client.stream_url_with_token(item_cover(item_id))
     return {"thumb": cover, "icon": cover, "poster": cover, "fanart": cover}
@@ -185,12 +204,12 @@ def _personalized_sections(client, library_id):
 
 def list_audiobooks_root(client, library_id):
     utils.add_dir(t("home_start", "Home"), "personalized_sections", folder=True, library_id=library_id, kind="audiobook")
-    utils.add_dir(t("continue_series", "Continue Series"), "continue", folder=True, library_id=library_id)
-    utils.add_dir(t("all_titles", "Library: All Titles"), "library", folder=True, library_id=library_id, kind="audiobook")
-    utils.add_dir(t("all_series", "Series: All Series"), "entities", folder=True, library_id=library_id, entity_type="series")
-    utils.add_dir(t("all_authors", "Authors: All Authors"), "entities", folder=True, library_id=library_id, entity_type="authors")
-    utils.add_dir(t("all_narrators", "Narrators: All Narrators"), "entities", folder=True, library_id=library_id, entity_type="narrators")
-    utils.add_dir(t("all_collections", "Collections: All Collections"), "entities", folder=True, library_id=library_id, entity_type="collections")
+    utils.add_dir(t("continue", "Continue Listening"), "continue", folder=True, library_id=library_id)
+    utils.add_dir(t("menu_library", "Library"), "library", folder=True, library_id=library_id, kind="audiobook")
+    utils.add_dir(t("menu_series", "Series"), "entities", folder=True, library_id=library_id, entity_type="series")
+    utils.add_dir(t("menu_authors", "Authors"), "entities", folder=True, library_id=library_id, entity_type="authors")
+    utils.add_dir(t("menu_narrators", "Narrators"), "entities", folder=True, library_id=library_id, entity_type="narrators")
+    utils.add_dir(t("menu_collections", "Collections"), "entities", folder=True, library_id=library_id, entity_type="collections")
     utils.add_dir(t("search_local", "Search"), "search_library_prompt", folder=False, library_id=library_id, kind="audiobook")
     utils.add_dir(t("stats_local", "Stats"), "library_stats", folder=False, library_id=library_id)
     utils.end("files")
@@ -500,6 +519,7 @@ def list_continue(client, library_id=""):
         threshold = 97
 
     seen = set()
+    utils.debug("Loading continue list (library_id=%s)" % (library_id or "all"))
 
     def add_continue_item(library_item, media_progress=None, episode=None):
         library_item = library_item or {}
@@ -631,6 +651,7 @@ def list_continue(client, library_id=""):
             break
 
     utils.end("songs")
+    utils.debug("Continue list built with %d entries" % len(seen))
 
 
 def list_discover(client, library_id):
@@ -682,6 +703,7 @@ def extract_entity_item_ids(entity):
 
 
 def list_entities(client, library_id, entity_type, sort="name", desc=0):
+    utils.debug("Loading entities type=%s library_id=%s" % (entity_type, library_id))
     entities = []
     try:
         payload = client.library_entities(library_id, entity_type, sort=sort, desc=int(desc))
@@ -731,6 +753,10 @@ def list_entities(client, library_id, entity_type, sort="name", desc=0):
 
 
 def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""):
+    utils.debug(
+        "Loading entity items type=%s entity_id=%s entity_name=%s"
+        % (entity_type, entity_id, entity_name or "")
+    )
     items = []
     detail = client.entity_detail(entity_type, entity_id, library_id=library_id)
     ids = extract_entity_item_ids(detail)
@@ -867,7 +893,9 @@ def sync_strm(client):
     include_audiobooks = utils.ADDON.getSetting("strm_include_audiobooks") == "true"
 
     libs = parse_libraries(client.libraries())
+    expected_files = set()
     written = 0
+    removed = 0
 
     for lib in libs:
         kind = library_kind(lib)
@@ -903,14 +931,71 @@ def sync_strm(client):
                     content = utils.plugin_url(action="play", item_id=item_id, episode_id=ep_id, title=ep_title)
                     fpath = os.path.join(pod_dir, "%s.strm" % utils.safe_filename(ep_title))
                     utils.write_text(fpath, content)
+                    expected_files.add(os.path.normpath(fpath))
                     written += 1
             else:
+                author_dir = item_author_name(item) or "Unknown Author"
+                author_dir = os.path.join(out_dir, utils.safe_filename(author_dir))
+                utils.ensure_dir(author_dir)
                 content = utils.plugin_url(action="play", item_id=item_id, title=title)
-                fpath = os.path.join(out_dir, "%s.strm" % utils.safe_filename(title))
+                fpath = os.path.join(author_dir, "%s.strm" % utils.safe_filename(title))
                 utils.write_text(fpath, content)
+                expected_files.add(os.path.normpath(fpath))
                 written += 1
 
-    utils.notify("Audiobookshelf", t("strm_done", "STRM sync complete") + ": %d" % written)
+    # Remove stale .strm files from previous syncs.
+    for root, dirs, files in os.walk(path, topdown=False):
+        for fname in files:
+            if not fname.lower().endswith(".strm"):
+                continue
+            fpath = os.path.normpath(os.path.join(root, fname))
+            if fpath not in expected_files:
+                try:
+                    os.remove(fpath)
+                    removed += 1
+                    utils.debug("Removed stale STRM file: %s" % fpath)
+                except Exception as exc:
+                    utils.debug("Failed to remove stale STRM file %s: %s" % (fpath, exc))
+        # Remove empty directories after cleanup.
+        try:
+            if root != os.path.normpath(path) and not os.listdir(root):
+                os.rmdir(root)
+        except Exception:
+            pass
+
+    utils.notify("Audiobookshelf", t("strm_done", "STRM sync complete") + ": %d (+%d removed)" % (written, removed))
+    utils.debug("STRM sync complete: written=%d removed=%d" % (written, removed))
+
+
+def maybe_auto_sync_strm(client, action):
+    if utils.ADDON.getSetting("strm_auto_sync") != "true":
+        return
+    # Run only at plugin root to avoid frequent sync in submenus.
+    if action:
+        return
+    path = (utils.ADDON.getSetting("strm_export_path") or "").strip()
+    if not path:
+        utils.debug("Auto STRM sync skipped: export path not set")
+        return
+    try:
+        interval_h = float(utils.ADDON.getSetting("strm_auto_sync_interval_hours") or 24)
+    except Exception:
+        interval_h = 24.0
+    if interval_h <= 0:
+        interval_h = 24.0
+
+    try:
+        last_ts = float(utils.ADDON.getSetting("strm_last_auto_sync_ts") or 0)
+    except Exception:
+        last_ts = 0.0
+    import time
+    now = time.time()
+    if last_ts > 0 and (now - last_ts) < (interval_h * 3600.0):
+        utils.debug("Auto STRM sync skipped: interval not reached")
+        return
+    utils.debug("Starting auto STRM sync")
+    sync_strm(client)
+    utils.ADDON.setSetting("strm_last_auto_sync_ts", str(now))
 
 
 def serve_cover(client, item_id):
@@ -922,6 +1007,7 @@ def serve_cover(client, item_id):
 def run():
     p = utils.params()
     action = p.get("action")
+    utils.debug("Router action=%s params=%s" % (action or "root", p))
 
     try:
         client = None
@@ -954,6 +1040,7 @@ def run():
             return
 
         if not action:
+            maybe_auto_sync_strm(require_client(), action)
             root(client)
             return
 
