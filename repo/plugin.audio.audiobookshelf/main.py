@@ -418,7 +418,7 @@ def list_listen_again(client, library_id):
     _render_items(client, out, kind="audiobook")
 
 
-def entity_name(entity):
+def entity_display_name(entity):
     return entity.get("name") or entity.get("title") or entity.get("authorName") or entity.get("narrator") or entity.get("id")
 
 
@@ -448,7 +448,7 @@ def list_entities(client, library_id, entity_type, sort="name", desc=0):
 
     if entities:
         for entity in entities:
-            name = entity_name(entity) or ""
+            name = entity_display_name(entity) or ""
             if not name:
                 continue
             num = entity.get("numBooks") or entity.get("numItems") or entity.get("totalItems") or entity.get("count") or ""
@@ -491,6 +491,37 @@ def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""
     items = []
     detail = client.entity_detail(entity_type, entity_id, library_id=library_id)
     ids = extract_entity_item_ids(detail)
+
+    # Some ABS servers only expose item refs in the entity list payload (e.g. series[].books),
+    # not in /series/{id} detail payload.
+    if not ids:
+        target_id = (entity_id or "").strip()
+        target_name = (entity_name or "").strip().lower()
+        for page in range(0, 20):
+            try:
+                payload = client.library_entities(library_id, entity_type, page=page, limit=200, sort="name", desc=0)
+            except Exception:
+                break
+            entities = parse_entities(payload, entity_type=entity_type)
+            if not entities:
+                break
+            matched = None
+            for ent in entities:
+                eid = str(ent.get("id") or "")
+                ename = str(entity_display_name(ent) or "").strip().lower()
+                if target_id and eid and eid == target_id:
+                    matched = ent
+                    break
+                if target_name and ename and ename == target_name:
+                    matched = ent
+                    break
+            if matched:
+                ids = extract_entity_item_ids(matched)
+                if ids:
+                    break
+            if len(entities) < 200:
+                break
+
     if ids:
         for iid in ids[:300]:
             try:
