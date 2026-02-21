@@ -521,6 +521,25 @@ def list_continue(client, library_id=""):
     seen = set()
     utils.debug("Loading continue list (library_id=%s)" % (library_id or "all"))
 
+    def resolve_library_id(entry_obj, item_obj):
+        lib = ""
+        raw_library_id = item_obj.get("libraryId") if isinstance(item_obj, dict) else ""
+        if isinstance(raw_library_id, dict):
+            lib = str(raw_library_id.get("id") or "")
+        elif raw_library_id:
+            lib = str(raw_library_id)
+        if not lib and isinstance(item_obj, dict) and isinstance(item_obj.get("library"), dict):
+            lib = str((item_obj.get("library") or {}).get("id") or "")
+        if not lib and isinstance(entry_obj, dict):
+            entry_library_id = entry_obj.get("libraryId")
+            if isinstance(entry_library_id, dict):
+                lib = str(entry_library_id.get("id") or "")
+            elif entry_library_id:
+                lib = str(entry_library_id)
+            if not lib and isinstance(entry_obj.get("library"), dict):
+                lib = str((entry_obj.get("library") or {}).get("id") or "")
+        return lib
+
     def add_continue_item(library_item, media_progress=None, episode=None):
         library_item = library_item or {}
         media_progress = media_progress or {}
@@ -569,26 +588,6 @@ def list_continue(client, library_id=""):
         library_item = entry.get("libraryItem") or entry or {}
         media_progress = entry.get("mediaProgress") or entry.get("userMediaProgress") or {}
 
-        lib_id = ""
-        raw_library_id = library_item.get("libraryId")
-        if isinstance(raw_library_id, dict):
-            lib_id = str(raw_library_id.get("id") or "")
-        elif raw_library_id:
-            lib_id = str(raw_library_id)
-        if not lib_id and isinstance(library_item.get("library"), dict):
-            lib_id = str((library_item.get("library") or {}).get("id") or "")
-        if not lib_id:
-            entry_library_id = entry.get("libraryId")
-            if isinstance(entry_library_id, dict):
-                lib_id = str(entry_library_id.get("id") or "")
-            elif entry_library_id:
-                lib_id = str(entry_library_id)
-        if not lib_id and isinstance(entry.get("library"), dict):
-            lib_id = str((entry.get("library") or {}).get("id") or "")
-
-        if library_id and lib_id and library_id != lib_id:
-            continue
-
         ep = entry.get("episode") or {}
         item_id = (
             (library_item.get("id") if isinstance(library_item, dict) else "")
@@ -606,6 +605,12 @@ def list_continue(client, library_id=""):
                 library_item = client.item(item_id) or {}
             except Exception:
                 library_item = {"id": item_id}
+
+        lib_id = resolve_library_id(entry, library_item)
+        if library_id:
+            # strict filter: when filtering for a concrete library, unknown ids are excluded
+            if not lib_id or library_id != lib_id:
+                continue
         add_continue_item(library_item, media_progress=media_progress, episode=ep)
 
     # Fallback/merge for ABS variants where items-in-progress misses audiobook entries.
@@ -625,9 +630,6 @@ def list_continue(client, library_id=""):
         for s in sessions:
             if not isinstance(s, dict):
                 continue
-            sid_lib = str(s.get("libraryId") or "")
-            if library_id and sid_lib and sid_lib != library_id:
-                continue
 
             item_id = str(s.get("libraryItemId") or "")
             if not item_id:
@@ -644,6 +646,11 @@ def list_continue(client, library_id=""):
                 library_item = client.item(item_id) or {"id": item_id}
             except Exception:
                 library_item = {"id": item_id}
+
+            sid_lib = str(s.get("libraryId") or "") or resolve_library_id(s, library_item)
+            if library_id:
+                if not sid_lib or sid_lib != library_id:
+                    continue
 
             add_continue_item(library_item, media_progress=media_progress, episode=episode)
 
@@ -897,6 +904,7 @@ def sync_strm(client):
     written = 0
     removed = 0
 
+    selected = []
     for lib in libs:
         kind = library_kind(lib)
         lib_id = lib.get("id")
@@ -906,42 +914,64 @@ def sync_strm(client):
             continue
         if kind == "audiobook" and not include_audiobooks:
             continue
+        selected.append((lib, kind))
 
-        sub = "Podcasts" if kind == "podcast" else "Audiobooks"
-        out_dir = os.path.join(path, sub)
-        utils.ensure_dir(out_dir)
+    total_items = 0
+    cache_items = {}
+    for lib, kind in selected:
+        lib_id = lib.get("id")
+        lib_items = parse_items(client.library_items(lib_id))
+        cache_items[lib_id] = lib_items
+        total_items += len(lib_items)
+    total_items = max(1, total_items)
+    processed_items = 0
 
-        items = parse_items(client.library_items(lib_id))
-        for item in items:
-            item_id = item.get("id")
-            if not item_id:
-                continue
-            title = item_title(item)
+    progress = xbmcgui.DialogProgressBG()
+    progress.create("Audiobookshelf", "STRM sync running...")
+    try:
+        for lib, kind in selected:
+            lib_id = lib.get("id")
+            sub = "Podcasts" if kind == "podcast" else "Audiobooks"
+            out_dir = os.path.join(path, sub)
+            utils.ensure_dir(out_dir)
 
-            if kind == "podcast":
-                detail = client.item(item_id)
-                episodes = (detail.get("media") or {}).get("episodes") or []
-                pod_dir = os.path.join(out_dir, utils.safe_filename(title))
-                utils.ensure_dir(pod_dir)
-                for ep in episodes:
-                    ep_id = ep.get("id")
-                    ep_title = ep.get("title") or ep_id
-                    if not ep_id:
-                        continue
-                    content = utils.plugin_url(action="play", item_id=item_id, episode_id=ep_id, title=ep_title)
-                    fpath = os.path.join(pod_dir, "%s.strm" % utils.safe_filename(ep_title))
+            items = cache_items.get(lib_id) or []
+            for item in items:
+                item_id = item.get("id")
+                if not item_id:
+                    continue
+                title = item_title(item)
+
+                if kind == "podcast":
+                    detail = client.item(item_id)
+                    episodes = (detail.get("media") or {}).get("episodes") or []
+                    pod_dir = os.path.join(out_dir, utils.safe_filename(title))
+                    utils.ensure_dir(pod_dir)
+                    for ep in episodes:
+                        ep_id = ep.get("id")
+                        ep_title = ep.get("title") or ep_id
+                        if not ep_id:
+                            continue
+                        content = utils.plugin_url(action="play", item_id=item_id, episode_id=ep_id, title=ep_title)
+                        fpath = os.path.join(pod_dir, "%s.strm" % utils.safe_filename(ep_title))
+                        utils.write_text(fpath, content)
+                        expected_files.add(os.path.normpath(fpath))
+                        written += 1
+                else:
+                    author_dir = item_author_name(item) or "Unknown Author"
+                    author_dir = os.path.join(out_dir, utils.safe_filename(author_dir))
+                    utils.ensure_dir(author_dir)
+                    content = utils.plugin_url(action="play", item_id=item_id, title=title)
+                    fpath = os.path.join(author_dir, "%s.strm" % utils.safe_filename(title))
                     utils.write_text(fpath, content)
                     expected_files.add(os.path.normpath(fpath))
                     written += 1
-            else:
-                author_dir = item_author_name(item) or "Unknown Author"
-                author_dir = os.path.join(out_dir, utils.safe_filename(author_dir))
-                utils.ensure_dir(author_dir)
-                content = utils.plugin_url(action="play", item_id=item_id, title=title)
-                fpath = os.path.join(author_dir, "%s.strm" % utils.safe_filename(title))
-                utils.write_text(fpath, content)
-                expected_files.add(os.path.normpath(fpath))
-                written += 1
+
+                processed_items += 1
+                pct = int((processed_items * 100.0) / total_items)
+                progress.update(max(1, min(100, pct)), "STRM sync running...", title[:80])
+    finally:
+        progress.close()
 
     # Remove stale .strm files from previous syncs.
     for root, dirs, files in os.walk(path, topdown=False):
