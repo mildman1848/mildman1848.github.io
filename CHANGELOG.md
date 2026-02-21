@@ -19,3 +19,4 @@
 - Released `plugin.audio.audiobookshelf` `0.1.9` as rollback to the stable pre-menu-split codebase (based on `0.1.2` behavior).
 - Released `plugin.audio.audiobookshelf` `0.1.10` with 502-focused API fallback (GET retry via `?token=` and auth-test fallback from `/api/authorize` to `/api/me`).
 - Released `plugin.audio.audiobookshelf` `0.1.11` on the `0.1.6` functional baseline, with a dedicated server reachability test and a new addon language setting (Kodi/Deutsch/English).
+- Released `plugin.audio.audiobookshelf` `0.1.12` fixing empty entity menus by adding ABS metadata fallbacks (`seriesName`/`authorName`) and a more robust library-id filter for `Series fortsetzen`.

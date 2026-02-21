@@ -213,6 +213,13 @@ def _iter_entity_names(metadata, entity_type):
                 sid = str(s.get("id") or "")
                 if name:
                     yield name, sid
+            elif isinstance(s, str):
+                name = s.strip()
+                if name:
+                    yield name, ""
+        sname = (metadata.get("seriesName") or "").strip()
+        if sname:
+            yield sname, ""
     elif entity_type == "authors":
         for a in metadata.get("authors") or []:
             if isinstance(a, dict):
@@ -220,6 +227,13 @@ def _iter_entity_names(metadata, entity_type):
                 aid = str(a.get("id") or "")
                 if name:
                     yield name, aid
+            elif isinstance(a, str):
+                name = a.strip()
+                if name:
+                    yield name, ""
+        aname = (metadata.get("authorName") or metadata.get("author") or "").strip()
+        if aname:
+            yield aname, ""
     elif entity_type == "narrators":
         narrators = metadata.get("narrators") or []
         if isinstance(narrators, list):
@@ -313,7 +327,24 @@ def list_continue(client, library_id=""):
     for entry in items:
         library_item = entry.get("libraryItem") or entry
         media_progress = entry.get("mediaProgress") or {}
-        lib_id = (library_item.get("libraryId") or library_item.get("library") or {}).get("id") if isinstance(library_item.get("library"), dict) else library_item.get("libraryId")
+
+        lib_id = ""
+        raw_library_id = library_item.get("libraryId")
+        if isinstance(raw_library_id, dict):
+            lib_id = str(raw_library_id.get("id") or "")
+        elif raw_library_id:
+            lib_id = str(raw_library_id)
+        if not lib_id and isinstance(library_item.get("library"), dict):
+            lib_id = str((library_item.get("library") or {}).get("id") or "")
+        if not lib_id:
+            entry_library_id = entry.get("libraryId")
+            if isinstance(entry_library_id, dict):
+                lib_id = str(entry_library_id.get("id") or "")
+            elif entry_library_id:
+                lib_id = str(entry_library_id)
+        if not lib_id and isinstance(entry.get("library"), dict):
+            lib_id = str((entry.get("library") or {}).get("id") or "")
+
         if library_id and lib_id and library_id != lib_id:
             continue
 
@@ -394,6 +425,33 @@ def extract_entity_item_ids(entity):
 
 
 def list_entities(client, library_id, entity_type, sort="name", desc=0):
+    entities = []
+    try:
+        payload = client.library_entities(library_id, entity_type, sort=sort, desc=int(desc))
+        entities = parse_entities(payload, entity_type=entity_type)
+    except Exception:
+        entities = []
+
+    if entities:
+        for entity in entities:
+            name = entity_name(entity) or ""
+            if not name:
+                continue
+            num = entity.get("numBooks") or entity.get("numItems") or entity.get("totalItems") or entity.get("count") or ""
+            eid = str(entity.get("id") or "")
+            label = "%s (%s)" % (name, num) if num else name
+            utils.add_dir(
+                label,
+                "entity_items",
+                folder=True,
+                library_id=library_id,
+                entity_type=entity_type,
+                entity_id=eid,
+                entity_name=name,
+            )
+        utils.end("files")
+        return
+
     items = fetch_library_items_all(client, library_id, max_pages=20)
     entities = build_local_entities(items, entity_type)
     for entity in entities:
