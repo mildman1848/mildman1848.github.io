@@ -46,6 +46,22 @@ L = {
     "server_reachable": 30022,
     "server_unreachable": 30023,
     "endpoint": 30024,
+    "search": 30025,
+    "stats": 30026,
+    "home_start": 30027,
+    "search_local": 30028,
+    "stats_local": 30029,
+    "all_podcasts": 30030,
+    "newly_added": 30031,
+    "alpha_sort": 30032,
+    "search_for_library": 30033,
+    "stats_title": 30034,
+    "stats_items": 30035,
+    "stats_authors": 30036,
+    "stats_genres": 30037,
+    "stats_duration": 30038,
+    "stats_tracks": 30039,
+    "search_prompt": 30040,
 }
 
 
@@ -128,8 +144,8 @@ def root(client):
     utils.add_dir(t("audio", "Audiobooks"), "audiobooks", folder=True)
     utils.add_dir(t("podcasts", "Podcasts"), "podcasts", folder=True)
     utils.add_dir(t("continue", "Continue Listening"), "continue", folder=True)
-    utils.add_dir("Search", "search_root", folder=True)
-    utils.add_dir("Stats", "stats_root", folder=True)
+    utils.add_dir(t("search", "Search"), "search_root", folder=True)
+    utils.add_dir(t("stats", "Stats"), "stats_root", folder=True)
     utils.add_dir(t("sync_strm", "Sync STRM files"), "sync_strm", folder=False)
     utils.add_dir(t("connection_test", "Server Connection Test"), "connection_test", folder=False)
     utils.add_dir(t("auth_test", "Login / Connection Test"), "auth_test", folder=False)
@@ -168,25 +184,25 @@ def _personalized_sections(client, library_id):
 
 
 def list_audiobooks_root(client, library_id):
-    utils.add_dir("Startseite", "personalized_sections", folder=True, library_id=library_id, kind="audiobook")
-    utils.add_dir(t("continue_series", "Series fortsetzen"), "continue", folder=True, library_id=library_id)
-    utils.add_dir(t("all_titles", "Bibliothek: Alle Titel"), "library", folder=True, library_id=library_id, kind="audiobook")
-    utils.add_dir(t("all_series", "Serien: Alle Serien"), "entities", folder=True, library_id=library_id, entity_type="series")
-    utils.add_dir(t("all_authors", "Autoren: Alle Autoren"), "entities", folder=True, library_id=library_id, entity_type="authors")
-    utils.add_dir(t("all_narrators", "Erzähler: Alle Erzähler"), "entities", folder=True, library_id=library_id, entity_type="narrators")
-    utils.add_dir(t("all_collections", "Sammlungen: Alle Sammlungen"), "entities", folder=True, library_id=library_id, entity_type="collections")
-    utils.add_dir("Suchen", "search_library_prompt", folder=False, library_id=library_id, kind="audiobook")
-    utils.add_dir("Statistiken", "library_stats", folder=False, library_id=library_id)
+    utils.add_dir(t("home_start", "Home"), "personalized_sections", folder=True, library_id=library_id, kind="audiobook")
+    utils.add_dir(t("continue_series", "Continue Series"), "continue", folder=True, library_id=library_id)
+    utils.add_dir(t("all_titles", "Library: All Titles"), "library", folder=True, library_id=library_id, kind="audiobook")
+    utils.add_dir(t("all_series", "Series: All Series"), "entities", folder=True, library_id=library_id, entity_type="series")
+    utils.add_dir(t("all_authors", "Authors: All Authors"), "entities", folder=True, library_id=library_id, entity_type="authors")
+    utils.add_dir(t("all_narrators", "Narrators: All Narrators"), "entities", folder=True, library_id=library_id, entity_type="narrators")
+    utils.add_dir(t("all_collections", "Collections: All Collections"), "entities", folder=True, library_id=library_id, entity_type="collections")
+    utils.add_dir(t("search_local", "Search"), "search_library_prompt", folder=False, library_id=library_id, kind="audiobook")
+    utils.add_dir(t("stats_local", "Stats"), "library_stats", folder=False, library_id=library_id)
     utils.end("files")
 
 
 def list_podcasts_root(client, library_id):
-    utils.add_dir("Alle Podcasts", "library", folder=True, library_id=library_id, kind="podcast")
-    utils.add_dir("Weiterhören", "continue", folder=True, library_id=library_id)
-    utils.add_dir("Neu hinzugefügt", "library_sorted", folder=True, library_id=library_id, kind="podcast", sort_key="addedAt", desc="1")
-    utils.add_dir("A-Z", "library_sorted", folder=True, library_id=library_id, kind="podcast", sort_key="media.metadata.title", desc="0")
-    utils.add_dir("Suchen", "search_library_prompt", folder=False, library_id=library_id, kind="podcast")
-    utils.add_dir("Statistiken", "library_stats", folder=False, library_id=library_id)
+    utils.add_dir(t("all_podcasts", "All Podcasts"), "library", folder=True, library_id=library_id, kind="podcast")
+    utils.add_dir(t("continue", "Continue Listening"), "continue", folder=True, library_id=library_id)
+    utils.add_dir(t("newly_added", "Recently Added"), "library_sorted", folder=True, library_id=library_id, kind="podcast", sort_key="addedAt", desc="1")
+    utils.add_dir(t("alpha_sort", "A-Z"), "library_sorted", folder=True, library_id=library_id, kind="podcast", sort_key="media.metadata.title", desc="0")
+    utils.add_dir(t("search_local", "Search"), "search_library_prompt", folder=False, library_id=library_id, kind="podcast")
+    utils.add_dir(t("stats_local", "Stats"), "library_stats", folder=False, library_id=library_id)
     utils.end("files")
 
 
@@ -262,13 +278,13 @@ def _prompt_text(title):
 def show_library_stats(client, library_id):
     stats = client.library_stats(library_id) or {}
     lines = [
-        "Items: %s" % (stats.get("totalItems", "-")),
-        "Authors: %s" % (stats.get("totalAuthors", "-")),
-        "Genres: %s" % (stats.get("totalGenres", "-")),
-        "Duration: %s" % (stats.get("totalDuration", "-")),
-        "Tracks: %s" % (stats.get("numAudioTracks", "-")),
+        "%s: %s" % (t("stats_items", "Items"), stats.get("totalItems", "-")),
+        "%s: %s" % (t("stats_authors", "Authors"), stats.get("totalAuthors", "-")),
+        "%s: %s" % (t("stats_genres", "Genres"), stats.get("totalGenres", "-")),
+        "%s: %s" % (t("stats_duration", "Duration"), stats.get("totalDuration", "-")),
+        "%s: %s" % (t("stats_tracks", "Tracks"), stats.get("numAudioTracks", "-")),
     ]
-    xbmcgui.Dialog().ok("Audiobookshelf Stats", "\n".join(lines))
+    xbmcgui.Dialog().ok(t("stats_title", "Audiobookshelf Stats"), "\n".join(lines))
 
 
 def list_search_root(client):
@@ -278,7 +294,7 @@ def list_search_root(client):
         if not lib_id:
             continue
         kind = library_kind(lib)
-        label = "Suche: %s" % (lib.get("name") or lib_id)
+        label = t("search_for_library", "Search: %s") % (lib.get("name") or lib_id)
         utils.add_dir(label, "search_library_prompt", folder=False, library_id=lib_id, kind=kind)
     utils.end("files")
 
@@ -990,7 +1006,7 @@ def run():
             return
 
         if action == "search_library_prompt":
-            query = _prompt_text("Audiobookshelf Suche")
+            query = _prompt_text(t("search_prompt", "Audiobookshelf Search"))
             if not query:
                 xbmc.executebuiltin("Container.Refresh")
                 return

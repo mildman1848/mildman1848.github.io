@@ -104,6 +104,70 @@ msgctxt "#30024"
 msgid "Endpoint"
 msgstr "Endpoint"
 
+msgctxt "#30025"
+msgid "Search"
+msgstr "Search"
+
+msgctxt "#30026"
+msgid "Stats"
+msgstr "Stats"
+
+msgctxt "#30027"
+msgid "Home"
+msgstr "Home"
+
+msgctxt "#30028"
+msgid "Search"
+msgstr "Search"
+
+msgctxt "#30029"
+msgid "Stats"
+msgstr "Stats"
+
+msgctxt "#30030"
+msgid "All Podcasts"
+msgstr "All Podcasts"
+
+msgctxt "#30031"
+msgid "Recently Added"
+msgstr "Recently Added"
+
+msgctxt "#30032"
+msgid "A-Z"
+msgstr "A-Z"
+
+msgctxt "#30033"
+msgid "Search: %s"
+msgstr "Search: %s"
+
+msgctxt "#30034"
+msgid "Audiobookshelf Stats"
+msgstr "Audiobookshelf Stats"
+
+msgctxt "#30035"
+msgid "Items"
+msgstr "Items"
+
+msgctxt "#30036"
+msgid "Authors"
+msgstr "Authors"
+
+msgctxt "#30037"
+msgid "Genres"
+msgstr "Genres"
+
+msgctxt "#30038"
+msgid "Duration"
+msgstr "Duration"
+
+msgctxt "#30039"
+msgid "Tracks"
+msgstr "Tracks"
+
+msgctxt "#30040"
+msgid "Audiobookshelf Search"
+msgstr "Audiobookshelf Search"
+
 msgctxt "#32000"
 msgid "Connection"
 msgstr "Connection"
