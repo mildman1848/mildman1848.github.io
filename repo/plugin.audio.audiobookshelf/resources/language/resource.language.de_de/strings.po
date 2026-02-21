@@ -283,3 +283,7 @@ msgstr "Zeitstempel letzter automatischer STRM-Sync"
 msgctxt "#32023"
 msgid "Enable debug logging"
 msgstr "Debug-Logging aktivieren"
+
+msgctxt "#32024"
+msgid "Debug"
+msgstr "Debug"

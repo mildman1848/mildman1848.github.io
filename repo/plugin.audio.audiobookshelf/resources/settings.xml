@@ -22,6 +22,9 @@
     <setting id="strm_auto_sync" type="bool" label="32020" default="false"/>
     <setting id="strm_auto_sync_interval_hours" type="number" label="32021" default="24"/>
     <setting id="strm_last_auto_sync_ts" type="text" label="32022" default="0" visible="false"/>
+  </category>
+
+  <category label="32024">
     <setting id="debug_logging" type="bool" label="32023" default="false"/>
   </category>
 </settings>

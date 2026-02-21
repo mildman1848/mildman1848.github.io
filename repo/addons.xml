@@ -39,7 +39,7 @@
     </extension>
   </addon>
 
-  <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.20" provider-name="mildman1848">
+  <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.21" provider-name="mildman1848">
     <requires>
       <import addon="xbmc.python" version="3.0.0"/>
       <import addon="script.module.requests"/>

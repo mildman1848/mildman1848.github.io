@@ -283,3 +283,7 @@ msgstr "Last automatic STRM sync timestamp"
 msgctxt "#32023"
 msgid "Enable debug logging"
 msgstr "Enable debug logging"
+
+msgctxt "#32024"
+msgid "Debug"
+msgstr "Debug"
