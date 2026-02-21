@@ -104,6 +104,25 @@ class AbsClient:
             params={"minified": 1, "sort": "media.metadata.title", "desc": 0, "limit": limit, "page": page, "collapseseries": 0},
         )
 
+    def library_items_sorted(self, library_id, sort_key, desc=1, page=0, limit=200):
+        return self.get(
+            "/api/libraries/%s/items" % library_id,
+            params={
+                "minified": 1,
+                "sort": sort_key,
+                "desc": int(bool(desc)),
+                "limit": limit,
+                "page": page,
+                "collapseseries": 0,
+            },
+        )
+
+    def library_entities(self, library_id, entity_type, page=0, limit=200, sort="name", desc=0):
+        return self.get(
+            "/api/libraries/%s/%s" % (library_id, entity_type),
+            params={"minified": 1, "sort": sort, "desc": int(bool(desc)), "limit": limit, "page": page},
+        )
+
     def item(self, item_id):
         return self.get("/api/items/%s" % item_id)
 
@@ -115,6 +134,22 @@ class AbsClient:
         if episode_id:
             path = "/api/me/progress/%s/%s" % (item_id, episode_id)
         return self.get(path)
+
+    def listening_sessions(self, limit=200):
+        return self.get("/api/me/listening-sessions", params={"limit": limit})
+
+    def entity_detail(self, entity_type, entity_id):
+        # Different ABS versions expose entities differently; try common routes.
+        paths = [
+            "/api/%s/%s" % (entity_type, entity_id),
+            "/api/%s/%s" % (entity_type.rstrip("s"), entity_id),
+        ]
+        for path in paths:
+            try:
+                return self.get(path)
+            except Exception:
+                continue
+        return {}
 
     def play_item(self, item_id, episode_id=None):
         path = "/api/items/%s/play" % item_id
@@ -197,6 +232,25 @@ def parse_items(payload):
         return payload
     if isinstance(payload, dict):
         for key in ("results", "libraryItems", "items"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return value
+    return []
+
+
+def parse_entities(payload, entity_type=None):
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict):
+        keys = []
+        if entity_type:
+            keys.extend([entity_type, entity_type.rstrip("s") + "s"])
+        keys.extend(["results", "items", "series", "collections", "authors", "narrators"])
+        seen = set()
+        for key in keys:
+            if key in seen:
+                continue
+            seen.add(key)
             value = payload.get(key)
             if isinstance(value, list):
                 return value

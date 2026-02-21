@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plugin.audio.audiobookshelf\n"
+"Language: de_DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgctxt "#30000"
+msgid "Audiobooks"
+msgstr "Hörbücher"
+
+msgctxt "#30001"
+msgid "Podcasts"
+msgstr "Podcasts"
+
+msgctxt "#30002"
+msgid "Continue Listening"
+msgstr "Weiterhören"
+
+msgctxt "#30003"
+msgid "Sync STRM files"
+msgstr "STRM-Dateien synchronisieren"
+
+msgctxt "#30004"
+msgid "Login / Connection Test"
+msgstr "Login- / Verbindungstest"
+
+msgctxt "#30005"
+msgid "Connected as"
+msgstr "Verbunden als"
+
+msgctxt "#30006"
+msgid "Home"
+msgstr "Startseite"
+
+msgctxt "#30007"
+msgid "Recently Added"
+msgstr "Kürzlich hinzugefügt"
+
+msgctxt "#30008"
+msgid "Current Series"
+msgstr "Aktuelle Serien"
+
+msgctxt "#30009"
+msgid "Discover"
+msgstr "Entdecken"
+
+msgctxt "#30010"
+msgid "Listen Again"
+msgstr "Erneut anhören"
+
+msgctxt "#30011"
+msgid "Latest Authors"
+msgstr "Neueste Autoren"
+
+msgctxt "#30012"
+msgid "Library: All Titles"
+msgstr "Bibliothek: Alle Titel"
+
+msgctxt "#30013"
+msgid "Series: All Series"
+msgstr "Serien: Alle Serien"
+
+msgctxt "#30014"
+msgid "Collections: All Collections"
+msgstr "Sammlungen: Alle Sammlungen"
+
+msgctxt "#30015"
+msgid "Authors: All Authors"
+msgstr "Autoren: Alle Autoren"
+
+msgctxt "#30016"
+msgid "Narrators: All Narrators"
+msgstr "Erzähler: Alle Erzähler"
+
+msgctxt "#30017"
+msgid "No items exposed by this ABS endpoint"
+msgstr "Keine Titel über diesen ABS-Endpunkt verfügbar"
+
+msgctxt "#30018"
+msgid "STRM sync complete"
+msgstr "STRM-Sync abgeschlossen"
+
+msgctxt "#30019"
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgctxt "#30020"
+msgid "Continue Series"
+msgstr "Serien fortsetzen"
+
+msgctxt "#32000"
+msgid "Connection"
+msgstr "Verbindung"
+
+msgctxt "#32001"
+msgid "Audiobookshelf URL"
+msgstr "Audiobookshelf-URL"
+
+msgctxt "#32002"
+msgid "Auth mode"
+msgstr "Authentifizierungsmodus"
+
+msgctxt "#32003"
+msgid "API key (token)"
+msgstr "API-Schlüssel (Token)"
+
+msgctxt "#32004"
+msgid "Username"
+msgstr "Benutzername"
+
+msgctxt "#32005"
+msgid "Password"
+msgstr "Passwort"
+
+msgctxt "#32006"
+msgid "Cached token"
+msgstr "Gespeichertes Token"
+
+msgctxt "#32007"
+msgid "Playback"
+msgstr "Wiedergabe"
+
+msgctxt "#32008"
+msgid "Progress sync interval (seconds)"
+msgstr "Intervall für Fortschrittssync (Sekunden)"
+
+msgctxt "#32009"
+msgid "Mark finished at %"
+msgstr "Als beendet markieren bei %"
+
+msgctxt "#32010"
+msgid "Library Sync"
+msgstr "Bibliothekssync"
+
+msgctxt "#32011"
+msgid "STRM export folder"
+msgstr "STRM-Exportordner"
+
+msgctxt "#32012"
+msgid "Include podcasts"
+msgstr "Podcasts einbeziehen"
+
+msgctxt "#32013"
+msgid "Include audiobooks"
+msgstr "Hörbücher einbeziehen"
+
+msgctxt "#32014"
+msgid "API Key"
+msgstr "API-Schlüssel"
+
+msgctxt "#32015"
+msgid "Username/Password"
+msgstr "Benutzername/Passwort"

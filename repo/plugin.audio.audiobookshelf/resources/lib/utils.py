@@ -16,6 +16,11 @@ HANDLE = int(sys.argv[1])
 BASE = sys.argv[0]
 
 
+def tr(msg_id, fallback=""):
+    text = ADDON.getLocalizedString(int(msg_id))
+    return text or fallback or str(msg_id)
+
+
 def log(msg, lvl=xbmc.LOGINFO):
     xbmc.log("[%s] %s" % (ADDON_ID, msg), lvl)
 
