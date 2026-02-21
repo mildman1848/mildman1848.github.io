@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Audiobookshelf Kodi addon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#103a72"/>
+      <stop offset="100%" stop-color="#1f7bc5"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <rect x="96" y="108" width="320" height="296" rx="32" fill="#ffffff"/>
+  <rect x="128" y="148" width="256" height="32" rx="12" fill="#1f7bc5"/>
+  <rect x="128" y="200" width="256" height="20" rx="10" fill="#9ac4e8"/>
+  <rect x="128" y="234" width="256" height="20" rx="10" fill="#9ac4e8"/>
+  <rect x="128" y="268" width="170" height="20" rx="10" fill="#9ac4e8"/>
+  <circle cx="336" cy="336" r="56" fill="#103a72"/>
+  <polygon points="324,308 324,364 368,336" fill="#ffffff"/>
+  <text x="256" y="442" text-anchor="middle" font-size="44" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" fill="#ffffff">ABS</text>
+</svg>

@@ -38,4 +38,25 @@
       </assets>
     </extension>
   </addon>
+
+  <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.0" provider-name="mildman1848">
+    <requires>
+      <import addon="xbmc.python" version="3.0.0"/>
+      <import addon="script.module.requests"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="main.py">
+      <provides>audio</provides>
+    </extension>
+    <extension point="xbmc.python.module" library="resources"/>
+    <extension point="xbmc.addon.metadata">
+      <summary lang="de_DE">Audiobookshelf Client für Hörbücher und Podcasts</summary>
+      <summary lang="en_GB">Audiobookshelf client for audiobooks and podcasts</summary>
+      <description lang="de_DE">Kodi Addon für Audiobookshelf mit Login (API-Key oder User/Pass), Wiedergabe, Fortschritts-Sync und STRM-Export.</description>
+      <description lang="en_GB">Kodi addon for Audiobookshelf with API key or username/password login, playback, progress sync, and STRM export.</description>
+      <platform>all</platform>
+      <assets>
+        <icon>icon.png</icon>
+      </assets>
+    </extension>
+  </addon>
 </addons>

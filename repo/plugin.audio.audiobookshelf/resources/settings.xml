@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+  <category label="Connection">
+    <setting id="base_url" type="text" label="Audiobookshelf URL" default="http://127.0.0.1:13378"/>
+    <setting id="auth_mode" type="select" label="Auth mode" values="API Key|Username/Password" default="0"/>
+    <setting id="api_key" type="text" label="API key (token)" default="" option="hidden"/>
+    <setting id="username" type="text" label="Username" default=""/>
+    <setting id="password" type="text" label="Password" default="" option="hidden"/>
+    <setting id="token" type="text" label="Cached token" default="" visible="false"/>
+  </category>
+
+  <category label="Playback">
+    <setting id="progress_sync_interval" type="number" label="Progress sync interval (seconds)" default="30"/>
+    <setting id="mark_finished_threshold" type="number" label="Mark finished at %" default="97"/>
+  </category>
+
+  <category label="Library Sync">
+    <setting id="strm_export_path" type="folder" label="STRM export folder" default=""/>
+    <setting id="strm_include_podcasts" type="bool" label="Include podcasts" default="true"/>
+    <setting id="strm_include_audiobooks" type="bool" label="Include audiobooks" default="true"/>
+  </category>
+</settings>
