@@ -59,6 +59,7 @@ def library_kind(lib):
 
 
 def item_title(item):
+    item = item.get("libraryItem") if isinstance(item, dict) and isinstance(item.get("libraryItem"), dict) else item
     media = item.get("media") or {}
     metadata = media.get("metadata") or {}
     return metadata.get("title") or item.get("title") or item.get("name") or item.get("id")
@@ -69,6 +70,7 @@ def item_cover(item_id):
 
 
 def item_metadata(item):
+    item = item.get("libraryItem") if isinstance(item, dict) and isinstance(item.get("libraryItem"), dict) else item
     media = item.get("media") or {}
     return media.get("metadata") or {}
 
@@ -91,7 +93,7 @@ def item_info_labels(item, fallback_title=""):
         "title": title,
         "artist": artist,
         "album": metadata.get("seriesName") or metadata.get("podcastName") or "",
-        "plot": plot,
+        "comment": plot,
         "genre": genre,
         "duration": duration,
     }
@@ -181,6 +183,7 @@ def list_library_sorted(client, library_id, sort_key, desc=1, kind="audiobook"):
 
 def _render_items(client, items, kind="audiobook"):
     for item in items:
+        item = item.get("libraryItem") if isinstance(item, dict) and isinstance(item.get("libraryItem"), dict) else item
         item_id = item.get("id")
         if not item_id:
             continue
@@ -320,7 +323,7 @@ def list_entities(client, library_id, entity_type, sort="name", desc=0):
 
 
 def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""):
-    detail = client.entity_detail(entity_type, entity_id)
+    detail = client.entity_detail(entity_type, entity_id, library_id=library_id)
     ids = extract_entity_item_ids(detail)
     items = []
     if ids:
@@ -333,9 +336,17 @@ def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""
         # Fallback for ABS variants that do not expose item IDs on entity details:
         # load library items and filter by metadata references.
         utils.notify("Audiobookshelf", t("entity_items_missing", "No items exposed by this ABS endpoint"))
-        all_items = parse_items(client.library_items(library_id, limit=500))
+        all_items = []
+        for page in range(0, 8):
+            batch = parse_items(client.library_items(library_id, page=page, limit=200))
+            if not batch:
+                break
+            all_items.extend(batch)
+            if len(batch) < 200:
+                break
         target_name = (entity_name or "").strip().lower()
         for it in all_items:
+            it = it.get("libraryItem") if isinstance(it, dict) and isinstance(it.get("libraryItem"), dict) else it
             metadata = item_metadata(it)
             if entity_type == "series":
                 series = metadata.get("series") or []

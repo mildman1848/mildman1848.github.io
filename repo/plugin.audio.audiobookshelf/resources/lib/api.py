@@ -138,12 +138,20 @@ class AbsClient:
     def listening_sessions(self, limit=200):
         return self.get("/api/me/listening-sessions", params={"limit": limit})
 
-    def entity_detail(self, entity_type, entity_id):
+    def entity_detail(self, entity_type, entity_id, library_id=None):
         # Different ABS versions expose entities differently; try common routes.
-        paths = [
+        paths = []
+        if library_id:
+            paths.extend(
+                [
+                    "/api/libraries/%s/%s/%s" % (library_id, entity_type, entity_id),
+                    "/api/libraries/%s/%s/%s" % (library_id, entity_type.rstrip("s"), entity_id),
+                ]
+            )
+        paths.extend([
             "/api/%s/%s" % (entity_type, entity_id),
             "/api/%s/%s" % (entity_type.rstrip("s"), entity_id),
-        ]
+        ])
         for path in paths:
             try:
                 return self.get(path)

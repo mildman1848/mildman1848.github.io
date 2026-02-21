@@ -12,3 +12,4 @@
 - Replaced addon icon with the official Audiobookshelf icon.
 - Added German and English localization plus community translation interface (`resources/i18n/README.md`, `tools/export_kodi_pot.py`).
 - Released `plugin.audio.audiobookshelf` `0.1.4` fixing entity submenu opening fallback, forcing music player foreground on playback start, and cache-busting addon icon path (`abs_icon.png`).
+- Released `plugin.audio.audiobookshelf` `0.1.5` improving entity submenu loading across ABS API variants and paginated fallback matching.
