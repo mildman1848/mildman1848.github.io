@@ -78,46 +78,22 @@ class AbsClient:
         return r.json()
 
     def get(self, path, params=None):
-        return self._request_json("GET", path, params=params)
+        r = self.session.get(self._full(path), headers=self.auth_headers(), params=params or {}, timeout=30)
+        if r.status_code >= 400:
+            raise AbsApiError("GET %s failed: HTTP %s" % (path, r.status_code))
+        return r.json()
 
     def post(self, path, payload=None):
-        return self._request_json("POST", path, payload=payload)
+        r = self.session.post(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
+        if r.status_code >= 400:
+            raise AbsApiError("POST %s failed: HTTP %s" % (path, r.status_code))
+        return r.json()
 
     def patch(self, path, payload=None):
-        return self._request_json("PATCH", path, payload=payload)
-
-    def _request_json(self, method, path, params=None, payload=None):
-        attempts = 2 if self.auth_mode == 1 else 1
-        last_status = None
-        for attempt in range(attempts):
-            headers = self.auth_headers()
-            url = self._full(path)
-            if method == "GET":
-                r = self.session.get(url, headers=headers, params=params or {}, timeout=30)
-            elif method == "POST":
-                r = self.session.post(url, headers=headers, data=json.dumps(payload or {}), timeout=30)
-            elif method == "PATCH":
-                r = self.session.patch(url, headers=headers, data=json.dumps(payload or {}), timeout=30)
-            else:
-                raise AbsApiError("Unsupported HTTP method: %s" % method)
-
-            last_status = r.status_code
-            if r.status_code < 400:
-                if not r.text:
-                    return {}
-                try:
-                    return r.json()
-                except Exception:
-                    return {}
-
-            # Token retry for user/pass mode.
-            if r.status_code in (401, 403) and self.auth_mode == 1 and attempt == 0:
-                self.addon.setSetting("token", "")
-                continue
-
-            break
-
-        raise AbsApiError("%s %s failed: HTTP %s" % (method, path, last_status))
+        r = self.session.patch(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
+        if r.status_code >= 400:
+            raise AbsApiError("PATCH %s failed: HTTP %s" % (path, r.status_code))
+        return r.json() if r.text else {}
 
     def libraries(self):
         return self.get("/api/libraries")
@@ -126,25 +102,6 @@ class AbsClient:
         return self.get(
             "/api/libraries/%s/items" % library_id,
             params={"minified": 1, "sort": "media.metadata.title", "desc": 0, "limit": limit, "page": page, "collapseseries": 0},
-        )
-
-    def library_items_sorted(self, library_id, sort_key, desc=1, page=0, limit=200):
-        return self.get(
-            "/api/libraries/%s/items" % library_id,
-            params={
-                "minified": 1,
-                "sort": sort_key,
-                "desc": int(bool(desc)),
-                "limit": limit,
-                "page": page,
-                "collapseseries": 0,
-            },
-        )
-
-    def library_entities(self, library_id, entity_type, page=0, limit=200, sort="name", desc=0):
-        return self.get(
-            "/api/libraries/%s/%s" % (library_id, entity_type),
-            params={"minified": 1, "sort": sort, "desc": int(bool(desc)), "limit": limit, "page": page},
         )
 
     def item(self, item_id):
@@ -158,30 +115,6 @@ class AbsClient:
         if episode_id:
             path = "/api/me/progress/%s/%s" % (item_id, episode_id)
         return self.get(path)
-
-    def listening_sessions(self, limit=200):
-        return self.get("/api/me/listening-sessions", params={"limit": limit})
-
-    def entity_detail(self, entity_type, entity_id, library_id=None):
-        # Different ABS versions expose entities differently; try common routes.
-        paths = []
-        if library_id:
-            paths.extend(
-                [
-                    "/api/libraries/%s/%s/%s" % (library_id, entity_type, entity_id),
-                    "/api/libraries/%s/%s/%s" % (library_id, entity_type.rstrip("s"), entity_id),
-                ]
-            )
-        paths.extend([
-            "/api/%s/%s" % (entity_type, entity_id),
-            "/api/%s/%s" % (entity_type.rstrip("s"), entity_id),
-        ])
-        for path in paths:
-            try:
-                return self.get(path)
-            except Exception:
-                continue
-        return {}
 
     def play_item(self, item_id, episode_id=None):
         path = "/api/items/%s/play" % item_id
@@ -250,39 +183,20 @@ def iter_audio_urls(data):
 
 def parse_libraries(payload):
     if isinstance(payload, list):
-        return [x for x in payload if isinstance(x, dict)]
+        return payload
     if isinstance(payload, dict):
         for key in ("libraries", "results", "items"):
             value = payload.get(key)
             if isinstance(value, list):
-                return [x for x in value if isinstance(x, dict)]
+                return value
     return []
 
 
 def parse_items(payload):
     if isinstance(payload, list):
-        return [x for x in payload if isinstance(x, dict)]
-    if isinstance(payload, dict):
-        for key in ("results", "libraryItems", "items"):
-            value = payload.get(key)
-            if isinstance(value, list):
-                return [x for x in value if isinstance(x, dict)]
-    return []
-
-
-def parse_entities(payload, entity_type=None):
-    if isinstance(payload, list):
         return payload
     if isinstance(payload, dict):
-        keys = []
-        if entity_type:
-            keys.extend([entity_type, entity_type.rstrip("s") + "s"])
-        keys.extend(["results", "items", "series", "collections", "authors", "narrators"])
-        seen = set()
-        for key in keys:
-            if key in seen:
-                continue
-            seen.add(key)
+        for key in ("results", "libraryItems", "items"):
             value = payload.get(key)
             if isinstance(value, list):
                 return value

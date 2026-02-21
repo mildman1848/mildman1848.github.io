@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.7" provider-name="mildman1848">
+<addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.9" provider-name="mildman1848">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
@@ -15,7 +15,7 @@
     <description lang="en_GB">Kodi addon for Audiobookshelf with API key or username/password login, playback, progress sync, and STRM export.</description>
     <platform>all</platform>
     <assets>
-      <icon>abs_icon.png</icon>
+      <icon>icon.png</icon>
     </assets>
   </extension>
 </addon>

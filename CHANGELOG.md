@@ -15,3 +15,5 @@
 - Released `plugin.audio.audiobookshelf` `0.1.5` improving entity submenu loading across ABS API variants and paginated fallback matching.
 - Released `plugin.audio.audiobookshelf` `0.1.6` with fully local paginated entity menus (series/authors/narrators/collections) and Kodi 21 compatible music info keys.
 - Released `plugin.audio.audiobookshelf` `0.1.7` with hardened API retry/error handling and safer directory failure behavior.
+- Released `plugin.audio.audiobookshelf` `0.1.8` adding proxy-friendly GET token-query fallback and `/api/me` auth-test fallback for 502 environments.
+- Released `plugin.audio.audiobookshelf` `0.1.9` as rollback to the stable pre-menu-split codebase (based on `0.1.2` behavior).
