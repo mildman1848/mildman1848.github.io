@@ -1,0 +1,185 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plugin.audio.audiobookshelf\n"
+"Language: en_GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgctxt "#30000"
+msgid "Audiobooks"
+msgstr "Audiobooks"
+
+msgctxt "#30001"
+msgid "Podcasts"
+msgstr "Podcasts"
+
+msgctxt "#30002"
+msgid "Continue Listening"
+msgstr "Continue Listening"
+
+msgctxt "#30003"
+msgid "Sync STRM files"
+msgstr "Sync STRM files"
+
+msgctxt "#30004"
+msgid "Login / Connection Test"
+msgstr "Login / Connection Test"
+
+msgctxt "#30005"
+msgid "Connected as"
+msgstr "Connected as"
+
+msgctxt "#30006"
+msgid "Home"
+msgstr "Home"
+
+msgctxt "#30007"
+msgid "Recently Added"
+msgstr "Recently Added"
+
+msgctxt "#30008"
+msgid "Current Series"
+msgstr "Current Series"
+
+msgctxt "#30009"
+msgid "Discover"
+msgstr "Discover"
+
+msgctxt "#30010"
+msgid "Listen Again"
+msgstr "Listen Again"
+
+msgctxt "#30011"
+msgid "Latest Authors"
+msgstr "Latest Authors"
+
+msgctxt "#30012"
+msgid "Library: All Titles"
+msgstr "Library: All Titles"
+
+msgctxt "#30013"
+msgid "Series: All Series"
+msgstr "Series: All Series"
+
+msgctxt "#30014"
+msgid "Collections: All Collections"
+msgstr "Collections: All Collections"
+
+msgctxt "#30015"
+msgid "Authors: All Authors"
+msgstr "Authors: All Authors"
+
+msgctxt "#30016"
+msgid "Narrators: All Narrators"
+msgstr "Narrators: All Narrators"
+
+msgctxt "#30017"
+msgid "No items exposed by this ABS endpoint"
+msgstr "No items exposed by this ABS endpoint"
+
+msgctxt "#30018"
+msgid "STRM sync complete"
+msgstr "STRM sync complete"
+
+msgctxt "#30019"
+msgid "Settings"
+msgstr "Settings"
+
+msgctxt "#30020"
+msgid "Continue Series"
+msgstr "Continue Series"
+
+msgctxt "#30021"
+msgid "Server Connection Test"
+msgstr "Server Connection Test"
+
+msgctxt "#30022"
+msgid "Server reachable"
+msgstr "Server reachable"
+
+msgctxt "#30023"
+msgid "Server not reachable"
+msgstr "Server not reachable"
+
+msgctxt "#30024"
+msgid "Endpoint"
+msgstr "Endpoint"
+
+msgctxt "#32000"
+msgid "Connection"
+msgstr "Connection"
+
+msgctxt "#32001"
+msgid "Audiobookshelf URL"
+msgstr "Audiobookshelf URL"
+
+msgctxt "#32002"
+msgid "Auth mode"
+msgstr "Auth mode"
+
+msgctxt "#32003"
+msgid "API key (token)"
+msgstr "API key (token)"
+
+msgctxt "#32004"
+msgid "Username"
+msgstr "Username"
+
+msgctxt "#32005"
+msgid "Password"
+msgstr "Password"
+
+msgctxt "#32006"
+msgid "Cached token"
+msgstr "Cached token"
+
+msgctxt "#32007"
+msgid "Playback"
+msgstr "Playback"
+
+msgctxt "#32008"
+msgid "Progress sync interval (seconds)"
+msgstr "Progress sync interval (seconds)"
+
+msgctxt "#32009"
+msgid "Mark finished at %"
+msgstr "Mark finished at %"
+
+msgctxt "#32010"
+msgid "Library Sync"
+msgstr "Library Sync"
+
+msgctxt "#32011"
+msgid "STRM export folder"
+msgstr "STRM export folder"
+
+msgctxt "#32012"
+msgid "Include podcasts"
+msgstr "Include podcasts"
+
+msgctxt "#32013"
+msgid "Include audiobooks"
+msgstr "Include audiobooks"
+
+msgctxt "#32014"
+msgid "API Key"
+msgstr "API Key"
+
+msgctxt "#32015"
+msgid "Username/Password"
+msgstr "Username/Password"
+
+msgctxt "#32016"
+msgid "Interface language"
+msgstr "Interface language"
+
+msgctxt "#32017"
+msgid "Use Kodi language"
+msgstr "Use Kodi language"
+
+msgctxt "#32018"
+msgid "German"
+msgstr "German"
+
+msgctxt "#32019"
+msgid "English"
+msgstr "English"

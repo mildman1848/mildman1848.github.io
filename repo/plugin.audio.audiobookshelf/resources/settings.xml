@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-  <category label="Connection">
-    <setting id="base_url" type="text" label="Audiobookshelf URL" default="http://127.0.0.1:13378"/>
-    <setting id="auth_mode" type="select" label="Auth mode" values="API Key|Username/Password" default="0"/>
-    <setting id="api_key" type="text" label="API key (token)" default="" option="hidden"/>
-    <setting id="username" type="text" label="Username" default=""/>
-    <setting id="password" type="text" label="Password" default="" option="hidden"/>
-    <setting id="token" type="text" label="Cached token" default="" visible="false"/>
+  <category label="32000">
+    <setting id="ui_language" type="select" label="32016" lvalues="32017|32018|32019" default="0"/>
+    <setting id="base_url" type="text" label="32001" default="http://127.0.0.1:13378"/>
+    <setting id="auth_mode" type="select" label="32002" lvalues="32014|32015" default="0"/>
+    <setting id="api_key" type="text" label="32003" default="" option="hidden"/>
+    <setting id="username" type="text" label="32004" default=""/>
+    <setting id="password" type="text" label="32005" default="" option="hidden"/>
+    <setting id="token" type="text" label="32006" default="" visible="false"/>
   </category>
 
-  <category label="Playback">
-    <setting id="progress_sync_interval" type="number" label="Progress sync interval (seconds)" default="30"/>
-    <setting id="mark_finished_threshold" type="number" label="Mark finished at %" default="97"/>
+  <category label="32007">
+    <setting id="progress_sync_interval" type="number" label="32008" default="30"/>
+    <setting id="mark_finished_threshold" type="number" label="32009" default="97"/>
   </category>
 
-  <category label="Library Sync">
-    <setting id="strm_export_path" type="folder" label="STRM export folder" default=""/>
-    <setting id="strm_include_podcasts" type="bool" label="Include podcasts" default="true"/>
-    <setting id="strm_include_audiobooks" type="bool" label="Include audiobooks" default="true"/>
+  <category label="32010">
+    <setting id="strm_export_path" type="folder" label="32011" default=""/>
+    <setting id="strm_include_podcasts" type="bool" label="32012" default="true"/>
+    <setting id="strm_include_audiobooks" type="bool" label="32013" default="true"/>
   </category>
 </settings>

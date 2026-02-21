@@ -15,6 +15,88 @@ ADDON_ID = ADDON.getAddonInfo("id")
 HANDLE = int(sys.argv[1])
 BASE = sys.argv[0]
 
+_EN_OVERRIDES = {
+    30000: "Audiobooks",
+    30001: "Podcasts",
+    30002: "Continue Listening",
+    30003: "Sync STRM files",
+    30004: "Login / Connection Test",
+    30005: "Connected as",
+    30006: "Home",
+    30007: "Recently Added",
+    30008: "Current Series",
+    30009: "Discover",
+    30010: "Listen Again",
+    30011: "Latest Authors",
+    30012: "Library: All Titles",
+    30013: "Series: All Series",
+    30014: "Collections: All Collections",
+    30015: "Authors: All Authors",
+    30016: "Narrators: All Narrators",
+    30017: "No items exposed by this ABS endpoint",
+    30018: "STRM sync complete",
+    30019: "Settings",
+    30020: "Continue Series",
+    30021: "Server Connection Test",
+    30022: "Server reachable",
+    30023: "Server not reachable",
+    30024: "Endpoint",
+}
+
+_DE_OVERRIDES = {
+    30000: "Hörbücher",
+    30001: "Podcasts",
+    30002: "Weiterhören",
+    30003: "STRM-Dateien synchronisieren",
+    30004: "Login- / Verbindungstest",
+    30005: "Verbunden als",
+    30006: "Startseite",
+    30007: "Kürzlich hinzugefügt",
+    30008: "Aktuelle Serien",
+    30009: "Entdecken",
+    30010: "Erneut anhören",
+    30011: "Neueste Autoren",
+    30012: "Bibliothek: Alle Titel",
+    30013: "Serien: Alle Serien",
+    30014: "Sammlungen: Alle Sammlungen",
+    30015: "Autoren: Alle Autoren",
+    30016: "Erzähler: Alle Erzähler",
+    30017: "Keine Titel über diesen ABS-Endpunkt verfügbar",
+    30018: "STRM-Sync abgeschlossen",
+    30019: "Einstellungen",
+    30020: "Serien fortsetzen",
+    30021: "Server-Verbindungstest",
+    30022: "Server erreichbar",
+    30023: "Server nicht erreichbar",
+    30024: "Endpunkt",
+}
+
+
+def _language_mode():
+    raw = (ADDON.getSetting("ui_language") or "").strip()
+    if raw.isdigit():
+        return int(raw)
+    low = raw.lower()
+    if "de" in low:
+        return 1
+    if "en" in low:
+        return 2
+    return 0
+
+
+def tr(msg_id, fallback=""):
+    mode = _language_mode()
+    if mode == 1:
+        text = _DE_OVERRIDES.get(int(msg_id), "")
+        if text:
+            return text
+    elif mode == 2:
+        text = _EN_OVERRIDES.get(int(msg_id), "")
+        if text:
+            return text
+    text = ADDON.getLocalizedString(int(msg_id))
+    return text or fallback or str(msg_id)
+
 
 def log(msg, lvl=xbmc.LOGINFO):
     xbmc.log("[%s] %s" % (ADDON_ID, msg), lvl)

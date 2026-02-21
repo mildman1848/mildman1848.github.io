@@ -72,73 +72,42 @@ class AbsClient:
         return token
 
     def authorize(self):
-        # Some reverse proxies fail on /api/authorize; fallback to /api/me.
-        try:
-            return self.post("/api/authorize")
-        except AbsApiError as exc:
-            if "HTTP 502" not in str(exc):
-                raise
-        return self.get("/api/me")
+        r = self.session.post(self._full("/api/authorize"), headers=self.auth_headers(), timeout=20)
+        if r.status_code >= 400:
+            raise AbsApiError("Authorize failed: HTTP %s" % r.status_code)
+        return r.json()
+
+    def ping_server(self):
+        """
+        Reachability check without auth. Any HTTP response <500 means server is reachable.
+        """
+        paths = ("/ping", "/api/ping", "/health", "/status", "/")
+        for path in paths:
+            try:
+                r = self.session.get(self._full(path), timeout=8)
+                if r.status_code < 500:
+                    return True, r.status_code, path
+            except requests.RequestException:
+                continue
+        return False, 0, ""
 
     def get(self, path, params=None):
-        return self._request_json("GET", path, params=params)
+        r = self.session.get(self._full(path), headers=self.auth_headers(), params=params or {}, timeout=30)
+        if r.status_code >= 400:
+            raise AbsApiError("GET %s failed: HTTP %s" % (path, r.status_code))
+        return r.json()
 
     def post(self, path, payload=None):
-        return self._request_json("POST", path, payload=payload)
+        r = self.session.post(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
+        if r.status_code >= 400:
+            raise AbsApiError("POST %s failed: HTTP %s" % (path, r.status_code))
+        return r.json()
 
     def patch(self, path, payload=None):
-        return self._request_json("PATCH", path, payload=payload)
-
-    def _request_json(self, method, path, params=None, payload=None):
-        attempts = 2 if self.auth_mode == 1 else 1
-        last_status = None
-
-        for attempt in range(attempts):
-            response = self._request_once(method, path, params=params, payload=payload)
-            last_status = response.status_code
-            if response.status_code < 400:
-                return self._json_or_empty(response)
-
-            # Retry once with a fresh user/pass token.
-            if response.status_code in (401, 403) and self.auth_mode == 1 and attempt == 0:
-                self.addon.setSetting("token", "")
-                continue
-
-            # Proxy fallback: retry GET with query token (no Authorization header).
-            if response.status_code == 502 and method == "GET":
-                query_response = self._request_get_with_query_token(path, params=params)
-                last_status = query_response.status_code
-                if query_response.status_code < 400:
-                    return self._json_or_empty(query_response)
-
-            break
-
-        raise AbsApiError("%s %s failed: HTTP %s" % (method, path, last_status))
-
-    def _request_once(self, method, path, params=None, payload=None):
-        url = self._full(path)
-        headers = self.auth_headers()
-        if method == "GET":
-            return self.session.get(url, headers=headers, params=params or {}, timeout=30)
-        if method == "POST":
-            return self.session.post(url, headers=headers, data=json.dumps(payload or {}), timeout=30)
-        if method == "PATCH":
-            return self.session.patch(url, headers=headers, data=json.dumps(payload or {}), timeout=30)
-        raise AbsApiError("Unsupported HTTP method: %s" % method)
-
-    def _request_get_with_query_token(self, path, params=None):
-        query = dict(params or {})
-        query.setdefault("token", self._token())
-        return self.session.get(self._full(path), params=query, timeout=30)
-
-    @staticmethod
-    def _json_or_empty(response):
-        if not response.text:
-            return {}
-        try:
-            return response.json()
-        except Exception:
-            return {}
+        r = self.session.patch(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
+        if r.status_code >= 400:
+            raise AbsApiError("PATCH %s failed: HTTP %s" % (path, r.status_code))
+        return r.json() if r.text else {}
 
     def libraries(self):
         return self.get("/api/libraries")
@@ -147,6 +116,25 @@ class AbsClient:
         return self.get(
             "/api/libraries/%s/items" % library_id,
             params={"minified": 1, "sort": "media.metadata.title", "desc": 0, "limit": limit, "page": page, "collapseseries": 0},
+        )
+
+    def library_items_sorted(self, library_id, sort_key, desc=1, page=0, limit=200):
+        return self.get(
+            "/api/libraries/%s/items" % library_id,
+            params={
+                "minified": 1,
+                "sort": sort_key,
+                "desc": int(bool(desc)),
+                "limit": limit,
+                "page": page,
+                "collapseseries": 0,
+            },
+        )
+
+    def library_entities(self, library_id, entity_type, page=0, limit=200, sort="name", desc=0):
+        return self.get(
+            "/api/libraries/%s/%s" % (library_id, entity_type),
+            params={"minified": 1, "sort": sort, "desc": int(bool(desc)), "limit": limit, "page": page},
         )
 
     def item(self, item_id):
@@ -160,6 +148,30 @@ class AbsClient:
         if episode_id:
             path = "/api/me/progress/%s/%s" % (item_id, episode_id)
         return self.get(path)
+
+    def listening_sessions(self, limit=200):
+        return self.get("/api/me/listening-sessions", params={"limit": limit})
+
+    def entity_detail(self, entity_type, entity_id, library_id=None):
+        # Different ABS versions expose entities differently; try common routes.
+        paths = []
+        if library_id:
+            paths.extend(
+                [
+                    "/api/libraries/%s/%s/%s" % (library_id, entity_type, entity_id),
+                    "/api/libraries/%s/%s/%s" % (library_id, entity_type.rstrip("s"), entity_id),
+                ]
+            )
+        paths.extend([
+            "/api/%s/%s" % (entity_type, entity_id),
+            "/api/%s/%s" % (entity_type.rstrip("s"), entity_id),
+        ])
+        for path in paths:
+            try:
+                return self.get(path)
+            except Exception:
+                continue
+        return {}
 
     def play_item(self, item_id, episode_id=None):
         path = "/api/items/%s/play" % item_id
@@ -242,6 +254,25 @@ def parse_items(payload):
         return payload
     if isinstance(payload, dict):
         for key in ("results", "libraryItems", "items"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return value
+    return []
+
+
+def parse_entities(payload, entity_type=None):
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict):
+        keys = []
+        if entity_type:
+            keys.extend([entity_type, entity_type.rstrip("s") + "s"])
+        keys.extend(["results", "items", "series", "collections", "authors", "narrators"])
+        seen = set()
+        for key in keys:
+            if key in seen:
+                continue
+            seen.add(key)
             value = payload.get(key)
             if isinstance(value, list):
                 return value
