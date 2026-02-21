@@ -6,3 +6,4 @@
 - Updated repository metadata files: `repo/addons.xml`, `repo/addons.xml.md5`, `repo/plugin.video.vavootv/index.html`, and `repo/index.html`.
 - Added `plugin.audio.audiobookshelf` version `0.1.0` with login, playback, progress sync, and STRM export.
 - Added a new repository icon design (`repo/repository.mildman1848/icon.png`) and refreshed repository zip/index entries.
+- Released `plugin.audio.audiobookshelf` `0.1.1` fixing auth mode parsing for username/password login.

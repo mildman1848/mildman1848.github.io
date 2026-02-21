@@ -17,9 +17,26 @@ class AbsClient:
         if not self.base_url:
             raise AbsApiError("Audiobookshelf URL is empty")
 
-        self.auth_mode = int(self.addon.getSetting("auth_mode") or "0")
+        self.auth_mode = self._parse_auth_mode(self.addon.getSetting("auth_mode"))
         self.session = requests.Session()
         self.session.headers.update({"Content-Type": "application/json"})
+
+    @staticmethod
+    def _parse_auth_mode(raw):
+        """
+        Kodi select settings may return either index ("0"/"1") or label text.
+        """
+        value = (raw or "").strip()
+        if not value:
+            return 0
+        if value.isdigit():
+            return int(value)
+        low = value.lower()
+        if "user" in low or "pass" in low:
+            return 1
+        if "api" in low or "key" in low or "token" in low:
+            return 0
+        return 0
 
     def _full(self, path):
         return urljoin(self.base_url + "/", path.lstrip("/"))
