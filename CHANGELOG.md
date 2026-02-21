@@ -30,3 +30,6 @@
 - Released `plugin.audio.audiobookshelf` `0.1.19` adding filtered continue menus (audiobooks/podcasts), shortened audiobook labels, STRM stale-file cleanup with author subfolders, automatic STRM sync settings, and optional English debug logging.
 - Released `plugin.audio.audiobookshelf` `0.1.20` with strict library filtering for continue menus and background STRM sync progress indicator in the top-right corner.
 - Released `plugin.audio.audiobookshelf` `0.1.21` moving debug logging to its own settings category.
+- Added first Audible metadata scraper addons: `metadata.albums.audible` `1.0.0` and `metadata.artists.audible` `1.0.0` (based on the Audible API mapping from the Mp3tag source package), including repo packaging/index updates.
+- Released Audible scraper update `1.0.1` for both `metadata.albums.audible` and `metadata.artists.audible` with simplified debug workflow (`tools/debug_audible_scraper.py`), addon settings scaffolding, DE/EN language files, and prepared community translation interfaces (`strings.pot` + i18n README).
+- Bumped `repository.mildman1848` to `1.0.5` to force Kodi repository refresh and surface newly added Audible scraper addons.

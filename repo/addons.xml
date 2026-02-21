@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-  <addon id="repository.mildman1848" name="mildman1848 Repository" provider-name="mildman1848" version="1.0.4">
+  <addon id="repository.mildman1848" name="mildman1848 Repository" provider-name="mildman1848" version="1.0.5">
     <extension point="xbmc.addon.repository" name="mildman1848 Repository">
       <dir>
         <info compressed="false">https://mildman1848.github.io/repo/addons.xml</info>
@@ -56,6 +56,44 @@
       <platform>all</platform>
       <assets>
         <icon>abs_icon.png</icon>
+      </assets>
+    </extension>
+  </addon>
+
+  <addon id="metadata.albums.audible" name="Audible Album Scraper" version="1.0.1" provider-name="mildman1848">
+    <requires>
+      <import addon="xbmc.metadata" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.metadata.scraper.albums" language="de" library="audible.xml"/>
+    <extension point="xbmc.addon.metadata">
+      <summary lang="de_DE">Audible Albuminformationen</summary>
+      <summary lang="en_GB">Audible album information</summary>
+      <description lang="de_DE">Lädt Hörbuch-Albuminformationen aus der Audible Catalog API, mit vorbereiteter i18n-Struktur und Debug-Workflow.</description>
+      <description lang="en_GB">Downloads audiobook album metadata from the Audible catalog API, with prepared i18n structure and debug workflow.</description>
+      <platform>all</platform>
+      <license>GPL-2.0-or-later</license>
+      <source>https://community.mp3tag.de/t/ws-audible-via-api/64347</source>
+      <assets>
+        <icon>icon.png</icon>
+      </assets>
+    </extension>
+  </addon>
+
+  <addon id="metadata.artists.audible" name="Audible Artist Scraper" version="1.0.1" provider-name="mildman1848">
+    <requires>
+      <import addon="xbmc.metadata" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.metadata.scraper.artists" language="de" library="audible.xml"/>
+    <extension point="xbmc.addon.metadata">
+      <summary lang="de_DE">Audible Interpreteninformationen</summary>
+      <summary lang="en_GB">Audible artist information</summary>
+      <description lang="de_DE">Lädt Autoren- und Erzähler-Metadaten aus der Audible Catalog API, mit vorbereiteter i18n-Struktur und Debug-Workflow.</description>
+      <description lang="en_GB">Downloads author and narrator metadata from the Audible catalog API, with prepared i18n structure and debug workflow.</description>
+      <platform>all</platform>
+      <license>GPL-2.0-or-later</license>
+      <source>https://community.mp3tag.de/t/ws-audible-via-api/64347</source>
+      <assets>
+        <icon>icon.png</icon>
       </assets>
     </extension>
   </addon>
