@@ -656,10 +656,13 @@ def run():
         root(client)
 
     except AbsApiError as exc:
+        utils.log("ABS API error: %s" % exc, xbmc.LOGERROR)
         utils.error(str(exc))
+        xbmcplugin.endOfDirectory(utils.HANDLE, succeeded=False, cacheToDisc=False)
     except Exception as exc:
         utils.log("Unhandled exception: %s" % exc, xbmc.LOGERROR)
         utils.error("Unhandled error: %s" % exc)
+        xbmcplugin.endOfDirectory(utils.HANDLE, succeeded=False, cacheToDisc=False)
 
 
 if __name__ == "__main__":

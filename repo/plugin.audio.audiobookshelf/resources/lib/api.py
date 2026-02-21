@@ -78,22 +78,46 @@ class AbsClient:
         return r.json()
 
     def get(self, path, params=None):
-        r = self.session.get(self._full(path), headers=self.auth_headers(), params=params or {}, timeout=30)
-        if r.status_code >= 400:
-            raise AbsApiError("GET %s failed: HTTP %s" % (path, r.status_code))
-        return r.json()
+        return self._request_json("GET", path, params=params)
 
     def post(self, path, payload=None):
-        r = self.session.post(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
-        if r.status_code >= 400:
-            raise AbsApiError("POST %s failed: HTTP %s" % (path, r.status_code))
-        return r.json()
+        return self._request_json("POST", path, payload=payload)
 
     def patch(self, path, payload=None):
-        r = self.session.patch(self._full(path), headers=self.auth_headers(), data=json.dumps(payload or {}), timeout=30)
-        if r.status_code >= 400:
-            raise AbsApiError("PATCH %s failed: HTTP %s" % (path, r.status_code))
-        return r.json() if r.text else {}
+        return self._request_json("PATCH", path, payload=payload)
+
+    def _request_json(self, method, path, params=None, payload=None):
+        attempts = 2 if self.auth_mode == 1 else 1
+        last_status = None
+        for attempt in range(attempts):
+            headers = self.auth_headers()
+            url = self._full(path)
+            if method == "GET":
+                r = self.session.get(url, headers=headers, params=params or {}, timeout=30)
+            elif method == "POST":
+                r = self.session.post(url, headers=headers, data=json.dumps(payload or {}), timeout=30)
+            elif method == "PATCH":
+                r = self.session.patch(url, headers=headers, data=json.dumps(payload or {}), timeout=30)
+            else:
+                raise AbsApiError("Unsupported HTTP method: %s" % method)
+
+            last_status = r.status_code
+            if r.status_code < 400:
+                if not r.text:
+                    return {}
+                try:
+                    return r.json()
+                except Exception:
+                    return {}
+
+            # Token retry for user/pass mode.
+            if r.status_code in (401, 403) and self.auth_mode == 1 and attempt == 0:
+                self.addon.setSetting("token", "")
+                continue
+
+            break
+
+        raise AbsApiError("%s %s failed: HTTP %s" % (method, path, last_status))
 
     def libraries(self):
         return self.get("/api/libraries")
@@ -226,23 +250,23 @@ def iter_audio_urls(data):
 
 def parse_libraries(payload):
     if isinstance(payload, list):
-        return payload
+        return [x for x in payload if isinstance(x, dict)]
     if isinstance(payload, dict):
         for key in ("libraries", "results", "items"):
             value = payload.get(key)
             if isinstance(value, list):
-                return value
+                return [x for x in value if isinstance(x, dict)]
     return []
 
 
 def parse_items(payload):
     if isinstance(payload, list):
-        return payload
+        return [x for x in payload if isinstance(x, dict)]
     if isinstance(payload, dict):
         for key in ("results", "libraryItems", "items"):
             value = payload.get(key)
             if isinstance(value, list):
-                return value
+                return [x for x in value if isinstance(x, dict)]
     return []
 
 

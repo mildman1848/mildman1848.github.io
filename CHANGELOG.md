@@ -14,3 +14,4 @@
 - Released `plugin.audio.audiobookshelf` `0.1.4` fixing entity submenu opening fallback, forcing music player foreground on playback start, and cache-busting addon icon path (`abs_icon.png`).
 - Released `plugin.audio.audiobookshelf` `0.1.5` improving entity submenu loading across ABS API variants and paginated fallback matching.
 - Released `plugin.audio.audiobookshelf` `0.1.6` with fully local paginated entity menus (series/authors/narrators/collections) and Kodi 21 compatible music info keys.
+- Released `plugin.audio.audiobookshelf` `0.1.7` with hardened API retry/error handling and safer directory failure behavior.
