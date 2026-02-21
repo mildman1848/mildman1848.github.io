@@ -322,11 +322,59 @@ def list_episodes(client, item_id, title="Podcast", art=""):
 
 
 def list_continue(client, library_id=""):
+    threshold = utils.as_seconds(utils.ADDON.getSetting("mark_finished_threshold") or 97)
+    if threshold <= 0 or threshold > 100:
+        threshold = 97
+
+    seen = set()
+
+    def add_continue_item(library_item, media_progress=None, episode=None):
+        library_item = library_item or {}
+        media_progress = media_progress or {}
+        episode = episode or {}
+
+        item_id = str(library_item.get("id") or "")
+        if not item_id:
+            return
+        ep_id = str(episode.get("id") or "")
+        key = (item_id, ep_id)
+        if key in seen:
+            return
+
+        current_time = float(media_progress.get("currentTime", 0) or 0)
+        duration = float(media_progress.get("duration", 0) or 0)
+        if duration > 0:
+            percent = (current_time / duration) * 100.0
+            if percent >= threshold:
+                return
+
+        title = item_title(library_item)
+        if ep_id:
+            title = "%s - %s" % (title, episode.get("title") or ep_id)
+        art = art_for_item(client, item_id)
+        info = item_info_labels(library_item, fallback_title=title)
+        try:
+            info["duration"] = int(float(duration or 0))
+        except Exception:
+            pass
+        utils.add_playable(
+            title,
+            "play",
+            item_id=item_id,
+            episode_id=ep_id or "",
+            title=title,
+            art=art,
+            info=info,
+            resume=current_time,
+            duration=duration,
+        )
+        seen.add(key)
+
     data = client.items_in_progress(limit=200)
     items = parse_items(data)
     for entry in items:
-        library_item = entry.get("libraryItem") or {}
-        media_progress = entry.get("mediaProgress") or {}
+        library_item = entry.get("libraryItem") or entry or {}
+        media_progress = entry.get("mediaProgress") or entry.get("userMediaProgress") or {}
 
         lib_id = ""
         raw_library_id = library_item.get("libraryId")
@@ -365,28 +413,50 @@ def list_continue(client, library_id=""):
                 library_item = client.item(item_id) or {}
             except Exception:
                 library_item = {"id": item_id}
+        add_continue_item(library_item, media_progress=media_progress, episode=ep)
 
-        title = item_title(library_item)
-        ep_id = ep.get("id")
-        if ep_id:
-            title = "%s - %s" % (title, ep.get("title") or ep_id)
-        art = art_for_item(client, item_id)
-        info = item_info_labels(library_item, fallback_title=title)
+    # Fallback/merge for ABS variants where items-in-progress misses audiobook entries.
+    for page in range(0, 8):
         try:
-            info["duration"] = int(float(media_progress.get("duration", 0) or 0))
+            payload = client.listening_sessions(limit=50, page=page)
         except Exception:
-            pass
-        utils.add_playable(
-            title,
-            "play",
-            item_id=item_id,
-            episode_id=ep_id or "",
-            title=title,
-            art=art,
-            info=info,
-            resume=float(media_progress.get("currentTime", 0) or 0),
-            duration=float(media_progress.get("duration", 0) or 0),
-        )
+            break
+        sessions = []
+        if isinstance(payload, dict):
+            sessions = payload.get("sessions") or payload.get("results") or payload.get("items") or []
+        elif isinstance(payload, list):
+            sessions = payload
+        if not sessions:
+            break
+
+        for s in sessions:
+            if not isinstance(s, dict):
+                continue
+            sid_lib = str(s.get("libraryId") or "")
+            if library_id and sid_lib and sid_lib != library_id:
+                continue
+
+            item_id = str(s.get("libraryItemId") or "")
+            if not item_id:
+                continue
+            episode = {}
+            if s.get("episodeId"):
+                episode = {"id": str(s.get("episodeId") or ""), "title": ""}
+            media_progress = {
+                "currentTime": float(s.get("currentTime", 0) or 0),
+                "duration": float(s.get("duration", 0) or 0),
+            }
+
+            try:
+                library_item = client.item(item_id) or {"id": item_id}
+            except Exception:
+                library_item = {"id": item_id}
+
+            add_continue_item(library_item, media_progress=media_progress, episode=episode)
+
+        if len(sessions) < 50:
+            break
+
     utils.end("songs")
 
 

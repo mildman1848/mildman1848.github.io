@@ -149,8 +149,8 @@ class AbsClient:
             path = "/api/me/progress/%s/%s" % (item_id, episode_id)
         return self.get(path)
 
-    def listening_sessions(self, limit=200):
-        return self.get("/api/me/listening-sessions", params={"limit": limit})
+    def listening_sessions(self, limit=200, page=0):
+        return self.get("/api/me/listening-sessions", params={"limit": limit, "itemsPerPage": limit, "page": page})
 
     def entity_detail(self, entity_type, entity_id, library_id=None):
         # Different ABS versions expose entities differently; try common routes.
