@@ -36,7 +36,43 @@ def item_author(item):
 
 
 def item_cover(item_id):
-    return utils.plugin_url(action="cover", item_id=item_id)
+    return "/api/items/%s/cover" % item_id
+
+
+def item_metadata(item):
+    media = item.get("media") or {}
+    metadata = media.get("metadata") or {}
+    return metadata
+
+
+def item_info_labels(item, fallback_title=""):
+    metadata = item_metadata(item)
+    title = metadata.get("title") or fallback_title or item_title(item)
+    artist = metadata.get("authorName") or metadata.get("author") or ""
+    plot = metadata.get("description") or metadata.get("subtitle") or ""
+    genre = metadata.get("genre") or metadata.get("genres") or []
+    if isinstance(genre, str):
+        genre = [genre]
+    year = metadata.get("publishedYear") or metadata.get("year")
+    duration = (item.get("media") or {}).get("duration") or 0
+    try:
+        duration = int(float(duration or 0))
+    except Exception:
+        duration = 0
+    info = {
+        "title": title,
+        "artist": artist,
+        "album": metadata.get("seriesName") or metadata.get("podcastName") or "",
+        "plot": plot,
+        "genre": genre,
+        "duration": duration,
+    }
+    if year:
+        try:
+            info["year"] = int(year)
+        except Exception:
+            pass
+    return info
 
 
 def root(client):
@@ -65,14 +101,14 @@ def list_library(client, library_id, kind="unknown"):
         if not item_id:
             continue
         title = item_title(item)
-        author = item_author(item)
-        art = {"thumb": client.stream_url_with_token("/api/items/%s/cover" % item_id)}
-        info = {"title": title, "artist": author}
+        cover = client.stream_url_with_token(item_cover(item_id))
+        art = {"thumb": cover, "icon": cover, "poster": cover}
+        info = item_info_labels(item, fallback_title=title)
 
         if kind == "podcast":
-            utils.add_dir(title, "episodes", folder=True, item_id=item_id, title=title, art=art.get("thumb", ""))
+            utils.add_dir(title, "episodes", folder=True, item_id=item_id, title=title, art=art, info=info)
         else:
-            utils.add_playable(title, "play", item_id=item_id, title=title, art=art.get("thumb", ""))
+            utils.add_playable(title, "play", item_id=item_id, title=title, art=art, info=info)
     utils.end("songs")
 
 
@@ -80,15 +116,28 @@ def list_episodes(client, item_id, title="Podcast", art=""):
     item = client.item(item_id)
     media = item.get("media") or {}
     episodes = media.get("episodes") or []
+    cover = client.stream_url_with_token(item_cover(item_id))
+    if art:
+        cover = art
     for ep in episodes:
         ep_id = ep.get("id")
         ep_title = ep.get("title") or ep.get("name") or ep_id
         if not ep_id:
             continue
         label = "%s - %s" % (title, ep_title)
-        info = {"title": ep_title, "album": title}
-        art_data = {"thumb": art} if art else None
-        utils.add_playable(label, "play", item_id=item_id, episode_id=ep_id, title=ep_title, art=(art_data or {}).get("thumb", ""))
+        duration = ep.get("duration") or 0
+        try:
+            duration = int(float(duration or 0))
+        except Exception:
+            duration = 0
+        info = {
+            "title": ep_title,
+            "album": title,
+            "plot": ep.get("description") or "",
+            "duration": duration,
+        }
+        art_data = {"thumb": cover, "icon": cover, "poster": cover}
+        utils.add_playable(label, "play", item_id=item_id, episode_id=ep_id, title=ep_title, art=art_data, info=info)
     utils.end("songs")
 
 
@@ -106,9 +155,24 @@ def list_continue(client):
         ep_id = ep.get("id")
         if ep_id:
             title = "%s - %s" % (title, ep.get("title") or ep_id)
-        art = {"thumb": client.stream_url_with_token("/api/items/%s/cover" % item_id)}
-        info = {"title": title, "duration": int(media_progress.get("duration", 0) or 0)}
-        utils.add_playable(title, "play", item_id=item_id, episode_id=ep_id or "", title=title, art=art.get("thumb", ""), resume=float(media_progress.get("currentTime", 0) or 0))
+        cover = client.stream_url_with_token(item_cover(item_id))
+        art = {"thumb": cover, "icon": cover, "poster": cover}
+        info = item_info_labels(library_item, fallback_title=title)
+        try:
+            info["duration"] = int(float(media_progress.get("duration", 0) or 0))
+        except Exception:
+            pass
+        utils.add_playable(
+            title,
+            "play",
+            item_id=item_id,
+            episode_id=ep_id or "",
+            title=title,
+            art=art,
+            info=info,
+            resume=float(media_progress.get("currentTime", 0) or 0),
+            duration=float(media_progress.get("duration", 0) or 0),
+        )
     utils.end("songs")
 
 
@@ -130,19 +194,34 @@ def resolve_play_url(client, item_id, episode_id=None):
     return ""
 
 
-def play_item(client, item_id, episode_id=None, resume=0.0, title=""):
+def play_item(client, item_id, episode_id=None, resume=0.0, duration=0.0, title=""):
+    if resume <= 0:
+        try:
+            p = client.progress(item_id, episode_id=episode_id or None) or {}
+            # ABS may return progress directly or nested as mediaProgress.
+            source = p.get("mediaProgress") if isinstance(p, dict) and p.get("mediaProgress") else p
+            resume = float((source or {}).get("currentTime", 0) or 0)
+            if not duration:
+                duration = float((source or {}).get("duration", 0) or 0)
+        except Exception:
+            resume = 0.0
+
     stream_url = resolve_play_url(client, item_id, episode_id=episode_id or None)
     if not stream_url:
         raise AbsApiError("No stream URL found for selected item")
 
     li = xbmcgui.ListItem(path=stream_url)
     li.setProperty("IsPlayable", "true")
+    if resume > 0:
+        li.setProperty("ResumeTime", str(resume))
+        if duration > 0:
+            li.setProperty("TotalTime", str(duration))
     if title:
         li.setInfo("music", {"title": title})
 
     xbmcplugin.setResolvedUrl(utils.HANDLE, True, li)
 
-    monitor = AbsPlayerMonitor(client, item_id=item_id, episode_id=(episode_id or None))
+    monitor = AbsPlayerMonitor(client, item_id=item_id, episode_id=(episode_id or None), resume_time=resume)
     monitor.run()
 
 
@@ -245,6 +324,7 @@ def run():
                 item_id=p.get("item_id", ""),
                 episode_id=p.get("episode_id") or None,
                 resume=utils.as_seconds(p.get("resume", 0)),
+                duration=utils.as_seconds(p.get("duration", 0)),
                 title=p.get("title", ""),
             )
             return

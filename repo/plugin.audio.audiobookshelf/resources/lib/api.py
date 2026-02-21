@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urljoin
 
 import requests
 import xbmcaddon
@@ -109,6 +109,12 @@ class AbsClient:
 
     def items_in_progress(self, limit=200):
         return self.get("/api/me/items-in-progress", params={"limit": limit})
+
+    def progress(self, item_id, episode_id=None):
+        path = "/api/me/progress/%s" % item_id
+        if episode_id:
+            path = "/api/me/progress/%s/%s" % (item_id, episode_id)
+        return self.get(path)
 
     def play_item(self, item_id, episode_id=None):
         path = "/api/items/%s/play" % item_id

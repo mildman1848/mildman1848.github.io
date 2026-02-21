@@ -41,6 +41,8 @@ def add_dir(label, action, folder=True, art=None, info=None, **kwargs):
     url = plugin_url(action=action, **kwargs)
     li = xbmcgui.ListItem(label=label)
     if art:
+        if isinstance(art, str):
+            art = {"thumb": art, "icon": art, "poster": art}
         li.setArt(art)
     if info:
         li.setInfo("music", info)
@@ -52,6 +54,8 @@ def add_playable(label, action, art=None, info=None, **kwargs):
     li = xbmcgui.ListItem(label=label)
     li.setProperty("IsPlayable", "true")
     if art:
+        if isinstance(art, str):
+            art = {"thumb": art, "icon": art, "poster": art}
         li.setArt(art)
     if info:
         li.setInfo("music", info)
