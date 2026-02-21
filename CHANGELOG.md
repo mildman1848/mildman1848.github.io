@@ -35,3 +35,5 @@
 - Bumped `repository.mildman1848` to `1.0.5` to force Kodi repository refresh and surface newly added Audible scraper addons.
 - Released Audible scraper update `1.0.2` for both `metadata.albums.audible` and `metadata.artists.audible`, fixing Kodi settings parsing by adding explicit `<control>` definitions for all scraper settings.
 - Released Audible scraper update `1.0.3` for both `metadata.albums.audible` and `metadata.artists.audible`, switching scraper settings to Kodi legacy format to restore editable settings dialogs.
+- Released `plugin.audio.audiobookshelf` `0.1.22` to append Audible ASIN tokens (`[ASIN-XXXXXXXXXX]`) to exported audiobook `.strm` filenames for deterministic scraper matching.
+- Released `metadata.albums.audible` `1.0.4` to align with ASIN-tagged STRM export workflows and republish scraper package metadata.

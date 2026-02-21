@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import random
+import re
 
 import xbmc
 import xbmcgui
@@ -142,6 +143,37 @@ def item_author_name(item):
             elif isinstance(first, str):
                 author = first
     return (author or "").strip()
+
+
+def item_asin(item):
+    metadata = item_metadata(item)
+    asin = find_first_key(
+        metadata,
+        [
+            "asin",
+            "ASIN",
+            "audibleAsin",
+            "audibleASIN",
+            "amazonAsin",
+            "amazonASIN",
+        ],
+    )
+    if not asin:
+        # Some ABS providers keep external identifiers outside metadata.
+        asin = find_first_key(
+            item,
+            [
+                "asin",
+                "ASIN",
+                "audibleAsin",
+                "audibleASIN",
+                "amazonAsin",
+                "amazonASIN",
+            ],
+        )
+    raw = (str(asin or "")).strip().upper()
+    m = re.search(r"\b([A-Z0-9]{10})\b", raw)
+    return m.group(1) if m else ""
 
 
 def art_for_item(client, item_id):
@@ -961,8 +993,12 @@ def sync_strm(client):
                     author_dir = item_author_name(item) or "Unknown Author"
                     author_dir = os.path.join(out_dir, utils.safe_filename(author_dir))
                     utils.ensure_dir(author_dir)
+                    asin = item_asin(item)
+                    file_title = title
+                    if asin:
+                        file_title = "%s [ASIN-%s]" % (title, asin)
                     content = utils.plugin_url(action="play", item_id=item_id, title=title)
-                    fpath = os.path.join(author_dir, "%s.strm" % utils.safe_filename(title))
+                    fpath = os.path.join(author_dir, "%s.strm" % utils.safe_filename(file_title))
                     utils.write_text(fpath, content)
                     expected_files.add(os.path.normpath(fpath))
                     written += 1
