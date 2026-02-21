@@ -37,3 +37,6 @@
 - Released Audible scraper update `1.0.3` for both `metadata.albums.audible` and `metadata.artists.audible`, switching scraper settings to Kodi legacy format to restore editable settings dialogs.
 - Released `plugin.audio.audiobookshelf` `0.1.22` to append Audible ASIN tokens (`[ASIN-XXXXXXXXXX]`) to exported audiobook `.strm` filenames for deterministic scraper matching.
 - Released `metadata.albums.audible` `1.0.4` to align with ASIN-tagged STRM export workflows and republish scraper package metadata.
+- Released `plugin.audio.audiobookshelf` `0.1.23` adding optional NFO and cover export during STRM sync (audiobooks and podcasts), including rich ABS metadata dumps to support Kodi library integration without external info providers.
+- Released `plugin.audio.audiobookshelf` `0.1.24` to remove ASIN tokens from STRM/NFO filenames while keeping ASIN inside exported NFO metadata (`uniqueid`), so library naming stays clean.
+- Released `plugin.audio.audiobookshelf` `0.1.25` adding chapter export from ABS metadata during STRM sync (`.cue` sidecar files plus chapter blocks in NFO), so chapter data is available locally in Kodi library workflows.

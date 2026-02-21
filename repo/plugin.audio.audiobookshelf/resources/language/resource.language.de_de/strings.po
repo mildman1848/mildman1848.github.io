@@ -287,3 +287,15 @@ msgstr "Debug-Logging aktivieren"
 msgctxt "#32024"
 msgid "Debug"
 msgstr "Debug"
+
+msgctxt "#32025"
+msgid "Export NFO metadata files"
+msgstr "NFO-Metadatendateien exportieren"
+
+msgctxt "#32026"
+msgid "Export cover images"
+msgstr "Coverbilder exportieren"
+
+msgctxt "#32027"
+msgid "Export chapters (CUE)"
+msgstr "Kapitel exportieren (CUE)"

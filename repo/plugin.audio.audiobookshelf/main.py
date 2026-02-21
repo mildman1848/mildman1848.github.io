@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 import random
 import re
@@ -174,6 +175,328 @@ def item_asin(item):
     raw = (str(asin or "")).strip().upper()
     m = re.search(r"\b([A-Z0-9]{10})\b", raw)
     return m.group(1) if m else ""
+
+
+def _as_item(item):
+    return item.get("libraryItem") if isinstance(item, dict) and isinstance(item.get("libraryItem"), dict) else item
+
+
+def _to_list(value):
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return value
+    return [value]
+
+
+def _scalar_text(value):
+    if value is None:
+        return ""
+    if isinstance(value, (int, float, bool)):
+        return str(value)
+    if isinstance(value, str):
+        return value.strip()
+    return ""
+
+
+def _first_non_empty(*values):
+    for v in values:
+        s = _scalar_text(v)
+        if s:
+            return s
+    return ""
+
+
+def _xml_tag(name):
+    tag = re.sub(r"[^a-z0-9_]+", "_", (name or "").strip().lower())
+    tag = tag.strip("_")
+    return tag or "value"
+
+
+def _xml_escape(text):
+    text = text or ""
+    return (
+        text.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("'", "&apos;")
+    )
+
+
+def _xml_add(lines, tag, value):
+    value = _scalar_text(value)
+    if value:
+        lines.append("  <%s>%s</%s>" % (tag, _xml_escape(value), tag))
+
+
+def _authors_from_metadata(metadata):
+    out = []
+    for a in _to_list(metadata.get("authors")):
+        if isinstance(a, dict):
+            name = _scalar_text(a.get("name"))
+        else:
+            name = _scalar_text(a)
+        if name:
+            out.append(name)
+    fallback = _first_non_empty(metadata.get("authorName"), metadata.get("author"))
+    if fallback and fallback not in out:
+        out.insert(0, fallback)
+    return out
+
+
+def _narrators_from_metadata(metadata):
+    out = []
+    for n in _to_list(metadata.get("narrators")):
+        if isinstance(n, dict):
+            name = _scalar_text(n.get("name"))
+        else:
+            name = _scalar_text(n)
+        if name:
+            out.append(name)
+    fallback = _first_non_empty(metadata.get("narratorName"))
+    if fallback and fallback not in out:
+        out.insert(0, fallback)
+    return out
+
+
+def _genres_from_metadata(metadata):
+    genres = []
+    for g in _to_list(metadata.get("genres")):
+        gs = _scalar_text(g)
+        if gs:
+            genres.append(gs)
+    one = _scalar_text(metadata.get("genre"))
+    if one and one not in genres:
+        genres.insert(0, one)
+    return genres
+
+
+def _year_from_metadata(metadata):
+    raw = _first_non_empty(metadata.get("publishedYear"), metadata.get("year"), metadata.get("releaseDate"), metadata.get("publishedDate"))
+    m = re.search(r"([0-9]{4})", raw)
+    return m.group(1) if m else ""
+
+
+def _dump_abs_fields(lines, parent_tag, data):
+    if not isinstance(data, dict):
+        return
+    lines.append("  <%s>" % parent_tag)
+    for key in sorted(data.keys()):
+        tag = _xml_tag(key)
+        val = data.get(key)
+        if isinstance(val, (str, int, float, bool)):
+            _xml_add(lines, tag, val)
+        elif isinstance(val, list):
+            if val and all(isinstance(x, (str, int, float, bool)) for x in val):
+                _xml_add(lines, tag, " | ".join([str(x) for x in val]))
+            else:
+                _xml_add(lines, tag, json.dumps(val, ensure_ascii=False))
+        elif isinstance(val, dict):
+            _xml_add(lines, tag, json.dumps(val, ensure_ascii=False))
+    lines.append("  </%s>" % parent_tag)
+
+
+def _as_float(value, default=0.0):
+    try:
+        return float(value)
+    except Exception:
+        return default
+
+
+def extract_chapters(item):
+    item = _as_item(item) or {}
+    media = item.get("media") or {}
+
+    # ABS may expose chapters as media.chapters, metadata.chapters or nested payloads.
+    candidates = []
+    for src in (
+        media.get("chapters"),
+        (media.get("metadata") or {}).get("chapters"),
+        find_first_key(media, ["chapters"]),
+        find_first_key(item, ["chapters"]),
+    ):
+        if isinstance(src, list):
+            candidates = src
+            if candidates:
+                break
+
+    chapters = []
+    for idx, ch in enumerate(candidates):
+        if not isinstance(ch, dict):
+            continue
+        title = _first_non_empty(ch.get("title"), ch.get("name"), "Chapter %d" % (idx + 1))
+        start = _as_float(_first_non_empty(ch.get("start"), ch.get("startTime"), ch.get("start_time")), 0.0)
+        end = _as_float(_first_non_empty(ch.get("end"), ch.get("endTime"), ch.get("end_time")), 0.0)
+        duration = _as_float(_first_non_empty(ch.get("duration"), ch.get("length")), 0.0)
+        if end <= 0 and duration > 0:
+            end = start + duration
+        chapters.append(
+            {
+                "index": idx + 1,
+                "title": title,
+                "start": max(0.0, start),
+                "end": max(0.0, end),
+                "duration": max(0.0, duration),
+            }
+        )
+
+    # Fallback: derive chapters from media.tracks if explicit chapter list is missing.
+    if not chapters:
+        tracks = media.get("tracks") or []
+        cursor = 0.0
+        for idx, tr in enumerate(tracks):
+            if not isinstance(tr, dict):
+                continue
+            t_title = _first_non_empty(tr.get("title"), tr.get("name"), "Chapter %d" % (idx + 1))
+            t_start = _as_float(_first_non_empty(tr.get("startOffset"), tr.get("start"), tr.get("offset")), cursor)
+            t_dur = _as_float(_first_non_empty(tr.get("duration"), tr.get("length")), 0.0)
+            t_end = t_start + t_dur if t_dur > 0 else 0.0
+            chapters.append(
+                {
+                    "index": idx + 1,
+                    "title": t_title,
+                    "start": max(0.0, t_start),
+                    "end": max(0.0, t_end),
+                    "duration": max(0.0, t_dur),
+                }
+            )
+            cursor = max(cursor, t_end)
+
+    return chapters
+
+
+def _cue_time(seconds_value):
+    total = max(0.0, _as_float(seconds_value, 0.0))
+    mins = int(total // 60)
+    secs = int(total % 60)
+    frames = int(round((total - int(total)) * 75))
+    if frames >= 75:
+        frames = 74
+    return "%02d:%02d:%02d" % (mins, secs, frames)
+
+
+def build_cue_for_strm(base_name, chapters):
+    if not chapters:
+        return ""
+    safe_base = utils.safe_filename(base_name)
+    lines = ['FILE "%s.strm" MP3' % safe_base]
+    for idx, ch in enumerate(chapters, start=1):
+        lines.append("  TRACK %02d AUDIO" % idx)
+        lines.append('    TITLE "%s"' % ch.get("title", "Chapter %d" % idx).replace('"', "'"))
+        lines.append("    INDEX 01 %s" % _cue_time(ch.get("start", 0.0)))
+    return "\n".join(lines) + "\n"
+
+
+def build_audiobook_nfo(item, asin=""):
+    item = _as_item(item) or {}
+    media = item.get("media") or {}
+    metadata = media.get("metadata") or {}
+    title = _first_non_empty(metadata.get("title"), item.get("title"), item.get("name"), item.get("id"))
+    subtitle = _first_non_empty(metadata.get("subtitle"))
+    description = _first_non_empty(metadata.get("description"), metadata.get("subtitle"), metadata.get("summary"))
+    series_name = _first_non_empty(metadata.get("seriesName"))
+    sequence = _first_non_empty(metadata.get("sequence"))
+    publisher = _first_non_empty(metadata.get("publisher"), metadata.get("publisherName"))
+    language = _first_non_empty(metadata.get("language"))
+    isbn = _first_non_empty(metadata.get("isbn"), metadata.get("ISBN"))
+    year = _year_from_metadata(metadata)
+    release_date = _first_non_empty(metadata.get("releaseDate"), metadata.get("publishedDate"))
+    added_at = _first_non_empty(item.get("addedAt"))
+    duration = _first_non_empty(media.get("duration"), metadata.get("duration"))
+    asin = asin or item_asin(item)
+
+    authors = _authors_from_metadata(metadata)
+    narrators = _narrators_from_metadata(metadata)
+    genres = _genres_from_metadata(metadata)
+
+    lines = ["<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "<album>"]
+    _xml_add(lines, "title", title)
+    _xml_add(lines, "originaltitle", subtitle)
+    _xml_add(lines, "plot", description)
+    _xml_add(lines, "review", description)
+    _xml_add(lines, "year", year)
+    _xml_add(lines, "premiered", release_date)
+    _xml_add(lines, "dateadded", added_at)
+    _xml_add(lines, "studio", publisher)
+    _xml_add(lines, "label", publisher)
+    _xml_add(lines, "language", language)
+    _xml_add(lines, "isbn", isbn)
+    _xml_add(lines, "duration", duration)
+    _xml_add(lines, "set", series_name)
+    _xml_add(lines, "disc", sequence)
+    if asin:
+        lines.append("  <uniqueid type=\"asin\" default=\"true\">%s</uniqueid>" % _xml_escape(asin))
+    _xml_add(lines, "id", _first_non_empty(item.get("id")))
+
+    for author in authors:
+        _xml_add(lines, "artist", author)
+        _xml_add(lines, "albumArtist", author)
+    for narrator in narrators:
+        _xml_add(lines, "credits", narrator)
+    for genre in genres:
+        _xml_add(lines, "genre", genre)
+
+    chapters = extract_chapters(item)
+    if chapters:
+        lines.append("  <chapters>")
+        for ch in chapters:
+            lines.append("    <chapter>")
+            _xml_add(lines, "index", ch.get("index"))
+            _xml_add(lines, "title", ch.get("title"))
+            _xml_add(lines, "start", ch.get("start"))
+            _xml_add(lines, "end", ch.get("end"))
+            _xml_add(lines, "duration", ch.get("duration"))
+            lines.append("    </chapter>")
+        lines.append("  </chapters>")
+
+    _dump_abs_fields(lines, "abs_metadata", metadata)
+    _dump_abs_fields(lines, "abs_media", media)
+
+    lines.append("</album>")
+    return "\n".join(lines) + "\n"
+
+
+def build_artist_nfo(author_name, item):
+    item = _as_item(item) or {}
+    metadata = (item.get("media") or {}).get("metadata") or {}
+    lines = ["<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "<artist>"]
+    _xml_add(lines, "name", author_name or "Unknown Author")
+    _xml_add(lines, "biography", _first_non_empty(metadata.get("authorDescription"), metadata.get("description")))
+    _xml_add(lines, "genre", _first_non_empty(metadata.get("genre")))
+    lines.append("</artist>")
+    return "\n".join(lines) + "\n"
+
+
+def build_episode_nfo(podcast_title, episode):
+    ep = episode or {}
+    lines = ["<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "<episodedetails>"]
+    _xml_add(lines, "title", _first_non_empty(ep.get("title"), ep.get("name"), ep.get("id")))
+    _xml_add(lines, "showtitle", podcast_title)
+    _xml_add(lines, "plot", _first_non_empty(ep.get("description"), ep.get("summary")))
+    _xml_add(lines, "aired", _first_non_empty(ep.get("publishedAt"), ep.get("pubDate"), ep.get("releaseDate")))
+    _xml_add(lines, "duration", _first_non_empty(ep.get("duration")))
+    _xml_add(lines, "episode", _first_non_empty(ep.get("index"), ep.get("episode")))
+    _xml_add(lines, "season", _first_non_empty(ep.get("season")))
+    lines.append("</episodedetails>")
+    return "\n".join(lines) + "\n"
+
+
+def export_cover(client, item_id, out_dir, base_name):
+    if not item_id:
+        return 0
+    cover_url = client.stream_url_with_token(item_cover(item_id))
+    if not cover_url:
+        return 0
+    written = 0
+    folder_jpg = os.path.join(out_dir, "folder.jpg")
+    if utils.copy_file(cover_url, folder_jpg):
+        written += 1
+    if base_name:
+        sidecar_tbn = os.path.join(out_dir, "%s.tbn" % utils.safe_filename(base_name))
+        if utils.copy_file(cover_url, sidecar_tbn):
+            written += 1
+    return written
 
 
 def art_for_item(client, item_id):
@@ -930,6 +1253,9 @@ def sync_strm(client):
 
     include_podcasts = utils.ADDON.getSetting("strm_include_podcasts") == "true"
     include_audiobooks = utils.ADDON.getSetting("strm_include_audiobooks") == "true"
+    export_nfo = utils.ADDON.getSetting("strm_export_nfo") != "false"
+    export_cover_files = utils.ADDON.getSetting("strm_export_cover") != "false"
+    export_chapters = utils.ADDON.getSetting("strm_export_chapters") != "false"
 
     libs = parse_libraries(client.libraries())
     expected_files = set()
@@ -975,31 +1301,63 @@ def sync_strm(client):
                 title = item_title(item)
 
                 if kind == "podcast":
-                    detail = client.item(item_id)
+                    try:
+                        detail = client.item(item_id)
+                    except Exception as exc:
+                        utils.debug("Failed to load podcast details for NFO export (%s): %s" % (item_id, exc))
+                        detail = item
                     episodes = (detail.get("media") or {}).get("episodes") or []
                     pod_dir = os.path.join(out_dir, utils.safe_filename(title))
                     utils.ensure_dir(pod_dir)
+                    if export_cover_files:
+                        export_cover(client, item_id, pod_dir, title)
+                    if export_nfo:
+                        utils.write_text(os.path.join(pod_dir, "tvshow.nfo"), build_audiobook_nfo(detail, asin=""))
                     for ep in episodes:
                         ep_id = ep.get("id")
                         ep_title = ep.get("title") or ep_id
                         if not ep_id:
                             continue
                         content = utils.plugin_url(action="play", item_id=item_id, episode_id=ep_id, title=ep_title)
-                        fpath = os.path.join(pod_dir, "%s.strm" % utils.safe_filename(ep_title))
+                        base_name = utils.safe_filename(ep_title)
+                        fpath = os.path.join(pod_dir, "%s.strm" % base_name)
                         utils.write_text(fpath, content)
+                        if export_nfo:
+                            utils.write_text(os.path.join(pod_dir, "%s.nfo" % base_name), build_episode_nfo(title, ep))
+                        if export_cover_files:
+                            export_cover(client, item_id, pod_dir, base_name)
                         expected_files.add(os.path.normpath(fpath))
                         written += 1
                 else:
+                    try:
+                        detail = client.item(item_id)
+                    except Exception as exc:
+                        utils.debug("Failed to load audiobook details for NFO export (%s): %s" % (item_id, exc))
+                        detail = item
+                    title = item_title(detail)
                     author_dir = item_author_name(item) or "Unknown Author"
                     author_dir = os.path.join(out_dir, utils.safe_filename(author_dir))
                     utils.ensure_dir(author_dir)
-                    asin = item_asin(item)
+                    asin = item_asin(detail)
                     file_title = title
-                    if asin:
-                        file_title = "%s [ASIN-%s]" % (title, asin)
+                    book_dir = os.path.join(author_dir, utils.safe_filename(file_title))
+                    utils.ensure_dir(book_dir)
                     content = utils.plugin_url(action="play", item_id=item_id, title=title)
-                    fpath = os.path.join(author_dir, "%s.strm" % utils.safe_filename(file_title))
+                    base_name = utils.safe_filename(file_title)
+                    fpath = os.path.join(book_dir, "%s.strm" % base_name)
                     utils.write_text(fpath, content)
+                    if export_nfo:
+                        utils.write_text(os.path.join(book_dir, "album.nfo"), build_audiobook_nfo(detail, asin=asin))
+                        utils.write_text(os.path.join(book_dir, "%s.nfo" % base_name), build_audiobook_nfo(detail, asin=asin))
+                        utils.write_text(os.path.join(author_dir, "artist.nfo"), build_artist_nfo(item_author_name(detail), detail))
+                    if export_chapters:
+                        cue_data = build_cue_for_strm(base_name, extract_chapters(detail))
+                        if cue_data:
+                            utils.write_text(os.path.join(book_dir, "%s.cue" % base_name), cue_data)
+                    if export_cover_files:
+                        export_cover(client, item_id, book_dir, base_name)
+                        # Also place author folder art for music-library artist views.
+                        export_cover(client, item_id, author_dir, "")
                     expected_files.add(os.path.normpath(fpath))
                     written += 1
 

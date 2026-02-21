@@ -222,6 +222,13 @@ def write_text(path, text):
         f.close()
 
 
+def copy_file(src, dst):
+    try:
+        return bool(xbmcvfs.copy(src, dst))
+    except Exception:
+        return False
+
+
 def as_seconds(value):
     try:
         return float(value or 0)
