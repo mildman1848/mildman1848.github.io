@@ -299,3 +299,7 @@ msgstr "Coverbilder exportieren"
 msgctxt "#32027"
 msgid "Export chapters (CUE)"
 msgstr "Kapitel exportieren (CUE)"
+
+msgctxt "#32028"
+msgid "Export M3U playlists"
+msgstr "M3U-Playlists exportieren"

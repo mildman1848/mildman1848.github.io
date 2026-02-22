@@ -281,6 +281,28 @@ def _year_from_metadata(metadata):
     return m.group(1) if m else ""
 
 
+def _sort_title(text):
+    raw = _scalar_text(text)
+    if not raw:
+        return ""
+    low = raw.lower()
+    for art in ("the ", "a ", "an ", "der ", "die ", "das ", "ein ", "eine "):
+        if low.startswith(art):
+            return raw[len(art) :] + ", " + raw[: len(art)].strip()
+    return raw
+
+
+def _sequence_number(metadata):
+    raw = _first_non_empty(metadata.get("sequence"), metadata.get("seriesSequence"), metadata.get("disc"), metadata.get("track"))
+    m = re.search(r"([0-9]+)", raw)
+    if not m:
+        return ""
+    try:
+        return int(m.group(1))
+    except Exception:
+        return ""
+
+
 def _dump_abs_fields(lines, parent_tag, data):
     if not isinstance(data, dict):
         return
@@ -412,10 +434,14 @@ def build_cue_for_strm(base_name, item, chapters):
         lines.append("REM DATE %s" % year)
     if genre:
         lines.append("REM GENRE %s" % _cue_escape(genre))
+    if album_artist:
+        lines.append("REM ALBUMARTIST %s" % _cue_escape(album_artist))
+    lines.append("REM TRACKTOTAL %d" % len(chapters))
     lines.append('FILE "%s.strm" MP3' % safe_base)
 
     for idx, ch in enumerate(chapters, start=1):
         lines.append("  TRACK %02d AUDIO" % idx)
+        lines.append("    REM TRACKSORT %02d" % idx)
         lines.append('    TITLE "%s"' % _cue_escape(ch.get("title", "Chapter %d" % idx)))
         if album_artist:
             lines.append('    PERFORMER "%s"' % _cue_escape(album_artist))
@@ -436,6 +462,7 @@ def build_audiobook_nfo(item, asin=""):
     language = _first_non_empty(metadata.get("language"))
     isbn = _first_non_empty(metadata.get("isbn"), metadata.get("ISBN"))
     year = _year_from_metadata(metadata)
+    sequence_num = _sequence_number(metadata)
     release_date = _first_non_empty(metadata.get("releaseDate"), metadata.get("publishedDate"))
     added_at = _first_non_empty(item.get("addedAt"))
     duration = _first_non_empty(media.get("duration"), metadata.get("duration"))
@@ -447,6 +474,7 @@ def build_audiobook_nfo(item, asin=""):
 
     lines = ["<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "<album>"]
     _xml_add(lines, "title", title)
+    _xml_add(lines, "sorttitle", _sort_title(title))
     _xml_add(lines, "originaltitle", subtitle)
     _xml_add(lines, "plot", description)
     _xml_add(lines, "review", description)
@@ -460,6 +488,8 @@ def build_audiobook_nfo(item, asin=""):
     _xml_add(lines, "duration", duration)
     _xml_add(lines, "set", series_name)
     _xml_add(lines, "disc", sequence)
+    if sequence_num != "":
+        _xml_add(lines, "track", sequence_num)
     if asin:
         lines.append("  <uniqueid type=\"asin\" default=\"true\">%s</uniqueid>" % _xml_escape(asin))
     _xml_add(lines, "id", _first_non_empty(item.get("id")))
@@ -467,6 +497,7 @@ def build_audiobook_nfo(item, asin=""):
     for author in authors:
         _xml_add(lines, "artist", author)
         _xml_add(lines, "albumArtist", author)
+        _xml_add(lines, "albumartistsort", _sort_title(author))
     for narrator in narrators:
         _xml_add(lines, "credits", narrator)
     for genre in genres:
@@ -489,6 +520,17 @@ def build_audiobook_nfo(item, asin=""):
     _dump_abs_fields(lines, "abs_media", media)
 
     lines.append("</album>")
+    return "\n".join(lines) + "\n"
+
+
+def build_m3u_for_strm(file_name, title="", duration=""):
+    safe_file = utils.safe_filename(file_name) + ".strm"
+    info_title = _scalar_text(title) or utils.safe_filename(file_name)
+    try:
+        dur = int(float(duration or 0))
+    except Exception:
+        dur = -1
+    lines = ["#EXTM3U", "#EXTINF:%d,%s" % (dur, info_title), safe_file]
     return "\n".join(lines) + "\n"
 
 
@@ -1291,6 +1333,7 @@ def sync_strm(client):
     export_nfo = utils.ADDON.getSetting("strm_export_nfo") != "false"
     export_cover_files = utils.ADDON.getSetting("strm_export_cover") != "false"
     export_chapters = utils.ADDON.getSetting("strm_export_chapters") != "false"
+    export_m3u = utils.ADDON.getSetting("strm_export_m3u") != "false"
 
     libs = parse_libraries(client.libraries())
     expected_files = set()
@@ -1389,6 +1432,11 @@ def sync_strm(client):
                         cue_data = build_cue_for_strm(base_name, detail, extract_chapters(detail))
                         if cue_data:
                             utils.write_text(os.path.join(book_dir, "%s.cue" % base_name), cue_data)
+                    if export_m3u:
+                        duration = ((detail.get("media") or {}).get("duration") or 0)
+                        m3u = build_m3u_for_strm(base_name, title=title, duration=duration)
+                        utils.write_text(os.path.join(book_dir, "%s.m3u" % base_name), m3u)
+                        utils.write_text(os.path.join(book_dir, "playlist.m3u"), m3u)
                     if export_cover_files:
                         export_cover(client, item_id, book_dir, base_name)
                         # Also place author folder art for music-library artist views.
