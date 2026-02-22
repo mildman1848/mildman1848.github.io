@@ -40,3 +40,5 @@
 - Released `plugin.audio.audiobookshelf` `0.1.23` adding optional NFO and cover export during STRM sync (audiobooks and podcasts), including rich ABS metadata dumps to support Kodi library integration without external info providers.
 - Released `plugin.audio.audiobookshelf` `0.1.24` to remove ASIN tokens from STRM/NFO filenames while keeping ASIN inside exported NFO metadata (`uniqueid`), so library naming stays clean.
 - Released `plugin.audio.audiobookshelf` `0.1.25` adding chapter export from ABS metadata during STRM sync (`.cue` sidecar files plus chapter blocks in NFO), so chapter data is available locally in Kodi library workflows.
+- Released `plugin.audio.audiobookshelf` `0.1.26` improving STRM proxy compatibility by generating metadata-rich `.cue` files even without explicit chapters (album/artist/year/genre plus track entries), to increase Kodi music-library discoverability for stream-based audiobooks.
+- Released cover-fallback updates for Audible scrapers: `metadata.albums.audible` `1.0.5` (adds `500` image-size fallback) and `metadata.artists.audible` `1.0.4` (adds `product_images` fallbacks when `profile_image_url` is missing).

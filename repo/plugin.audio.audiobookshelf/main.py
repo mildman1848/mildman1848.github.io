@@ -376,14 +376,39 @@ def _cue_time(seconds_value):
     return "%02d:%02d:%02d" % (mins, secs, frames)
 
 
-def build_cue_for_strm(base_name, chapters):
-    if not chapters:
-        return ""
+def build_cue_for_strm(base_name, item, chapters):
     safe_base = utils.safe_filename(base_name)
-    lines = ['FILE "%s.strm" MP3' % safe_base]
+    item = _as_item(item) or {}
+    media = item.get("media") or {}
+    metadata = media.get("metadata") or {}
+
+    title = _first_non_empty(metadata.get("title"), item.get("title"), item.get("name"), safe_base)
+    album_artist = _first_non_empty(metadata.get("authorName"), metadata.get("author"))
+    if not album_artist:
+        authors = _authors_from_metadata(metadata)
+        if authors:
+            album_artist = authors[0]
+    year = _year_from_metadata(metadata)
+    genre = _first_non_empty(metadata.get("genre"))
+
+    if not chapters:
+        chapters = [{"index": 1, "title": title, "start": 0.0}]
+
+    lines = []
+    if album_artist:
+        lines.append('PERFORMER "%s"' % album_artist.replace('"', "'"))
+    lines.append('TITLE "%s"' % title.replace('"', "'"))
+    if year:
+        lines.append("REM DATE %s" % year)
+    if genre:
+        lines.append("REM GENRE %s" % genre.replace('"', "'"))
+    lines.append('FILE "%s.strm" MP3' % safe_base)
+
     for idx, ch in enumerate(chapters, start=1):
         lines.append("  TRACK %02d AUDIO" % idx)
         lines.append('    TITLE "%s"' % ch.get("title", "Chapter %d" % idx).replace('"', "'"))
+        if album_artist:
+            lines.append('    PERFORMER "%s"' % album_artist.replace('"', "'"))
         lines.append("    INDEX 01 %s" % _cue_time(ch.get("start", 0.0)))
     return "\n".join(lines) + "\n"
 
@@ -1351,7 +1376,7 @@ def sync_strm(client):
                         utils.write_text(os.path.join(book_dir, "%s.nfo" % base_name), build_audiobook_nfo(detail, asin=asin))
                         utils.write_text(os.path.join(author_dir, "artist.nfo"), build_artist_nfo(item_author_name(detail), detail))
                     if export_chapters:
-                        cue_data = build_cue_for_strm(base_name, extract_chapters(detail))
+                        cue_data = build_cue_for_strm(base_name, detail, extract_chapters(detail))
                         if cue_data:
                             utils.write_text(os.path.join(book_dir, "%s.cue" % base_name), cue_data)
                     if export_cover_files:
