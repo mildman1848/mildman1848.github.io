@@ -534,6 +534,17 @@ def build_m3u_for_strm(file_name, title="", duration=""):
     return "\n".join(lines) + "\n"
 
 
+def _scanner_track_base(title, index=1, width=2):
+    safe_title = utils.safe_filename(title or "")
+    try:
+        idx = int(index)
+    except Exception:
+        idx = 1
+    if idx < 1:
+        idx = 1
+    return ("%0" + str(width) + "d - %s") % (idx, safe_title or "Track")
+
+
 def build_artist_nfo(author_name, item):
     item = _as_item(item) or {}
     metadata = (item.get("media") or {}).get("metadata") or {}
@@ -559,19 +570,25 @@ def build_episode_nfo(podcast_title, episode):
     return "\n".join(lines) + "\n"
 
 
-def export_cover(client, item_id, out_dir, base_name):
+def export_cover(client, item_id, out_dir, base_name, written_paths=None):
     if not item_id:
         return 0
     cover_url = client.stream_url_with_token(item_cover(item_id))
     if not cover_url:
         return 0
+    if written_paths is None:
+        written_paths = set()
     written = 0
     folder_jpg = os.path.join(out_dir, "folder.jpg")
-    if utils.copy_file(cover_url, folder_jpg):
+    n_folder = os.path.normpath(folder_jpg)
+    if n_folder not in written_paths and utils.copy_file(cover_url, folder_jpg):
+        written_paths.add(n_folder)
         written += 1
     if base_name:
         sidecar_tbn = os.path.join(out_dir, "%s.tbn" % utils.safe_filename(base_name))
-        if utils.copy_file(cover_url, sidecar_tbn):
+        n_tbn = os.path.normpath(sidecar_tbn)
+        if n_tbn not in written_paths and utils.copy_file(cover_url, sidecar_tbn):
+            written_paths.add(n_tbn)
             written += 1
     return written
 
@@ -1337,8 +1354,17 @@ def sync_strm(client):
 
     libs = parse_libraries(client.libraries())
     expected_files = set()
+    written_paths = set()
     written = 0
     removed = 0
+
+    def write_unique_text(target_path, content):
+        norm = os.path.normpath(target_path)
+        if norm in written_paths:
+            return False
+        utils.write_text(target_path, content)
+        written_paths.add(norm)
+        return True
 
     selected = []
     for lib in libs:
@@ -1388,22 +1414,24 @@ def sync_strm(client):
                     pod_dir = os.path.join(out_dir, utils.safe_filename(title))
                     utils.ensure_dir(pod_dir)
                     if export_cover_files:
-                        export_cover(client, item_id, pod_dir, title)
+                        export_cover(client, item_id, pod_dir, title, written_paths=written_paths)
                     if export_nfo:
-                        utils.write_text(os.path.join(pod_dir, "tvshow.nfo"), build_audiobook_nfo(detail, asin=""))
-                    for ep in episodes:
+                        write_unique_text(os.path.join(pod_dir, "tvshow.nfo"), build_audiobook_nfo(detail, asin=""))
+                    for ep_pos, ep in enumerate(episodes, start=1):
                         ep_id = ep.get("id")
                         ep_title = ep.get("title") or ep_id
                         if not ep_id:
                             continue
                         content = utils.plugin_url(action="play", item_id=item_id, episode_id=ep_id, title=ep_title)
-                        base_name = utils.safe_filename(ep_title)
+                        ep_index = ep.get("index") or ep.get("episode") or ep_pos
+                        base_name = _scanner_track_base(ep_title, index=ep_index, width=3)
                         fpath = os.path.join(pod_dir, "%s.strm" % base_name)
-                        utils.write_text(fpath, content)
+                        if not write_unique_text(fpath, content):
+                            continue
                         if export_nfo:
-                            utils.write_text(os.path.join(pod_dir, "%s.nfo" % base_name), build_episode_nfo(title, ep))
+                            write_unique_text(os.path.join(pod_dir, "%s.nfo" % base_name), build_episode_nfo(title, ep))
                         if export_cover_files:
-                            export_cover(client, item_id, pod_dir, base_name)
+                            export_cover(client, item_id, pod_dir, base_name, written_paths=written_paths)
                         expected_files.add(os.path.normpath(fpath))
                         written += 1
                 else:
@@ -1421,26 +1449,26 @@ def sync_strm(client):
                     book_dir = os.path.join(author_dir, utils.safe_filename(file_title))
                     utils.ensure_dir(book_dir)
                     content = utils.plugin_url(action="play", item_id=item_id, title=title)
-                    base_name = utils.safe_filename(file_title)
+                    base_name = _scanner_track_base(file_title, index=1, width=2)
                     fpath = os.path.join(book_dir, "%s.strm" % base_name)
-                    utils.write_text(fpath, content)
+                    if not write_unique_text(fpath, content):
+                        continue
                     if export_nfo:
-                        utils.write_text(os.path.join(book_dir, "album.nfo"), build_audiobook_nfo(detail, asin=asin))
-                        utils.write_text(os.path.join(book_dir, "%s.nfo" % base_name), build_audiobook_nfo(detail, asin=asin))
-                        utils.write_text(os.path.join(author_dir, "artist.nfo"), build_artist_nfo(item_author_name(detail), detail))
+                        write_unique_text(os.path.join(book_dir, "album.nfo"), build_audiobook_nfo(detail, asin=asin))
+                        write_unique_text(os.path.join(book_dir, "%s.nfo" % base_name), build_audiobook_nfo(detail, asin=asin))
+                        write_unique_text(os.path.join(author_dir, "artist.nfo"), build_artist_nfo(item_author_name(detail), detail))
                     if export_chapters:
                         cue_data = build_cue_for_strm(base_name, detail, extract_chapters(detail))
                         if cue_data:
-                            utils.write_text(os.path.join(book_dir, "%s.cue" % base_name), cue_data)
+                            write_unique_text(os.path.join(book_dir, "%s.cue" % base_name), cue_data)
                     if export_m3u:
                         duration = ((detail.get("media") or {}).get("duration") or 0)
                         m3u = build_m3u_for_strm(base_name, title=title, duration=duration)
-                        utils.write_text(os.path.join(book_dir, "%s.m3u" % base_name), m3u)
-                        utils.write_text(os.path.join(book_dir, "playlist.m3u"), m3u)
+                        write_unique_text(os.path.join(book_dir, "%s.m3u" % base_name), m3u)
                     if export_cover_files:
-                        export_cover(client, item_id, book_dir, base_name)
+                        export_cover(client, item_id, book_dir, base_name, written_paths=written_paths)
                         # Also place author folder art for music-library artist views.
-                        export_cover(client, item_id, author_dir, "")
+                        export_cover(client, item_id, author_dir, "", written_paths=written_paths)
                     expected_files.add(os.path.normpath(fpath))
                     written += 1
 

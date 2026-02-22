@@ -44,3 +44,6 @@
 - Released cover-fallback updates for Audible scrapers: `metadata.albums.audible` `1.0.5` (adds `500` image-size fallback) and `metadata.artists.audible` `1.0.4` (adds `product_images` fallbacks when `profile_image_url` is missing).
 - Released `plugin.audio.audiobookshelf` `0.1.27` hardening STRM sync metadata escaping: invalid XML control characters are sanitized for NFO output and CUE text fields are normalized to avoid special-character parsing issues in Kodi.
 - Released `plugin.audio.audiobookshelf` `0.1.28` with additional Kodi library compatibility metadata: enhanced NFO sort/artist fields, richer CUE hints (`ALBUMARTIST`, `TRACKTOTAL`, `TRACKSORT`), and optional per-book M3U playlist export.
+- Released `plugin.audio.audiobookshelf` `0.1.29` adjusting STRM sidecar naming to scanner-friendly track patterns (`NN - Title` / `NNN - Title`) for improved Kodi `musicfilenamefilters` matching.
+- Released `plugin.audio.audiobookshelf` `0.1.30` removing duplicate playlist writes in STRM sync (per-item M3U is now exported only once).
+- Released `plugin.audio.audiobookshelf` `0.1.31` adding path-based deduplication during STRM sync to prevent repeated writes of identical STRM/NFO/CUE/M3U/Cover targets in a single sync run.
