@@ -214,7 +214,10 @@ def _xml_tag(name):
 
 
 def _xml_escape(text):
-    text = text or ""
+    text = _scalar_text(text)
+    # Remove control chars that are invalid in XML 1.0 and normalize whitespace.
+    text = re.sub(r"[\x00-\x08\x0B\x0C\x0E-\x1F]", "", text)
+    text = text.replace("\r", " ").replace("\n", " ").replace("\t", " ")
     return (
         text.replace("&", "&amp;")
         .replace("<", "&lt;")
@@ -376,6 +379,13 @@ def _cue_time(seconds_value):
     return "%02d:%02d:%02d" % (mins, secs, frames)
 
 
+def _cue_escape(text):
+    text = _scalar_text(text)
+    text = re.sub(r"[\x00-\x1F]", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text.replace('"', "'")
+
+
 def build_cue_for_strm(base_name, item, chapters):
     safe_base = utils.safe_filename(base_name)
     item = _as_item(item) or {}
@@ -396,19 +406,19 @@ def build_cue_for_strm(base_name, item, chapters):
 
     lines = []
     if album_artist:
-        lines.append('PERFORMER "%s"' % album_artist.replace('"', "'"))
-    lines.append('TITLE "%s"' % title.replace('"', "'"))
+        lines.append('PERFORMER "%s"' % _cue_escape(album_artist))
+    lines.append('TITLE "%s"' % _cue_escape(title))
     if year:
         lines.append("REM DATE %s" % year)
     if genre:
-        lines.append("REM GENRE %s" % genre.replace('"', "'"))
+        lines.append("REM GENRE %s" % _cue_escape(genre))
     lines.append('FILE "%s.strm" MP3' % safe_base)
 
     for idx, ch in enumerate(chapters, start=1):
         lines.append("  TRACK %02d AUDIO" % idx)
-        lines.append('    TITLE "%s"' % ch.get("title", "Chapter %d" % idx).replace('"', "'"))
+        lines.append('    TITLE "%s"' % _cue_escape(ch.get("title", "Chapter %d" % idx)))
         if album_artist:
-            lines.append('    PERFORMER "%s"' % album_artist.replace('"', "'"))
+            lines.append('    PERFORMER "%s"' % _cue_escape(album_artist))
         lines.append("    INDEX 01 %s" % _cue_time(ch.get("start", 0.0)))
     return "\n".join(lines) + "\n"
 
