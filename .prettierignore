@@ -1,0 +1,4 @@
+.git/
+node_modules/
+repo/**/*.zip
+repo/addons.xml.md5

@@ -1,0 +1,26 @@
+[
+  {
+    "addon_id": "repository.kodinerds",
+    "source_addons_xml": "https://repo.kodinerds.net/addons/addons.xml",
+    "zip_url_template": "https://repo.kodinerds.net/addons/repository.kodinerds/repository.kodinerds-{version}.zip"
+  },
+  {
+    "addon_id": "repository.jellyfin.kodi",
+    "zip_url": "https://kodi.jellyfin.org/repository.jellyfin.kodi.zip"
+  },
+  {
+    "addon_id": "repository.emby.kodi",
+    "source_addons_xml": "https://embydata.com/downloads/addons/xbmb3c/multi-repo/repositories/addons.xml",
+    "zip_url_template": "https://kodi.emby.media/repository.emby.kodi-{version}.zip"
+  },
+  {
+    "addon_id": "repository.jurialmunkey",
+    "zip_index_url": "https://jurialmunkey.github.io/repository.jurialmunkey/",
+    "zip_filename_regex": "repository\\.jurialmunkey-(?P<version>[0-9][0-9A-Za-z.-]*)\\.zip"
+  },
+  {
+    "addon_id": "repository.michaz",
+    "source_addons_xml": "https://michaz1988.github.io/repo/addons.xml",
+    "zip_url_template": "https://michaz1988.github.io/repo/repository.michaz/repository.michaz-{version}.zip"
+  }
+]

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-  <addon id="repository.mildman1848" name="mildman1848 Repository" provider-name="mildman1848" version="1.0.5">
+  <addon id="repository.mildman1848" name="mildman1848 Repository" provider-name="mildman1848" version="1.0.6">
     <extension point="xbmc.addon.repository" name="mildman1848 Repository">
       <dir>
         <info compressed="false">https://mildman1848.github.io/repo/addons.xml</info>
@@ -12,42 +12,40 @@
       <platform>all</platform>
       <summary lang="de_DE">Kodi Repository von mildman1848</summary>
       <summary lang="en_GB">Kodi repository by mildman1848</summary>
-      <description lang="de_DE">Basis-Repository ohne eigene Addons.</description>
-      <description lang="en_GB">Base repository without own addons yet.</description>
+      <description lang="de_DE">Kodi-Repository mit eigenen Addons und gepflegten externen Quellen.</description>
+      <description lang="en_GB">Kodi repository with own add-ons and maintained external sources.</description>
       <website>https://mildman1848.github.io/</website>
       <assets>
         <icon>repository.mildman1848/icon.png</icon>
       </assets>
     </extension>
   </addon>
-
   <addon id="plugin.video.vavootv" name="VavooTV" version="4.8" provider-name="Akisame">
     <requires>
-      <import addon="script.module.requests"/>
-      <import addon="script.module.infotagger" optional="true"/>
-      <import addon="inputstream.adaptive" optional="true"/>
-      <import addon="inputstream.ffmpegdirect" optional="true"/>
+      <import addon="script.module.requests" />
+      <import addon="script.module.infotagger" optional="true" />
+      <import addon="inputstream.adaptive" optional="true" />
+      <import addon="inputstream.ffmpegdirect" optional="true" />
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
       <provides>video</provides>
     </extension>
-    <extension point="xbmc.python.module" library="resources"/>
+    <extension point="xbmc.python.module" library="resources" />
     <extension point="xbmc.addon.metadata">
       <assets>
         <icon>icon.png</icon>
       </assets>
     </extension>
   </addon>
-
   <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.31" provider-name="mildman1848">
     <requires>
-      <import addon="xbmc.python" version="3.0.0"/>
-      <import addon="script.module.requests"/>
+      <import addon="xbmc.python" version="3.0.0" />
+      <import addon="script.module.requests" />
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">
       <provides>audio</provides>
     </extension>
-    <extension point="xbmc.python.module" library="resources"/>
+    <extension point="xbmc.python.module" library="resources" />
     <extension point="xbmc.addon.metadata">
       <summary lang="de_DE">Audiobookshelf Client für Hörbücher und Podcasts</summary>
       <summary lang="en_GB">Audiobookshelf client for audiobooks and podcasts</summary>
@@ -59,12 +57,11 @@
       </assets>
     </extension>
   </addon>
-
   <addon id="metadata.albums.audible" name="Audible Album Scraper" version="1.0.5" provider-name="mildman1848">
     <requires>
-      <import addon="xbmc.metadata" version="2.1.0"/>
+      <import addon="xbmc.metadata" version="2.1.0" />
     </requires>
-    <extension point="xbmc.metadata.scraper.albums" language="de" library="audible.xml"/>
+    <extension point="xbmc.metadata.scraper.albums" language="de" library="audible.xml" />
     <extension point="xbmc.addon.metadata">
       <summary lang="de_DE">Audible Albuminformationen</summary>
       <summary lang="en_GB">Audible album information</summary>
@@ -78,12 +75,11 @@
       </assets>
     </extension>
   </addon>
-
   <addon id="metadata.artists.audible" name="Audible Artist Scraper" version="1.0.4" provider-name="mildman1848">
     <requires>
-      <import addon="xbmc.metadata" version="2.1.0"/>
+      <import addon="xbmc.metadata" version="2.1.0" />
     </requires>
-    <extension point="xbmc.metadata.scraper.artists" language="de" library="audible.xml"/>
+    <extension point="xbmc.metadata.scraper.artists" language="de" library="audible.xml" />
     <extension point="xbmc.addon.metadata">
       <summary lang="de_DE">Audible Interpreteninformationen</summary>
       <summary lang="en_GB">Audible artist information</summary>
@@ -92,6 +88,240 @@
       <platform>all</platform>
       <license>GPL-2.0-or-later</license>
       <source>https://community.mp3tag.de/t/ws-audible-via-api/64347</source>
+      <assets>
+        <icon>icon.png</icon>
+      </assets>
+    </extension>
+  </addon>
+  <addon id="repository.kodinerds" name="Kodinerds Addon Repo" version="7.0.1.7" provider-name="Kodinerds">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
+    <extension point="xbmc.addon.repository" name="Kodinerds Addon Repo">
+      <dir>
+        <info compressed="true">https://repo.kodinerds.net/addons/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="21.9.9" maxversion="22.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/piers/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/piers/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/piers/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="21.0.0" maxversion="22.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/omega/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/omega/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/omega/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="20.0.0" maxversion="22.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/nexus/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/nexus/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/nexus/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="19.0.0" maxversion="22.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/matrix/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/matrix/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/matrix/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="18.0.0" maxversion="18.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/leia/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/leia/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/leia/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="17.0.0" maxversion="18.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/krypton/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/krypton/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/krypton/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="16.0.0" maxversion="18.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/jarvis/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/jarvis/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/jarvis/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="15.0.0" maxversion="18.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/isengard/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/isengard/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/isengard/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="14.0.0" maxversion="18.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/helix/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/helix/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/helix/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+      <dir minversion="13.0.0" maxversion="18.9.0">
+        <info compressed="true">https://repo.kodinerds.net/addons/gotham/addons.xml</info>
+        <checksum>https://repo.kodinerds.net/addons/gotham/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.kodinerds.net/addons/gotham/zip/</datadir>
+        <hashes>false</hashes>
+      </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+      <summary lang="en">Addon repository of the Kodinerds Community</summary>
+      <description lang="en">The 'Nerdsrepo' is the Repository of the german Kodi Community 'Kodinerds' (www.kodinerds.net). Most of the hosted Addons here are active developed and supported by the members of the Community. Nerdsrepo is an unofficial Repository of the Kodi Media Center Software</description>
+      <summary lang="de">Addon Repository der Kodinerds Community</summary>
+      <description lang="de">Das 'Nerdsrepo' ist das Addon Repository der deutschen Kodi-Community 'Kodinerds' (www.kodinerds.net). Die meisten der hier im Nerdsrepo gehosteten Addons werden von den Mitgliedern der Community aktiv entwickelt und unterstützt. Das Nerdsrepo ist ein unoffizielles Repository der Kodi Media Center Software.</description>
+      <disclaimer />
+      <platform>all</platform>
+      <assets>
+        <icon>icon.png</icon>
+        <fanart>fanart.jpg</fanart>
+      </assets>
+    </extension>
+  </addon>
+  <addon id="repository.jellyfin.kodi" name="Kodi Jellyfin Addons" version="1.0.0" provider-name="null_pointer,angelblue05,sualfred,im85288,xnappo">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
+    <extension point="xbmc.addon.repository" name="Kodi Jellyfin Repository">
+      <dir>
+        <info compressed="false">https://repo.jellyfin.org/releases/client/kodi/addons.xml</info>
+        <checksum>https://repo.jellyfin.org/releases/client/kodi/addons.xml.md5</checksum>
+        <datadir zip="true">https://repo.jellyfin.org/releases/client/kodi</datadir>
+      </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+      <summary>Kodi Jellyfin Addon Repository</summary>
+      <description>This repo contains addons related to the Jellyfin project</description>
+      <disclaimer />
+      <platform>all</platform>
+      <assets>
+        <icon>resources/icon.png</icon>
+        <fanart>resources/fanart.jpg</fanart>
+      </assets>
+    </extension>
+  </addon>
+  <addon id="repository.emby.kodi" name="Kodi Emby Addons" version="1.0.8" provider-name="">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
+    <extension point="xbmc.addon.repository" name="Kodi Emby Repository">
+      <dir>
+        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/repositories/addons.xml</info>
+        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/repositories/addons.xml.md5</checksum>
+        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/repositories/</datadir>
+      </dir>
+      <dir minversion="20.999.0">
+        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v21_omega/addons.xml</info>
+        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v21_omega/addons.xml.md5</checksum>
+        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v21_omega/</datadir>
+      </dir>
+      <dir minversion="19.999.0">
+        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v20_nexus/addons.xml</info>
+        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v20_nexus/addons.xml.md5</checksum>
+        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v20_nexus/</datadir>
+      </dir>
+      <dir minversion="18.999.0">
+        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v19_matrix/addons.xml</info>
+        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v19_matrix/addons.xml.md5</checksum>
+        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v19_matrix/</datadir>
+      </dir>
+      <dir minversion="17.999.0">
+        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v18_leia/addons.xml</info>
+        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v18_leia/addons.xml.md5</checksum>
+        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v18_leia/</datadir>
+      </dir>
+      <dir minversion="16.999.0">
+        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v17_krypton/addons.xml</info>
+        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v17_krypton/addons.xml.md5</checksum>
+        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v17_krypton/</datadir>
+      </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+      <summary>Kodi Emby Addon Repository</summary>
+      <description>This repo contains add-ons for Emby related support</description>
+      <disclaimer />
+      <platform>all</platform>
+      <assets>
+        <icon>resources/icon.png</icon>
+        <fanart>resources/fanart.jpg</fanart>
+      </assets>
+    </extension>
+  </addon>
+  <addon id="repository.jurialmunkey" name="jurialmunkey Alpha Repository" version="3.4" provider-name="jurialmunkey">
+    <extension point="xbmc.addon.repository" name="jurialmunkey Alpha Repository">
+      <dir>
+        <info compressed="false">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/repo/zips/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/repo/zips/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/repo/zips/</datadir>
+      </dir>
+      <dir minversion="18.0" maxversion="18.9.0">
+        <info compressed="false">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/leia/zips/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/leia/zips/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/leia/zips/</datadir>
+      </dir>
+      <dir minversion="18.9.0" maxversion="19.9.0">
+        <info compressed="false">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/matrix/zips/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/matrix/zips/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/matrix/zips/</datadir>
+      </dir>
+      <dir minversion="19.9.1" maxversion="20.9.0">
+        <info compressed="false">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/nexusrepo/zips/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/nexusrepo/zips/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/nexusrepo/zips/</datadir>
+      </dir>
+      <dir minversion="20.9.1">
+        <info compressed="false">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/</datadir>
+      </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+      <summary>jurialmunkey Alpha Repository</summary>
+      <description>A repository for alpha releases of jurialmunkey's skins.</description>
+      <disclaimer />
+      <platform>all</platform>
+      <assets>
+        <icon>icon.png</icon>
+      </assets>
+    </extension>
+  </addon>
+  <addon id="repository.michaz" name="Michaz Repository" provider-name="Michaz" version="5.0">
+    <extension point="xbmc.addon.repository" name="Michaz Repository">
+      <dir>
+        <info compressed="false">https://michaz1988.github.io/repo/addons.xml</info>
+        <checksum>https://michaz1988.github.io/repo/addons.xml.md5</checksum>
+        <datadir zip="true">https://michaz1988.github.io/repo/</datadir>
+      </dir>
+      <dir minversion="19.0.0" maxversion="19.9.0">
+        <info compressed="false">https://raw.github.com/kaffepausse71/SKINBASE19/master/addons.xml</info>
+        <checksum>https://raw.github.com/kaffepausse71/SKINBASE19/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.github.com/kaffepausse71/SKINBASE19/master/</datadir>
+      </dir>
+      <dir minversion="20.0.0" maxversion="20.9.0">
+        <info compressed="false">https://raw.github.com/kaffepausse71/SKINBASE.NEXUS/master/addons.xml</info>
+        <checksum>https://raw.github.com/kaffepausse71/SKINBASE.NEXUS/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.github.com/kaffepausse71/SKINBASE.NEXUS/master/</datadir>
+      </dir>
+      <dir minversion="21.0.0" maxversion="21.9.0">
+        <info compressed="false">https://raw.github.com/kaffepausse71/SKINBASE.OMEGA/master/addons.xml</info>
+        <checksum>https://raw.github.com/kaffepausse71/SKINBASE.OMEGA/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.github.com/kaffepausse71/SKINBASE.OMEGA/master/</datadir>
+      </dir>
+      <dir minversion="22.0.0" maxversion="22.9.0">
+        <info compressed="false">https://raw.github.com/kaffepausse71/SKINBASE.PEGASUS/master/addons.xml</info>
+        <checksum>https://raw.github.com/kaffepausse71/SKINBASE.PEGASUS/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.github.com/kaffepausse71/SKINBASE.PEGASUS/master/</datadir>
+      </dir>
+      <dir>
+        <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
+      </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+      <platform>all</platform>
+      <description lang="en">Addons by Michaz</description>
+      <website>https://michaz1988.github.io</website>
       <assets>
         <icon>icon.png</icon>
       </assets>

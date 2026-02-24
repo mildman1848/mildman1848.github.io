@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-02-24
+- Released `repository.mildman1848` `1.0.6` and rebuilt archive `repo/repository.mildman1848/repository.mildman1848-1.0.6.zip` (removed `1.0.5`).
+- Updated repository metadata description to reflect current scope: own add-ons plus maintained external sources.
+- Updated homepage repository ZIP link in `index.html` from stale `1.0.3` to current `1.0.6`.
+- Removed stale repository archives `repo/repository.mildman1848-1.0.4.zip` and `repo/repository.mildman1848/repository.mildman1848-1.0.4.zip`.
+- Added `.gitignore` entries for OS, Python cache, and temporary backup files.
+- Expanded repository hygiene/config baseline with `.editorconfig`, `.gitattributes`, `.prettier*`, and `package.json` scripts.
+- Added external repository sync automation via GitHub Actions (`.github/workflows/sync-external-repositories.yml`).
+- Added configurable sync tooling (`tools/external_repositories.json`, `tools/update_external_repositories.py`) and imported `repository.kodinerds` `7.0.1.7`.
+- Moved repository ZIP storage to `repo/repository.*/` subfolders and removed root-level repository ZIPs.
+- Added per-repository `index.html` generation for synced external repositories and updated homepage/repo links to folder-based ZIP paths.
+- Synced external repository ZIPs are now automatically extracted into their `repo/repository.*/` folders so icons/fanart and addon metadata are directly browseable.
+
 ## 2026-02-21
 - Updated `plugin.video.vavootv` from version `4.4` to `4.8`.
 - Rebuilt addon archive as `repo/plugin.video.vavootv/plugin.video.vavootv-4.8.zip` and removed `plugin.video.vavootv-4.4.zip`.

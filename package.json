@@ -1,0 +1,13 @@
+{
+  "name": "mildman1848-kodi-repo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tooling configuration for formatting this repository",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}
