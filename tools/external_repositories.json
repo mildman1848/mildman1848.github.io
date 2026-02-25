@@ -27,5 +27,14 @@
     "addon_id": "repository.dexe",
     "zip_index_url": "https://dexe.win/kodi/",
     "zip_filename_regex": "repository\\.dexe-(?P<version>[0-9][0-9A-Za-z.-]*)\\.zip"
+  },
+  {
+    "addon_id": "repository.slyguy",
+    "zip_url": "https://slyguy.uk/repository.slyguy.zip"
+  },
+  {
+    "addon_id": "repository.kodi.yatse.tv",
+    "zip_index_url": "https://yatse.tv/repository/",
+    "zip_filename_regex": "repository\\.kodi\\.yatse\\.tv-(?P<version>[0-9][0-9A-Za-z.-]*)\\.zip"
   }
 ]

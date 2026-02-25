@@ -10,6 +10,7 @@
 - Added external repository sync automation via GitHub Actions (`.github/workflows/sync-external-repositories.yml`).
 - Added configurable sync tooling (`tools/external_repositories.json`, `tools/update_external_repositories.py`) and imported `repository.kodinerds` `7.0.1.7`.
 - Added external repository `repository.dexe` `1.0.11` to automated sync/import.
+- Added external repositories `repository.slyguy` (`0.0.9`) and `repository.kodi.yatse.tv` (`1.1.0`) to automated sync/import.
 - Moved repository ZIP storage to `repo/repository.*/` subfolders and removed root-level repository ZIPs.
 - Added per-repository `index.html` generation for synced external repositories and updated homepage/repo links to folder-based ZIP paths.
 - Synced external repository ZIPs are now automatically extracted into their `repo/repository.*/` folders so icons/fanart and addon metadata are directly browseable.
