@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-03-03
+- Updated `plugin.video.vavootv` to version `4.9` and switched release archive to `repo/plugin.video.vavootv/plugin.video.vavootv-4.9.zip` (removed `4.8`).
+- Synced VavooTV metadata in `repo/addons.xml` with the new addon manifest (provider, dependency list, and icon asset `icon2.png`).
+- Updated repository listings in `repo/plugin.video.vavootv/index.html` and `repo/index.html` for the new VavooTV release and refreshed `repo/addons.xml` metadata timestamps.
+
 ## 2026-02-24
 - Released `repository.mildman1848` `1.0.6` and rebuilt archive `repo/repository.mildman1848/repository.mildman1848-1.0.6.zip` (removed `1.0.5`).
 - Updated repository metadata description to reflect current scope: own add-ons plus maintained external sources.

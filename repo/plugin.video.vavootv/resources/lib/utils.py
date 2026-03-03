@@ -147,19 +147,21 @@ def _clear_expired_cache():
         removed_count = 0
         for filename in os.listdir(cachepath):
             filepath = os.path.join(cachepath, filename)
-
-            if not os.path.isfile(filepath): 
+            
+            if not os.path.isfile(filepath):
                 continue
+            
             try:
                 with open(filepath) as f:
                     data = json.load(f)
                 expiry = data.get('sigValidUntil', 0)
-
+                
                 if expiry is not False and expiry < int(time.time()):
                     os.remove(filepath)
                     removed_count += 1
-            except: 
+            except (json.JSONDecodeError, IOError):
                 pass
+        
         if removed_count > 0:
             log_debug(f"Cleared {removed_count} expired cache files", "_clear_expired_cache")
     except OSError as e:
@@ -179,27 +181,28 @@ def clear(auto=False):
         removed_count = 0
         for filename in os.listdir(cachepath):
             filepath = os.path.join(cachepath, filename)
-
-            if not os.path.isfile(filepath): 
+            
+            if not os.path.isfile(filepath):
                 continue
             
             if auto:
                 try:
-                    with open(filepath) as f: 
+                    with open(filepath) as f:
                         data = json.load(f)
                     expiry = data.get('sigValidUntil', 0)
                     if expiry is not False and expiry < int(time.time()):
                         os.remove(filepath)
                         removed_count += 1
-                except: 
+                except (json.JSONDecodeError, IOError):
                     pass
             else:
                 os.remove(filepath)
                 removed_count += 1
-
+        
         log_debug(f"Removed {removed_count} cache files", "clear")
     except OSError as e:
         log_debug(f"Error clearing cache: {e}", "clear")
+
 
 # =============================================================================
 # AUTHENTICATION
@@ -302,7 +305,7 @@ def getAuthSignature():
         result = response.json()
         
         # Log the full response for debugging (helps diagnose watermark/auth issues)
-        log(f"Auth ping full response: {json.dumps(result, indent=2)}", "getAuthSignature", force=True)
+        # log(f"Auth ping full response: {json.dumps(result, indent=2)}", "getAuthSignature", force=True)
         
         signature = result.get("addonSig")
 
@@ -310,37 +313,41 @@ def getAuthSignature():
             log_debug("Auth signature obtained successfully", "getAuthSignature")
             
             # Decode and log signature data to check status
-            try:
-                import base64
-                sig_data = json.loads(base64.b64decode(signature + '=='))
-                inner = json.loads(sig_data.get("data", "{}"))
-                log(f"Auth status: status={inner.get('status')}, verified={inner.get('verified')}, app_ok={inner.get('app', {}).get('ok')}", "getAuthSignature", force=True)
-            except Exception:
-                pass
+            # try:
+                # import base64
+                # sig_data = json.loads(base64.b64decode(signature + '=='))
+                # inner = json.loads(sig_data.get("data", "{}"))
+                # log(f"Auth status: status={inner.get('status')}, verified={inner.get('verified')}, app_ok={inner.get('app', {}).get('ok')}", "getAuthSignature", force=True)
+            # except Exception:
+                # pass
             
             _auth_cache["signature"] = signature
             _auth_cache["expires"] = time.time() + AUTH_CACHE_TTL
             return signature
         else:
-            log(f"No addonSig in response: {result}", "getAuthSignature", force=True)
-            error_dialog("Authentication Failed", "Failed to get auth signature from server.")
+            # log(f"No addonSig in response: {result}", "getAuthSignature", force=True)
+            # error_dialog("Authentication Failed", "Failed to get auth signature from server.")
             return None
 
-    except requests.exceptions.Timeout:
-        log("Auth request timed out", "getAuthSignature", force=True)
-        log_exception("getAuthSignature")
-        error_dialog("Authentication Failed", "Request timed out. Please check your internet connection.")
-        return None
-    except requests.exceptions.RequestException as e:
-        log(f"Auth request failed: {e}", "getAuthSignature", force=True)
-        log_exception("getAuthSignature")
-        error_dialog("Authentication Failed", f"Network error: {str(e)}")
-        return None
-    except Exception as e:
-        log(f"Unexpected auth error: {e}", "getAuthSignature", force=True)
-        log_exception("getAuthSignature")
-        error_dialog("Authentication Failed", f"Unexpected error: {str(e)}")
-        return None
+    # except requests.exceptions.Timeout:
+    #     log("Auth request timed out", "getAuthSignature", force=True)
+    #     log_exception("getAuthSignature")
+    #     error_dialog("Authentication Failed", "Request timed out. Please check your internet connection.")
+    #     return None
+    # except requests.exceptions.RequestException as e:
+    #     log(f"Auth request failed: {e}", "getAuthSignature", force=True)
+    #     log_exception("getAuthSignature")
+    #     error_dialog("Authentication Failed", f"Network error: {str(e)}")
+    #     return None
+    # except Exception as e:
+    #     log(f"Unexpected auth error: {e}", "getAuthSignature", force=True)
+    #     log_exception("getAuthSignature")
+    #     error_dialog("Authentication Failed", f"Unexpected error: {str(e)}")
+    #     return None
+
+    except:
+        pass
+    return None
 
 # =============================================================================
 # URL/HEADER UTILITIES
@@ -423,9 +430,11 @@ def set_cache(key, value, timeout=DEFAULT_CACHE_TIMEOUT):
         with xbmcvfs.File(filepath, "w") as f:
             json.dump(data, f, indent=4)
         log_debug(f"Cache written to file: {filepath}", "set_cache")
-    except Exception as e:
-        log(f"Failed to write cache: {e}", "set_cache")
-        log_exception("set_cache")
+    #  except Exception as e:
+        # log(f"Failed to write cache: {e}", "set_cache")
+        # log_exception("set_cache")
+
+    except: pass
 
 
 def get_cache(key):
