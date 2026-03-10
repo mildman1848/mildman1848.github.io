@@ -1,3 +1,6 @@
+[0.1.11]
+- Rescaled and repositioned the four start cards so the home screen fills the TV area instead of clustering in the upper-left corner.
+
 [0.1.10]
 - Removed the risky automatic settings redirect on window load to reduce crashes during skin switching.
 - Reworked the home screen to more closely match the supplied mockup with four large content cards and embedded previews.
