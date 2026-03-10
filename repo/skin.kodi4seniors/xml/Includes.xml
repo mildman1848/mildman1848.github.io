@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
+  <include file="Defaults.xml" />
+  <include file="Includes_Home.xml" />
+  <include file="Includes_Animations.xml" />
+  <include file="Includes_Games.xml" />
+  <include file="Includes_MediaMenu.xml" />
+  <include file="Includes_Buttons.xml" />
+  <include file="Includes_DialogSelect.xml" />
+  <include file="Includes_MusicInfo.xml" />
+  <include file="Includes_PVR.xml" />
+  <include file="View_50_List.xml" />
+  <include file="View_51_Poster.xml" />
+  <include file="View_52_IconWall.xml" />
+  <include file="View_53_Shift.xml" />
+  <include file="View_54_InfoWall.xml" />
+  <include file="View_55_WideList.xml" />
+  <include file="View_503_NowPlaying.xml" />
+  <include file="View_500_Wall.xml" />
+  <include file="View_501_Banner.xml" />
+  <include file="View_502_FanArt.xml" />
+  <include file="Variables.xml" />
+
   <include name="FullBackground">
     <control type="image">
       <left>0</left>
