@@ -99,6 +99,17 @@
         <textcolor>FFF4F8FF</textcolor>
         <label>Live TV</label>
       </control>
+      <control type="label">
+        <right>28</right>
+        <top>22</top>
+        <width>224</width>
+        <height>42</height>
+        <align>right</align>
+        <font>font_button</font>
+        <textcolor>FFF4F8FF</textcolor>
+        <label>Ausgewaehlt</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1101)</visible>
+      </control>
       <control type="image">
         <left>26</left>
         <top>84</top>
@@ -258,6 +269,17 @@
         <textcolor>FFF6FFF4</textcolor>
         <label>Mediatheken</label>
       </control>
+      <control type="label">
+        <right>28</right>
+        <top>22</top>
+        <width>224</width>
+        <height>42</height>
+        <align>right</align>
+        <font>font_button</font>
+        <textcolor>FFF6FFF4</textcolor>
+        <label>Ausgewaehlt</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1102)</visible>
+      </control>
       <control type="image">
         <left>26</left>
         <top>84</top>
@@ -399,6 +421,17 @@
         <textcolor>FFFFFAF3</textcolor>
         <label>Bibliothek</label>
       </control>
+      <control type="label">
+        <right>28</right>
+        <top>22</top>
+        <width>224</width>
+        <height>42</height>
+        <align>right</align>
+        <font>font_button</font>
+        <textcolor>FFFFFAF3</textcolor>
+        <label>Ausgewaehlt</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1103)</visible>
+      </control>
       <control type="image">
         <left>30</left>
         <top>104</top>
@@ -495,6 +528,72 @@
         <font>font_title</font>
         <textcolor>FFF5F5F5</textcolor>
         <label>Einstellungen</label>
+      </control>
+      <control type="label">
+        <right>28</right>
+        <top>22</top>
+        <width>224</width>
+        <height>42</height>
+        <align>right</align>
+        <font>font_button</font>
+        <textcolor>FFF5F5F5</textcolor>
+        <label>Ausgewaehlt</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1104)</visible>
+      </control>
+    </control>
+
+    <control type="group">
+      <left>96</left>
+      <top>944</top>
+      <width>1728</width>
+      <height>88</height>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>1728</width>
+        <height>88</height>
+        <colordiffuse>D81E2430</colordiffuse>
+        <texture>dialogs/dialog-bg.png</texture>
+      </control>
+      <control type="label">
+        <left>32</left>
+        <top>20</top>
+        <width>520</width>
+        <height>42</height>
+        <font>font_button</font>
+        <textcolor>FFF5F1E8</textcolor>
+        <label>Aktive Kachel: $INFO[Window.Property(k4s.home.focus_label)]</label>
+      </control>
+      <control type="label">
+        <left>610</left>
+        <top>20</top>
+        <width>520</width>
+        <height>42</height>
+        <font>font_body_large</font>
+        <textcolor>FFD7D0C4</textcolor>
+        <label>Ziel: $INFO[Window.Property(k4s.home.focus_target)]</label>
+      </control>
+      <control type="label">
+        <right>32</right>
+        <top>20</top>
+        <width>500</width>
+        <height>42</height>
+        <align>right</align>
+        <font>font_body_large</font>
+        <textcolor>FFE4D39C</textcolor>
+        <label>Technikbereich gesperrt</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.technician_locked),true)</visible>
+      </control>
+      <control type="label">
+        <right>32</right>
+        <top>20</top>
+        <width>500</width>
+        <height>42</height>
+        <align>right</align>
+        <font>font_body_large</font>
+        <textcolor>FFBEE7C1</textcolor>
+        <label>Technikbereich entsperrt</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.technician_locked),false)</visible>
       </control>
     </control>
   </include>

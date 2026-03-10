@@ -11,7 +11,7 @@ HOME_TILES = {
 }
 WAIT_STEPS = 20
 WAIT_MS = 100
-SYNC_LOOPS = 15
+SYNC_INTERVAL_MS = 120
 
 
 def _log(message: str) -> None:
@@ -52,6 +52,7 @@ def _sync_properties(window: xbmcgui.Window) -> None:
 def main() -> None:
     monitor = xbmc.Monitor()
     window = _home_window()
+    window_id = xbmcgui.getCurrentWindowId()
 
     for _ in range(WAIT_STEPS):
         if _focus_tile(window, HOME_TILE_IDS[0]):
@@ -64,13 +65,15 @@ def main() -> None:
 
     _sync_properties(window)
 
-    for _ in range(SYNC_LOOPS):
-        if monitor.waitForAbort(WAIT_MS / 1000):
+    while not monitor.abortRequested():
+        if monitor.waitForAbort(SYNC_INTERVAL_MS / 1000):
             return
+        if xbmcgui.getCurrentWindowId() != window_id:
+            break
         _sync_properties(window)
 
     _log(
-        "initialized focus on tile "
+        "final focus on tile "
         f"{window.getProperty('k4s.home.focus_id')} "
         f"({window.getProperty('k4s.home.focus_label')})"
     )

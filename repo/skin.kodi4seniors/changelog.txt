@@ -1,3 +1,6 @@
+[0.1.17]
+- Sichtbare Fokus-Rueckmeldung auf der Startseite ergaenzt und den Home-Focus-Handler waehrend der aktiven Home-Ansicht weiter synchronisieren lassen.
+
 [0.1.16]
 - `focus_handler.py` zu einem echten Home-Initialisierer ausgebaut: Startfokus wird gesetzt und die aktive Kachel als Window-Property synchronisiert.
 
