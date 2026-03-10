@@ -1,3 +1,6 @@
+[0.1.13]
+- Tightened the home layout against the mockup with more accurate outer margins, card heights and vertical spacing.
+
 [0.1.12]
 - Increased the home card scale and redistributed the 2x2 layout so the start screen uses the full TV area more like the mockup.
 

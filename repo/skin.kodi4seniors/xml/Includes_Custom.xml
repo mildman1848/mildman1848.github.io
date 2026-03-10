@@ -72,18 +72,18 @@
     </control>
 
     <control type="image">
-      <left>84</left>
-      <top>88</top>
-      <width>874</width>
-      <height>378</height>
+      <left>88</left>
+      <top>146</top>
+      <width>858</width>
+      <height>418</height>
       <texture border="18" colordiffuse="FFFFFFFF">dialogs/dialog-bg.png</texture>
       <visible>Control.HasFocus(1101)</visible>
     </control>
     <control type="button" id="1101">
-      <left>92</left>
-      <top>96</top>
+      <left>96</left>
+      <top>154</top>
       <width>858</width>
-      <height>362</height>
+      <height>402</height>
       <onleft>1102</onleft>
       <onright>1102</onright>
       <onup>1103</onup>
@@ -95,32 +95,32 @@
       <label></label>
     </control>
     <control type="label">
-      <left>138</left>
-      <top>126</top>
-      <width>260</width>
-      <height>54</height>
+      <left>136</left>
+      <top>190</top>
+      <width>280</width>
+      <height>56</height>
       <font>font_button</font>
       <textcolor>FFF7FBFF</textcolor>
       <label>Live TV</label>
     </control>
     <control type="image">
-      <left>132</left>
-      <top>194</top>
-      <width>690</width>
-      <height>82</height>
+      <left>136</left>
+      <top>260</top>
+      <width>780</width>
+      <height>98</height>
       <texture colordiffuse="18FFFFFF">colors/white.png</texture>
     </control>
     <control type="image">
-      <left>144</left>
-      <top>206</top>
-      <width>160</width>
-      <height>50</height>
+      <left>146</left>
+      <top>278</top>
+      <width>184</width>
+      <height>58</height>
       <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>152</left>
-      <top>216</top>
-      <width>144</width>
+      <left>160</left>
+      <top>292</top>
+      <width>156</width>
       <height>28</height>
       <font>font_body</font>
       <align>center</align>
@@ -128,16 +128,16 @@
       <label>Das Erste</label>
     </control>
     <control type="image">
-      <left>316</left>
-      <top>206</top>
-      <width>160</width>
-      <height>50</height>
+      <left>342</left>
+      <top>278</top>
+      <width>180</width>
+      <height>58</height>
       <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>332</left>
-      <top>216</top>
-      <width>128</width>
+      <left>356</left>
+      <top>292</top>
+      <width>152</width>
       <height>28</height>
       <font>font_body</font>
       <align>center</align>
@@ -145,16 +145,16 @@
       <label>ZDF</label>
     </control>
     <control type="image">
-      <left>488</left>
-      <top>206</top>
-      <width>146</width>
-      <height>50</height>
+      <left>534</left>
+      <top>278</top>
+      <width>170</width>
+      <height>58</height>
       <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>500</left>
-      <top>216</top>
-      <width>122</width>
+      <left>548</left>
+      <top>292</top>
+      <width>142</width>
       <height>28</height>
       <font>font_body</font>
       <align>center</align>
@@ -163,9 +163,9 @@
     </control>
     <control type="label">
       <left>138</left>
-      <top>300</top>
-      <width>650</width>
-      <height>40</height>
+      <top>378</top>
+      <width>700</width>
+      <height>38</height>
       <font>font_body_large</font>
       <textcolor>FFF7FBFF</textcolor>
       <label>Jetzt auf $INFO[VideoPlayer.ChannelName]: $INFO[VideoPlayer.Title]</label>
@@ -173,9 +173,9 @@
     </control>
     <control type="label">
       <left>138</left>
-      <top>300</top>
-      <width>650</width>
-      <height>40</height>
+      <top>378</top>
+      <width>700</width>
+      <height>38</height>
       <font>font_body_large</font>
       <textcolor>FFF7FBFF</textcolor>
       <label>Jetzt: Die Tagesschau</label>
@@ -183,22 +183,22 @@
     </control>
     <control type="image">
       <left>138</left>
-      <top>352</top>
-      <width>630</width>
-      <height>6</height>
+      <top>430</top>
+      <width>640</width>
+      <height>8</height>
       <texture colordiffuse="40FFFFFF">colors/white.png</texture>
     </control>
     <control type="image">
       <left>138</left>
-      <top>352</top>
-      <width>248</width>
-      <height>6</height>
+      <top>430</top>
+      <width>256</width>
+      <height>8</height>
       <texture colordiffuse="E0FFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
       <left>138</left>
-      <top>372</top>
-      <width>680</width>
+      <top>452</top>
+      <width>720</width>
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFEAF3FF</textcolor>
@@ -207,8 +207,8 @@
     </control>
     <control type="label">
       <left>138</left>
-      <top>372</top>
-      <width>680</width>
+      <top>452</top>
+      <width>720</width>
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFEAF3FF</textcolor>
@@ -217,19 +217,19 @@
     </control>
 
     <control type="image">
-      <left>972</left>
-      <top>88</top>
-      <width>864</width>
-      <height>378</height>
+      <left>974</left>
+      <top>146</top>
+      <width>858</width>
+      <height>418</height>
       <colordiffuse>FFFFFFFF</colordiffuse>
       <texture border="18" colordiffuse="FFFFFFFF">dialogs/dialog-bg.png</texture>
       <visible>Control.HasFocus(1102)</visible>
     </control>
     <control type="button" id="1102">
-      <left>980</left>
-      <top>96</top>
-      <width>848</width>
-      <height>362</height>
+      <left>978</left>
+      <top>154</top>
+      <width>850</width>
+      <height>402</height>
       <onleft>1101</onleft>
       <onright>1101</onright>
       <onup>1104</onup>
@@ -241,23 +241,23 @@
     </control>
     <control type="label">
       <left>1024</left>
-      <top>126</top>
+      <top>190</top>
       <width>420</width>
-      <height>54</height>
+      <height>56</height>
       <font>font_button</font>
       <textcolor>FFF7FFF4</textcolor>
       <label>Mediatheken</label>
     </control>
     <control type="image">
-      <left>1020</left>
-      <top>198</top>
-      <width>176</width>
-      <height>178</height>
+      <left>1014</left>
+      <top>268</top>
+      <width>184</width>
+      <height>150</height>
       <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>1024</left>
-      <top>204</top>
+      <left>1020</left>
+      <top>278</top>
       <width>168</width>
       <height>26</height>
       <font>font_body</font>
@@ -266,9 +266,9 @@
       <label>ARD</label>
     </control>
     <control type="label">
-      <left>1032</left>
-      <top>326</top>
-      <width>152</width>
+      <left>1020</left>
+      <top>374</top>
+      <width>172</width>
       <height>28</height>
       <font>font_body</font>
       <align>center</align>
@@ -276,15 +276,15 @@
       <label>Tatort</label>
     </control>
     <control type="image">
-      <left>1210</left>
-      <top>198</top>
-      <width>176</width>
-      <height>178</height>
+      <left>1218</left>
+      <top>268</top>
+      <width>184</width>
+      <height>150</height>
       <texture colordiffuse="FFF08900">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>1214</left>
-      <top>204</top>
+      <left>1224</left>
+      <top>278</top>
       <width>168</width>
       <height>26</height>
       <font>font_body</font>
@@ -293,9 +293,9 @@
       <label>ZDF</label>
     </control>
     <control type="label">
-      <left>1222</left>
-      <top>326</top>
-      <width>152</width>
+      <left>1220</left>
+      <top>374</top>
+      <width>180</width>
       <height>28</height>
       <font>font_body</font>
       <align>center</align>
@@ -303,15 +303,15 @@
       <label>Bergdoktor</label>
     </control>
     <control type="image">
-      <left>1400</left>
-      <top>198</top>
-      <width>176</width>
-      <height>178</height>
+      <left>1422</left>
+      <top>268</top>
+      <width>184</width>
+      <height>150</height>
       <texture colordiffuse="FFF07A00">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>1404</left>
-      <top>204</top>
+      <left>1428</left>
+      <top>278</top>
       <width>168</width>
       <height>26</height>
       <font>font_body</font>
@@ -320,9 +320,9 @@
       <label>arte</label>
     </control>
     <control type="label">
-      <left>1416</left>
-      <top>326</top>
-      <width>144</width>
+      <left>1424</left>
+      <top>374</top>
+      <width>176</width>
       <height>28</height>
       <font>font_body</font>
       <align>center</align>
@@ -330,15 +330,15 @@
       <label>Terra X</label>
     </control>
     <control type="image">
-      <left>1590</left>
-      <top>198</top>
-      <width>176</width>
-      <height>178</height>
+      <left>1626</left>
+      <top>268</top>
+      <width>184</width>
+      <height>150</height>
       <texture colordiffuse="FF0A5179">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>1594</left>
-      <top>204</top>
+      <left>1632</left>
+      <top>278</top>
       <width>168</width>
       <height>26</height>
       <font>font_body</font>
@@ -347,9 +347,9 @@
       <label>NDR</label>
     </control>
     <control type="label">
-      <left>1602</left>
-      <top>326</top>
-      <width>152</width>
+      <left>1630</left>
+      <top>374</top>
+      <width>176</width>
       <height>28</height>
       <font>font_body</font>
       <align>center</align>
@@ -358,19 +358,19 @@
     </control>
 
     <control type="image">
-      <left>84</left>
-      <top>492</top>
-      <width>874</width>
-      <height>378</height>
+      <left>88</left>
+      <top>588</top>
+      <width>858</width>
+      <height>334</height>
       <colordiffuse>FFFFFFFF</colordiffuse>
       <texture border="18" colordiffuse="FFFFFFFF">dialogs/dialog-bg.png</texture>
       <visible>Control.HasFocus(1103)</visible>
     </control>
     <control type="button" id="1103">
-      <left>92</left>
-      <top>500</top>
+      <left>96</left>
+      <top>596</top>
       <width>858</width>
-      <height>362</height>
+      <height>318</height>
       <onleft>1104</onleft>
       <onright>1104</onright>
       <onup>1101</onup>
@@ -381,25 +381,25 @@
       <label></label>
     </control>
     <control type="label">
-      <left>138</left>
-      <top>534</top>
+      <left>136</left>
+      <top>626</top>
       <width>300</width>
-      <height>54</height>
+      <height>56</height>
       <font>font_button</font>
       <textcolor>FFFFFBF3</textcolor>
       <label>Bibliothek</label>
     </control>
     <control type="image">
-      <left>116</left>
-      <top>620</top>
-      <width>236</width>
-      <height>174</height>
+      <left>118</left>
+      <top>718</top>
+      <width>242</width>
+      <height>148</height>
       <texture colordiffuse="FFF4EEE5">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>126</left>
-      <top>630</top>
-      <width>216</width>
+      <left>128</left>
+      <top>728</top>
+      <width>222</width>
       <height>24</height>
       <font>font_body</font>
       <align>center</align>
@@ -407,16 +407,16 @@
       <label>Rosamunde</label>
     </control>
     <control type="image">
-      <left>382</left>
-      <top>620</top>
-      <width>236</width>
-      <height>174</height>
+      <left>388</left>
+      <top>718</top>
+      <width>242</width>
+      <height>148</height>
       <texture colordiffuse="FF8B2317">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>392</left>
-      <top>630</top>
-      <width>216</width>
+      <left>398</left>
+      <top>728</top>
+      <width>222</width>
       <height>24</height>
       <font>font_body</font>
       <align>center</align>
@@ -424,16 +424,16 @@
       <label>Krimi-Serie</label>
     </control>
     <control type="image">
-      <left>648</left>
-      <top>620</top>
-      <width>236</width>
-      <height>174</height>
+      <left>658</left>
+      <top>718</top>
+      <width>242</width>
+      <height>148</height>
       <texture colordiffuse="FF6F9DB0">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>658</left>
-      <top>630</top>
-      <width>216</width>
+      <left>668</left>
+      <top>728</top>
+      <width>222</width>
       <height>24</height>
       <font>font_body</font>
       <align>center</align>
@@ -442,19 +442,19 @@
     </control>
 
     <control type="image">
-      <left>972</left>
-      <top>492</top>
-      <width>864</width>
-      <height>378</height>
+      <left>974</left>
+      <top>588</top>
+      <width>858</width>
+      <height>334</height>
       <colordiffuse>FFFFFFFF</colordiffuse>
       <texture border="18" colordiffuse="FFFFFFFF">dialogs/dialog-bg.png</texture>
       <visible>Control.HasFocus(1104)</visible>
     </control>
     <control type="button" id="1104">
-      <left>980</left>
-      <top>500</top>
-      <width>848</width>
-      <height>362</height>
+      <left>978</left>
+      <top>596</top>
+      <width>850</width>
+      <height>318</height>
       <onleft>1103</onleft>
       <onright>1103</onright>
       <onup>1102</onup>
@@ -466,23 +466,23 @@
       <label></label>
     </control>
     <control type="image">
-      <left>1258</left>
-      <top>566</top>
-      <width>292</width>
-      <height>162</height>
+      <left>1266</left>
+      <top>660</top>
+      <width>304</width>
+      <height>170</height>
       <texture colordiffuse="33FFFFFF">icons/settings/system.png</texture>
     </control>
     <control type="image">
-      <left>980</left>
-      <top>768</top>
-      <width>848</width>
-      <height>94</height>
+      <left>978</left>
+      <top>824</top>
+      <width>850</width>
+      <height>90</height>
       <texture colordiffuse="1AFFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>1198</left>
-      <top>794</top>
-      <width>412</width>
+      <left>1188</left>
+      <top>844</top>
+      <width>430</width>
       <height>46</height>
       <align>center</align>
       <font>font_button</font>
