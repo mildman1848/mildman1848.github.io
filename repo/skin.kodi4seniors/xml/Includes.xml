@@ -44,25 +44,25 @@
   <include name="TopHeader">
     <control type="label">
       <left>90</left>
-      <top>60</top>
-      <width>900</width>
-      <height>80</height>
+      <top>58</top>
+      <width>1040</width>
+      <height>86</height>
       <font>font_title</font>
       <textcolor>FFF6F1E8</textcolor>
       <label>Kodi fuer Senioren</label>
     </control>
     <control type="label">
       <left>90</left>
-      <top>138</top>
-      <width>900</width>
-      <height>42</height>
+      <top>140</top>
+      <width>1100</width>
+      <height>44</height>
       <font>font_body</font>
       <textcolor>FFD9D2C4</textcolor>
-      <label>Klare Wege fuer Fernsehen, Mediatheken, Bibliothek und Einstellungen</label>
+      <label>Fernsehen, Mediatheken und Lieblingsinhalte mit wenigen Tasten</label>
     </control>
     <control type="label">
       <right>90</right>
-      <top>66</top>
+      <top>64</top>
       <width>320</width>
       <height>60</height>
       <align>right</align>
@@ -82,207 +82,404 @@
     </control>
   </include>
 
-  <include name="HomeTileBase">
-    <param name="id" value="0" />
-    <param name="left" value="0" />
-    <param name="top" value="0" />
-    <param name="label" value="" />
-    <param name="icon" value="icons/home/default.png" />
-    <param name="onclick" value="" />
-    <param name="onleft" value="0" />
-    <param name="onright" value="0" />
-    <param name="onup" value="0" />
-    <param name="ondown" value="0" />
-    <definition>
-      <control type="button" id="$PARAM[id]">
-        <left>$PARAM[left]</left>
-        <top>$PARAM[top]</top>
-        <width>760</width>
-        <height>260</height>
-        <onleft>$PARAM[onleft]</onleft>
-        <onright>$PARAM[onright]</onright>
-        <onup>$PARAM[onup]</onup>
-        <ondown>$PARAM[ondown]</ondown>
-        <texturenofocus colordiffuse="D0333F49">resources/panel.png</texturenofocus>
-        <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
-        <onclick>$PARAM[onclick]</onclick>
-        <label></label>
-      </control>
-      <control type="image">
-        <left>$PARAM[left]</left>
-        <top>$PARAM[top]</top>
-        <width>760</width>
-        <height>260</height>
-        <texture colordiffuse="18FFFFFF">$PARAM[icon]</texture>
-        <visible>!Control.HasFocus($PARAM[id])</visible>
-      </control>
-      <control type="image">
-        <left>$PARAM[left]</left>
-        <top>$PARAM[top]</top>
-        <width>760</width>
-        <height>260</height>
-        <texture colordiffuse="22FFFFFF">$PARAM[icon]</texture>
-        <visible>Control.HasFocus($PARAM[id])</visible>
-      </control>
-      <control type="label">
-        <left>$PARAM[left]</left>
-        <top>$PARAM[top]</top>
-        <width>760</width>
-        <height>260</height>
-        <align>center</align>
-        <aligny>center</aligny>
-        <font>font_title</font>
-        <textcolor>FFF7F3EA</textcolor>
-        <label>$PARAM[label]</label>
-        <visible>!Control.HasFocus($PARAM[id])</visible>
-      </control>
-      <control type="label">
-        <left>$PARAM[left]</left>
-        <top>$PARAM[top]</top>
-        <width>760</width>
-        <height>260</height>
-        <align>center</align>
-        <aligny>center</aligny>
-        <font>font_title</font>
-        <textcolor>FF151515</textcolor>
-        <label>$PARAM[label]</label>
-        <visible>Control.HasFocus($PARAM[id])</visible>
-      </control>
-    </definition>
-  </include>
-
   <include name="HomeTiles">
-    <include content="HomeTileBase">
-      <param name="id" value="1101" />
-      <param name="left" value="90" />
-      <param name="top" value="230" />
-      <param name="label" value="Fernsehen" />
-      <param name="icon" value="icons/home/livetv.png" />
-      <param name="onclick" value="ActivateWindow(TVGuide)" />
-      <param name="onleft" value="1102" />
-      <param name="onright" value="1102" />
-      <param name="onup" value="1103" />
-      <param name="ondown" value="1103" />
-    </include>
-    <include content="HomeTileBase">
-      <param name="id" value="1102" />
-      <param name="left" value="870" />
-      <param name="top" value="230" />
-      <param name="label" value="Mediatheken" />
-      <param name="icon" value="icons/home/videos.png" />
-      <param name="onclick" value="ActivateWindow(Videos,addons://sources/video/,return)" />
-      <param name="onleft" value="1101" />
-      <param name="onright" value="1101" />
-      <param name="onup" value="1104" />
-      <param name="ondown" value="1104" />
-    </include>
-    <include content="HomeTileBase">
-      <param name="id" value="1103" />
-      <param name="left" value="90" />
-      <param name="top" value="510" />
-      <param name="label" value="Bibliothek" />
-      <param name="icon" value="icons/home/movies.png" />
-      <param name="onclick" value="ActivateWindow(Videos,videodb://,return)" />
-      <param name="onleft" value="1104" />
-      <param name="onright" value="1104" />
-      <param name="onup" value="1101" />
-      <param name="ondown" value="1101" />
-    </include>
-    <include content="HomeTileBase">
-      <param name="id" value="1104" />
-      <param name="left" value="870" />
-      <param name="top" value="510" />
-      <param name="label" value="Einstellungen" />
-      <param name="icon" value="icons/home/settings.png" />
-      <param name="onclick" value="ActivateWindow(Settings)" />
-      <param name="onleft" value="1103" />
-      <param name="onright" value="1103" />
-      <param name="onup" value="1102" />
-      <param name="ondown" value="1102" />
-    </include>
+    <control type="image">
+      <left>82</left>
+      <top>222</top>
+      <width>776</width>
+      <height>336</height>
+      <colordiffuse>FFFFFFFF</colordiffuse>
+      <texture>resources/panel.png</texture>
+      <visible>Control.HasFocus(1101)</visible>
+    </control>
+    <control type="button" id="1101">
+      <left>90</left>
+      <top>230</top>
+      <width>760</width>
+      <height>320</height>
+      <onleft>1102</onleft>
+      <onright>1102</onright>
+      <onup>1103</onup>
+      <ondown>1103</ondown>
+      <texturenofocus colordiffuse="FF1E90FF">resources/panel.png</texturenofocus>
+      <texturefocus colordiffuse="FF4FA8FF">resources/panel.png</texturefocus>
+      <onclick condition="System.HasPVRAddon">ActivateWindow(TVGuide)</onclick>
+      <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>258</top>
+      <width>360</width>
+      <height>52</height>
+      <font>font_button</font>
+      <textcolor>FF0F1C2B</textcolor>
+      <label>Fernsehen</label>
+      <visible>Control.HasFocus(1101)</visible>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>258</top>
+      <width>360</width>
+      <height>52</height>
+      <font>font_button</font>
+      <textcolor>FFF8FBFF</textcolor>
+      <label>Fernsehen</label>
+      <visible>!Control.HasFocus(1101)</visible>
+    </control>
+    <control type="image">
+      <left>596</left>
+      <top>250</top>
+      <width>200</width>
+      <height>200</height>
+      <texture colordiffuse="22FFFFFF">icons/settings/livetv.png</texture>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>334</top>
+      <width>360</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF4F8FF</textcolor>
+      <label>TV-Guide mit EPG</label>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>384</top>
+      <width>420</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFEAF3FF</textcolor>
+      <label>Jetzt: Senderliste und Programmansicht</label>
+      <visible>System.HasPVRAddon</visible>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>430</top>
+      <width>420</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFEAF3FF</textcolor>
+      <label>Danach: Schnell zu Guide oder Sendern</label>
+      <visible>System.HasPVRAddon</visible>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>400</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF8F0D8</textcolor>
+      <label>Einrichtung fehlt noch. OK oeffnet die TV-Konfiguration.</label>
+      <visible>!System.HasPVRAddon</visible>
+    </control>
+
+    <control type="image">
+      <left>862</left>
+      <top>222</top>
+      <width>776</width>
+      <height>336</height>
+      <colordiffuse>FFFFFFFF</colordiffuse>
+      <texture>resources/panel.png</texture>
+      <visible>Control.HasFocus(1102)</visible>
+    </control>
+    <control type="button" id="1102">
+      <left>870</left>
+      <top>230</top>
+      <width>760</width>
+      <height>320</height>
+      <onleft>1101</onleft>
+      <onright>1101</onright>
+      <onup>1104</onup>
+      <ondown>1104</ondown>
+      <texturenofocus colordiffuse="FF32CD32">resources/panel.png</texturenofocus>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <onclick>ActivateWindow(Videos,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>258</top>
+      <width>420</width>
+      <height>52</height>
+      <font>font_button</font>
+      <textcolor>FF10210E</textcolor>
+      <label>Mediatheken</label>
+      <visible>Control.HasFocus(1102)</visible>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>258</top>
+      <width>420</width>
+      <height>52</height>
+      <font>font_button</font>
+      <textcolor>FFF5FFF4</textcolor>
+      <label>Mediatheken</label>
+      <visible>!Control.HasFocus(1102)</visible>
+    </control>
+    <control type="image">
+      <left>1382</left>
+      <top>252</top>
+      <width>182</width>
+      <height>182</height>
+      <texture colordiffuse="20FFFFFF">icons/sidemenu/videos.png</texture>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>334</top>
+      <width>500</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF3FFF1</textcolor>
+      <label>ARD, ZDF, Arte und mehr</label>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>392</top>
+      <width>130</width>
+      <height>40</height>
+      <font>font_button</font>
+      <textcolor>FFF5FFF4</textcolor>
+      <label>ARD</label>
+    </control>
+    <control type="label">
+      <left>1050</left>
+      <top>392</top>
+      <width>130</width>
+      <height>40</height>
+      <font>font_button</font>
+      <textcolor>FFF5FFF4</textcolor>
+      <label>ZDF</label>
+    </control>
+    <control type="label">
+      <left>1194</left>
+      <top>392</top>
+      <width>130</width>
+      <height>40</height>
+      <font>font_button</font>
+      <textcolor>FFF5FFF4</textcolor>
+      <label>ARTE</label>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>442</top>
+      <width>500</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF3FFF1</textcolor>
+      <label>Alles gesammelt an einem Ort</label>
+    </control>
+
+    <control type="image">
+      <left>82</left>
+      <top>562</top>
+      <width>776</width>
+      <height>236</height>
+      <colordiffuse>FFFFFFFF</colordiffuse>
+      <texture>resources/panel.png</texture>
+      <visible>Control.HasFocus(1103)</visible>
+    </control>
+    <control type="button" id="1103">
+      <left>90</left>
+      <top>570</top>
+      <width>760</width>
+      <height>220</height>
+      <onleft>1104</onleft>
+      <onright>1104</onright>
+      <onup>1101</onup>
+      <ondown>1101</ondown>
+      <texturenofocus colordiffuse="FFFFA500">resources/panel.png</texturenofocus>
+      <texturefocus colordiffuse="FFFFC24B">resources/panel.png</texturefocus>
+      <onclick>ActivateWindow(Videos,videodb://,return)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>600</top>
+      <width>380</width>
+      <height>48</height>
+      <font>font_button</font>
+      <textcolor>FF2A1700</textcolor>
+      <label>Bibliothek</label>
+      <visible>Control.HasFocus(1103)</visible>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>600</top>
+      <width>380</width>
+      <height>48</height>
+      <font>font_button</font>
+      <textcolor>FFFFF8EE</textcolor>
+      <label>Bibliothek</label>
+      <visible>!Control.HasFocus(1103)</visible>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>660</top>
+      <width>420</width>
+      <height>36</height>
+      <font>font_body</font>
+      <textcolor>FFFFF3DE</textcolor>
+      <label>Filme, Serien und Dokumentationen</label>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>708</top>
+      <width>500</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFFFF3DE</textcolor>
+      <label>Auch Inhalte aus Mediatheken koennen hier landen</label>
+    </control>
+    <control type="image">
+      <left>606</left>
+      <top>604</top>
+      <width>150</width>
+      <height>150</height>
+      <texture colordiffuse="22FFFFFF">icons/sidemenu/movies.png</texture>
+    </control>
+
+    <control type="image">
+      <left>862</left>
+      <top>562</top>
+      <width>776</width>
+      <height>236</height>
+      <colordiffuse>FFFFFFFF</colordiffuse>
+      <texture>resources/panel.png</texture>
+      <visible>Control.HasFocus(1104)</visible>
+    </control>
+    <control type="button" id="1104">
+      <left>870</left>
+      <top>570</top>
+      <width>760</width>
+      <height>220</height>
+      <onleft>1103</onleft>
+      <onright>1103</onright>
+      <onup>1102</onup>
+      <ondown>1102</ondown>
+      <texturenofocus colordiffuse="FFA9A9A9">resources/panel.png</texturenofocus>
+      <texturefocus colordiffuse="FFC7C7C7">resources/panel.png</texturefocus>
+      <onclick>ActivateWindow(Settings)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>600</top>
+      <width>420</width>
+      <height>48</height>
+      <font>font_button</font>
+      <textcolor>FF1D1D1D</textcolor>
+      <label>Einstellungen</label>
+      <visible>Control.HasFocus(1104)</visible>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>600</top>
+      <width>420</width>
+      <height>48</height>
+      <font>font_button</font>
+      <textcolor>FFF8F8F8</textcolor>
+      <label>Einstellungen</label>
+      <visible>!Control.HasFocus(1104)</visible>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>660</top>
+      <width>500</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF2F2F2</textcolor>
+      <label>Technikbereich fuer Einrichtung und Wartung</label>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>708</top>
+      <width>500</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF2F2F2</textcolor>
+      <label>Hier nichts im Alltag aendern</label>
+    </control>
+    <control type="image">
+      <left>1388</left>
+      <top>606</top>
+      <width>146</width>
+      <height>146</height>
+      <texture colordiffuse="22FFFFFF">icons/settings/system.png</texture>
+    </control>
   </include>
 
   <include name="HomeDetailPanel">
     <control type="group">
       <left>90</left>
-      <top>810</top>
+      <top>820</top>
       <width>1540</width>
-      <height>190</height>
+      <height>170</height>
       <control type="image">
         <left>0</left>
         <top>0</top>
         <width>1540</width>
-        <height>190</height>
+        <height>170</height>
         <colordiffuse>D0263138</colordiffuse>
         <texture>resources/panel.png</texture>
         <aspectratio>stretch</aspectratio>
       </control>
       <control type="label">
         <left>48</left>
-        <top>28</top>
-        <width>1440</width>
-        <height>52</height>
+        <top>24</top>
+        <width>260</width>
+        <height>46</height>
         <font>font_button</font>
         <textcolor>FFF0B04A</textcolor>
-        <label>Einfacher Start</label>
+        <label>Hinweis</label>
       </control>
       <control type="textbox">
         <left>48</left>
-        <top>86</top>
+        <top>76</top>
         <width>1440</width>
-        <height>82</height>
+        <height>52</height>
         <font>font_body_large</font>
         <textcolor>FFE6DFD4</textcolor>
-        <label>Waehle eine der vier grossen Kacheln. Fernsehen zeigt das laufende Programm. Mediatheken oeffnet die Sender-Add-ons. Bibliothek fuehrt zu eigenen Inhalten. Einstellungen sind fuer die betreuende Person gedacht.</label>
+        <label>Vier grosse Bereiche, klare Farben und direkte Wege. So ersetzt Kodi die uebliche Android-TV-Startseite mit weniger Ablenkung und weniger Menues.</label>
       </control>
       <control type="label">
         <left>48</left>
-        <top>150</top>
+        <top>132</top>
         <width>1440</width>
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Fernsehen ist eingerichtet.</label>
-        <visible>Control.HasFocus(1101) + System.HasPVRAddon</visible>
+        <label>Fernsehen: Live-TV und EPG direkt oeffnen.</label>
+        <visible>Control.HasFocus(1101)</visible>
       </control>
       <control type="label">
         <left>48</left>
-        <top>150</top>
+        <top>132</top>
         <width>1440</width>
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Fernsehen muss noch eingerichtet werden.</label>
-        <visible>Control.HasFocus(1101) + !System.HasPVRAddon</visible>
-      </control>
-      <control type="label">
-        <left>48</left>
-        <top>150</top>
-        <width>1440</width>
-        <height>28</height>
-        <font>font_body</font>
-        <textcolor>FFF7F3EA</textcolor>
-        <label>ARD, ZDF, Arte und weitere Mediatheken schnell erreichen.</label>
+        <label>Mediatheken: Sender-Add-ons gebuendelt erreichen.</label>
         <visible>Control.HasFocus(1102)</visible>
       </control>
       <control type="label">
         <left>48</left>
-        <top>150</top>
+        <top>132</top>
         <width>1440</width>
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Eigene Filme, Serien und Videos oeffnen.</label>
+        <label>Bibliothek: gespeicherte Inhalte spaeter einfacher wiederfinden.</label>
         <visible>Control.HasFocus(1103)</visible>
       </control>
       <control type="label">
         <left>48</left>
-        <top>150</top>
+        <top>132</top>
         <width>1440</width>
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Nur fuer Einrichtung, Wartung und technische Anpassungen.</label>
+        <label>Einstellungen: nur fuer die betreuende Person gedacht.</label>
         <visible>Control.HasFocus(1104)</visible>
       </control>
     </control>
