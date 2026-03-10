@@ -82,178 +82,208 @@
     </control>
   </include>
 
-  <include name="MainMenuList">
-    <control type="list" id="1100">
-      <left>90</left>
-      <top>220</top>
-      <width>760</width>
-      <height>740</height>
-      <onup>1100</onup>
-      <ondown>1100</ondown>
-      <onleft>1100</onleft>
-      <onright>1200</onright>
-      <scrolltime>180</scrolltime>
-      <itemlayout width="760" height="150">
-        <control type="image">
-          <left>0</left>
-          <top>8</top>
-          <width>720</width>
-          <height>134</height>
-          <colordiffuse>FF3C4A57</colordiffuse>
-          <texture>resources/panel.png</texture>
-          <aspectratio>stretch</aspectratio>
-        </control>
-        <control type="label">
-          <left>44</left>
-          <top>22</top>
-          <width>620</width>
-          <height>96</height>
-          <font>font_button</font>
-          <textcolor>FFF4F0E8</textcolor>
-          <aligny>center</aligny>
-          <label>$INFO[ListItem.Label]</label>
-        </control>
-      </itemlayout>
-      <focusedlayout width="760" height="150">
-        <control type="image">
-          <left>0</left>
-          <top>0</top>
-          <width>740</width>
-          <height>150</height>
-          <colordiffuse>FFF0B04A</colordiffuse>
-          <texture>resources/panel.png</texture>
-          <aspectratio>stretch</aspectratio>
-        </control>
-        <control type="label">
-          <left>44</left>
-          <top>28</top>
-          <width>640</width>
-          <height>96</height>
-          <font>font_button</font>
-          <textcolor>FF151515</textcolor>
-          <aligny>center</aligny>
-          <label>$INFO[ListItem.Label]</label>
-        </control>
-      </focusedlayout>
-      <content>
-        <item>
-          <label>Fernsehen</label>
-          <onclick condition="System.HasPVRAddon">ActivateWindow(TVGuide)</onclick>
-          <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
-          <property name="description">Live-TV mit EPG. Hier oeffnet sich direkt das Fernsehprogramm mit Sendern, Uhrzeiten und laufenden Sendungen.</property>
-        </item>
-        <item>
-          <label>Mediatheken</label>
-          <onclick>ActivateWindow(Videos,addons://sources/video/,return)</onclick>
-          <property name="description">Zentrale Einstiegsseite fuer installierte Mediatheken wie ARD, ZDF, Arte und weitere oeffentlich-rechtliche Angebote.</property>
-        </item>
-        <item>
-          <label>Bibliothek</label>
-          <onclick>ActivateWindow(Videos,videodb://,return)</onclick>
-          <property name="description">Eigene Filme, Serien und weitere eingebundene Inhalte aus der Kodi-Bibliothek oeffnen.</property>
-        </item>
-        <item>
-          <label>Einstellung</label>
-          <onclick>ActivateWindow(Settings)</onclick>
-          <property name="description">Bereich fuer die einmalige technische Einrichtung von Live-TV, Add-ons, Netzwerk und Oberflaeche.</property>
-        </item>
-      </content>
-    </control>
+  <include name="HomeTileBase">
+    <param name="id" value="0" />
+    <param name="left" value="0" />
+    <param name="top" value="0" />
+    <param name="label" value="" />
+    <param name="icon" value="icons/home/default.png" />
+    <param name="onclick" value="" />
+    <param name="onleft" value="0" />
+    <param name="onright" value="0" />
+    <param name="onup" value="0" />
+    <param name="ondown" value="0" />
+    <definition>
+      <control type="button" id="$PARAM[id]">
+        <left>$PARAM[left]</left>
+        <top>$PARAM[top]</top>
+        <width>760</width>
+        <height>260</height>
+        <onleft>$PARAM[onleft]</onleft>
+        <onright>$PARAM[onright]</onright>
+        <onup>$PARAM[onup]</onup>
+        <ondown>$PARAM[ondown]</ondown>
+        <texturenofocus colordiffuse="D0333F49">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+        <onclick>$PARAM[onclick]</onclick>
+        <label></label>
+      </control>
+      <control type="image">
+        <left>$PARAM[left]</left>
+        <top>$PARAM[top]</top>
+        <width>760</width>
+        <height>260</height>
+        <texture colordiffuse="18FFFFFF">$PARAM[icon]</texture>
+        <visible>!Control.HasFocus($PARAM[id])</visible>
+      </control>
+      <control type="image">
+        <left>$PARAM[left]</left>
+        <top>$PARAM[top]</top>
+        <width>760</width>
+        <height>260</height>
+        <texture colordiffuse="22FFFFFF">$PARAM[icon]</texture>
+        <visible>Control.HasFocus($PARAM[id])</visible>
+      </control>
+      <control type="label">
+        <left>$PARAM[left]</left>
+        <top>$PARAM[top]</top>
+        <width>760</width>
+        <height>260</height>
+        <align>center</align>
+        <aligny>center</aligny>
+        <font>font_title</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>$PARAM[label]</label>
+        <visible>!Control.HasFocus($PARAM[id])</visible>
+      </control>
+      <control type="label">
+        <left>$PARAM[left]</left>
+        <top>$PARAM[top]</top>
+        <width>760</width>
+        <height>260</height>
+        <align>center</align>
+        <aligny>center</aligny>
+        <font>font_title</font>
+        <textcolor>FF151515</textcolor>
+        <label>$PARAM[label]</label>
+        <visible>Control.HasFocus($PARAM[id])</visible>
+      </control>
+    </definition>
   </include>
 
-  <include name="InfoPanel">
-    <control type="group" id="1200">
-      <left>915</left>
-      <top>220</top>
-      <width>915</width>
-      <height>740</height>
-      <onleft>1100</onleft>
-      <onright>1100</onright>
-      <onup>1100</onup>
-      <ondown>1100</ondown>
+  <include name="HomeTiles">
+    <include content="HomeTileBase">
+      <param name="id" value="1101" />
+      <param name="left" value="90" />
+      <param name="top" value="230" />
+      <param name="label" value="Fernsehen" />
+      <param name="icon" value="icons/home/livetv.png" />
+      <param name="onclick" value="ActivateWindow(TVGuide)" />
+      <param name="onleft" value="1102" />
+      <param name="onright" value="1102" />
+      <param name="onup" value="1103" />
+      <param name="ondown" value="1103" />
+    </include>
+    <include content="HomeTileBase">
+      <param name="id" value="1102" />
+      <param name="left" value="870" />
+      <param name="top" value="230" />
+      <param name="label" value="Mediatheken" />
+      <param name="icon" value="icons/home/videos.png" />
+      <param name="onclick" value="ActivateWindow(Videos,addons://sources/video/,return)" />
+      <param name="onleft" value="1101" />
+      <param name="onright" value="1101" />
+      <param name="onup" value="1104" />
+      <param name="ondown" value="1104" />
+    </include>
+    <include content="HomeTileBase">
+      <param name="id" value="1103" />
+      <param name="left" value="90" />
+      <param name="top" value="510" />
+      <param name="label" value="Bibliothek" />
+      <param name="icon" value="icons/home/movies.png" />
+      <param name="onclick" value="ActivateWindow(Videos,videodb://,return)" />
+      <param name="onleft" value="1104" />
+      <param name="onright" value="1104" />
+      <param name="onup" value="1101" />
+      <param name="ondown" value="1101" />
+    </include>
+    <include content="HomeTileBase">
+      <param name="id" value="1104" />
+      <param name="left" value="870" />
+      <param name="top" value="510" />
+      <param name="label" value="Einstellungen" />
+      <param name="icon" value="icons/home/settings.png" />
+      <param name="onclick" value="ActivateWindow(Settings)" />
+      <param name="onleft" value="1103" />
+      <param name="onright" value="1103" />
+      <param name="onup" value="1102" />
+      <param name="ondown" value="1102" />
+    </include>
+  </include>
+
+  <include name="HomeDetailPanel">
+    <control type="group">
+      <left>90</left>
+      <top>810</top>
+      <width>1540</width>
+      <height>190</height>
       <control type="image">
         <left>0</left>
         <top>0</top>
-        <width>915</width>
-        <height>740</height>
-        <colordiffuse>F0282E37</colordiffuse>
+        <width>1540</width>
+        <height>190</height>
+        <colordiffuse>D0263138</colordiffuse>
         <texture>resources/panel.png</texture>
         <aspectratio>stretch</aspectratio>
       </control>
       <control type="label">
-        <left>44</left>
-        <top>36</top>
-        <width>780</width>
-        <height>60</height>
-        <font>font_title</font>
-        <textcolor>FFF6F1E8</textcolor>
-        <label>$INFO[Container(1100).ListItem.Label]</label>
-      </control>
-      <control type="textbox">
-        <left>44</left>
-        <top>118</top>
-        <width>820</width>
-        <height>170</height>
-        <font>font_body_large</font>
-        <textcolor>FFE6DFD4</textcolor>
-        <label>$INFO[Container(1100).ListItem.Property(description)]</label>
-      </control>
-      <control type="label">
-        <left>44</left>
-        <top>340</top>
-        <width>860</width>
-        <height>48</height>
+        <left>48</left>
+        <top>28</top>
+        <width>1440</width>
+        <height>52</height>
         <font>font_button</font>
         <textcolor>FFF0B04A</textcolor>
-        <label>Hinweis</label>
-      </control>
-      <control type="label">
-        <left>44</left>
-        <top>410</top>
-        <width>860</width>
-        <height>40</height>
-        <font>font_body_large</font>
-        <textcolor>FFF6F1E8</textcolor>
-        <label>Fernsehen ist eingerichtet.</label>
-        <visible>System.HasPVRAddon</visible>
-      </control>
-      <control type="label">
-        <left>44</left>
-        <top>410</top>
-        <width>860</width>
-        <height>40</height>
-        <font>font_body_large</font>
-        <textcolor>FFF6F1E8</textcolor>
-        <label>Fernsehen muss noch eingerichtet werden.</label>
-        <visible>!System.HasPVRAddon</visible>
-      </control>
-      <control type="label">
-        <left>44</left>
-        <top>472</top>
-        <width>820</width>
-        <height>80</height>
-        <font>font_body</font>
-        <textcolor>FFD9D2C4</textcolor>
-        <wrapmultiline>true</wrapmultiline>
-        <label>Die Startseite zeigt bewusst nur vier grosse Kacheln. So bleiben die wichtigsten Wege im Alltag leicht merkbar und gut erreichbar.</label>
-      </control>
-      <control type="label">
-        <left>44</left>
-        <top>610</top>
-        <width>820</width>
-        <height>40</height>
-        <font>font_body_large</font>
-        <textcolor>FFF0B04A</textcolor>
-        <label>Empfohlene Nutzung</label>
+        <label>Einfacher Start</label>
       </control>
       <control type="textbox">
-        <left>44</left>
-        <top>664</top>
-        <width>820</width>
-        <height>110</height>
-        <font>font_body</font>
+        <left>48</left>
+        <top>86</top>
+        <width>1440</width>
+        <height>82</height>
+        <font>font_body_large</font>
         <textcolor>FFE6DFD4</textcolor>
-        <label>Fernsehen fuehrt direkt zum TV-Guide. Mediatheken sammeln installierte Sender-Add-ons. Bibliothek zeigt eigene Inhalte. Einstellungen bleiben fuer die technische Betreuung getrennt.</label>
+        <label>Waehle eine der vier grossen Kacheln. Fernsehen zeigt das laufende Programm. Mediatheken oeffnet die Sender-Add-ons. Bibliothek fuehrt zu eigenen Inhalten. Einstellungen sind fuer die betreuende Person gedacht.</label>
+      </control>
+      <control type="label">
+        <left>48</left>
+        <top>150</top>
+        <width>1440</width>
+        <height>28</height>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>Fernsehen ist eingerichtet.</label>
+        <visible>Control.HasFocus(1101) + System.HasPVRAddon</visible>
+      </control>
+      <control type="label">
+        <left>48</left>
+        <top>150</top>
+        <width>1440</width>
+        <height>28</height>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>Fernsehen muss noch eingerichtet werden.</label>
+        <visible>Control.HasFocus(1101) + !System.HasPVRAddon</visible>
+      </control>
+      <control type="label">
+        <left>48</left>
+        <top>150</top>
+        <width>1440</width>
+        <height>28</height>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>ARD, ZDF, Arte und weitere Mediatheken schnell erreichen.</label>
+        <visible>Control.HasFocus(1102)</visible>
+      </control>
+      <control type="label">
+        <left>48</left>
+        <top>150</top>
+        <width>1440</width>
+        <height>28</height>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>Eigene Filme, Serien und Videos oeffnen.</label>
+        <visible>Control.HasFocus(1103)</visible>
+      </control>
+      <control type="label">
+        <left>48</left>
+        <top>150</top>
+        <width>1440</width>
+        <height>28</height>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>Nur fuer Einrichtung, Wartung und technische Anpassungen.</label>
+        <visible>Control.HasFocus(1104)</visible>
       </control>
     </control>
   </include>

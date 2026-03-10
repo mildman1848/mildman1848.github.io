@@ -1,3 +1,6 @@
+[0.1.4]
+- Reworked the home screen into four large 2x2 tiles with calmer guidance text so the skin better matches the senior-focused concept.
+
 [0.1.3]
 - Fixed Linux font loading and restored the global skin include chain so windows, dialogs and variables resolve correctly.
 
