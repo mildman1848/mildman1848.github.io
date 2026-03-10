@@ -1,62 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-  <defaultcontrol always="true">10</defaultcontrol>
-  <controls>
-    <include>FullBackground</include>
-    <control type="group">
-      <centerleft>50%</centerleft>
-      <centertop>50%</centertop>
-      <width>980</width>
-      <height>460</height>
-      <control type="image">
-        <width>980</width>
-        <height>460</height>
-        <colordiffuse>F0282E37</colordiffuse>
-        <texture>resources/panel.png</texture>
-      </control>
-      <control type="label" id="1">
-        <left>40</left>
-        <top>30</top>
-        <width>900</width>
-        <height>60</height>
-        <font>font_title</font>
-        <align>center</align>
-      </control>
-      <control type="textbox" id="9">
-        <left>60</left>
-        <top>120</top>
-        <width>860</width>
-        <height>180</height>
-        <font>font_body_large</font>
-        <textcolor>FFE6DFD4</textcolor>
-      </control>
-      <control type="button" id="10">
-        <left>120</left>
-        <top>340</top>
-        <width>220</width>
-        <height>72</height>
-        <align>center</align>
-      </control>
-      <control type="button" id="11">
-        <left>380</left>
-        <top>340</top>
-        <width>220</width>
-        <height>72</height>
-        <align>center</align>
-      </control>
-      <control type="button" id="12">
-        <left>640</left>
-        <top>340</top>
-        <width>220</width>
-        <height>72</height>
-        <align>center</align>
-      </control>
-      <control type="progress" id="20">
-        <left>60</left>
-        <top>305</top>
-        <width>860</width>
-        <height>12</height>
-      </control>
-    </control>
-  </controls>
+	<include>Animation_DialogPopupOpenClose</include>
+	<depth>DepthDialog+</depth>
+	<controls>
+		<control type="group">
+			<height>400</height>
+			<centertop>50%</centertop>
+			<centerleft>50%</centerleft>
+			<width>915</width>
+			<include content="DialogBackgroundCommons">
+				<param name="width" value="915" />
+				<param name="height" value="380" />
+				<param name="header_label" value="" />
+				<param name="header_id" value="1" />
+			</include>
+			<control type="textbox" id="9">
+				<left>30</left>
+				<top>82</top>
+				<width>855</width>
+				<height>165</height>
+				<label></label>
+				<autoscroll time="3000" delay="4000" repeat="5000">true</autoscroll>
+			</control>
+			<control type="progress" id="20">
+				<left>30</left>
+				<top>262</top>
+				<width>855</width>
+				<height>24</height>
+				<info>System.Progressbar</info>
+			</control>
+			<control type="grouplist" id="9000">
+				<orientation>horizontal</orientation>
+				<left>0</left>
+				<top>290</top>
+				<width>915</width>
+				<align>center</align>
+				<include content="DefaultDialogButton">
+					<param name="id" value="11" />
+					<param name="label" value="" />
+				</include>
+				<include content="DefaultDialogButton">
+					<param name="id" value="10" />
+					<param name="label" value="" />
+				</include>
+				<include content="DefaultDialogButton">
+					<param name="id" value="12" />
+					<param name="label" value="" />
+				</include>
+			</control>
+		</control>
+	</controls>
 </window>
+

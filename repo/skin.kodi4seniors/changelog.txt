@@ -1,3 +1,6 @@
+[0.1.2]
+- Added the full runtime skin asset bundle so Kodi can render windows and dialogs instead of blank screens.
+
 [0.1.1]
 - Fehlerbehebung fuer Skin-Aktivierung und fehlende Basisfenster
 - Vier-Kachel-Startseite beibehalten
