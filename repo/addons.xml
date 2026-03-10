@@ -334,6 +334,9 @@
     </extension>
   </addon>
   <addon id="repository.jurialmunkey" name="jurialmunkey Alpha Repository" version="3.4" provider-name="jurialmunkey">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
     <extension point="xbmc.addon.repository" name="jurialmunkey Alpha Repository">
       <dir>
         <info compressed="false">https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/repo/zips/addons.xml</info>
@@ -372,6 +375,9 @@
     </extension>
   </addon>
   <addon id="repository.michaz" name="Michaz Repository" provider-name="Michaz" version="5.0">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
     <extension point="xbmc.addon.repository" name="Michaz Repository">
       <dir>
         <info compressed="false">https://michaz1988.github.io/repo/addons.xml</info>
@@ -414,6 +420,9 @@
     </extension>
   </addon>
   <addon id="repository.dexe" name=" dEXE's Addons Repository" version="1.0.11" provider-name="dEXE">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
     <extension point="xbmc.addon.repository" name="dEXE's Addons Repository">
       <dir>
         <info compressed="false">https://raw.githubusercontent.com/deklica/repo.dexe/master/repo/addons.xml</info>
@@ -536,6 +545,9 @@
     </extension>
   </addon>
   <addon id="repository.slyguy" name="SlyGuy Repository" provider-name="SlyGuy" version="0.0.9">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
     <extension point="xbmc.addon.repository" name="SlyGuy Repository">
       <dir>
         <info compressed="false">https://slyguy.uk/.repo/repository.slyguy/addons.xml</info>
@@ -583,10 +595,10 @@
     </extension>
   </addon>
   <addon id="repository.bingie" name="Bingie Repository" provider-name="matke" version="1.0.0">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
     <extension point="xbmc.addon.repository" name="Bingie Repository">
-      <requires>
-        <import addon="xbmc.addon" version="12.0.0" />
-      </requires>
       <dir minversion="20.9.1">
         <info compressed="false">https://raw.githubusercontent.com/matke-84/repository.bingie/main/omega/addons.xml</info>
         <checksum>https://raw.githubusercontent.com/matke-84/repository.bingie/main/omega/addons.xml.md5</checksum>

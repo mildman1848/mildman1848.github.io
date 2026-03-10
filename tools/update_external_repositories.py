@@ -14,6 +14,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 import re
@@ -30,6 +31,7 @@ REPO_DIR = ROOT / "repo"
 CONFIG_PATH = ROOT / "tools" / "external_repositories.json"
 ADDONS_XML_PATH = REPO_DIR / "addons.xml"
 ADDONS_MD5_PATH = REPO_DIR / "addons.xml.md5"
+DEFAULT_KODI_VERSION = os.environ.get("KODI_REPOSITORY_VERSION", "21.3.0")
 
 
 def _fetch_bytes_with_curl(url: str, timeout: int) -> bytes:
@@ -161,6 +163,102 @@ def _version_key(version: str) -> list[Any]:
     return key
 
 
+def _parse_version_tuple(version: str | None) -> tuple[int, ...] | None:
+    if not version:
+        return None
+    match = re.match(r"^\d+(?:\.\d+)*", version.strip())
+    if not match:
+        return None
+    return tuple(int(part) for part in match.group(0).split("."))
+
+
+def _dir_matches_kodi_version(directory: ET.Element, kodi_version: str) -> bool:
+    target = _parse_version_tuple(kodi_version)
+    if target is None:
+        return False
+
+    min_version = _parse_version_tuple(directory.attrib.get("minversion"))
+    max_version = _parse_version_tuple(directory.attrib.get("maxversion"))
+
+    if min_version is not None and target < min_version:
+        return False
+    if max_version is not None and target > max_version:
+        return False
+    return True
+
+
+def _ensure_root_requires(addon: ET.Element) -> None:
+    requires = addon.find("requires")
+    if requires is not None:
+        return
+
+    requires = ET.Element("requires")
+    import_node = ET.SubElement(requires, "import")
+    import_node.set("addon", "xbmc.addon")
+    import_node.set("version", "12.0.0")
+    addon.insert(0, requires)
+
+
+def _normalize_repository_addon(addon: ET.Element) -> list[str]:
+    notes: list[str] = []
+    repo_extension = addon.find("./extension[@point='xbmc.addon.repository']")
+    if repo_extension is None:
+        return notes
+
+    extension_requires = repo_extension.find("requires")
+    if extension_requires is not None:
+        repo_extension.remove(extension_requires)
+        notes.append("moved <requires> from repository extension to addon root")
+
+    direct_repo_children = [
+        child
+        for child in list(repo_extension)
+        if child.tag in {"info", "checksum", "datadir", "artdir", "hashes"}
+    ]
+    if direct_repo_children:
+        new_dir = ET.Element("dir")
+        insert_at = list(repo_extension).index(direct_repo_children[0])
+        for child in direct_repo_children:
+            repo_extension.remove(child)
+            new_dir.append(child)
+        repo_extension.insert(insert_at, new_dir)
+        notes.append("converted legacy repository schema to <dir> format")
+
+    _ensure_root_requires(addon)
+    return notes
+
+
+def _validate_repository_addon(addon: ET.Element, kodi_version: str) -> list[str]:
+    warnings: list[str] = []
+    addon_id = addon.attrib.get("id", "<unknown>")
+    repo_extension = addon.find("./extension[@point='xbmc.addon.repository']")
+    if repo_extension is None:
+        warnings.append(f"{addon_id}: missing xbmc.addon.repository extension")
+        return warnings
+
+    if repo_extension.find("requires") is not None:
+        warnings.append(f"{addon_id}: repository extension still contains <requires>")
+
+    directories = repo_extension.findall("dir")
+    if not directories:
+        warnings.append(f"{addon_id}: repository extension has no <dir> definitions")
+        return warnings
+
+    if not any(_dir_matches_kodi_version(directory, kodi_version) for directory in directories):
+        warnings.append(f"{addon_id}: no repository <dir> matches Kodi {kodi_version}")
+
+    for directory in directories:
+        for node_name in ("info", "checksum", "datadir", "artdir"):
+            node = directory.find(node_name)
+            if node is None or not (node.text and node.text.strip()):
+                continue
+            text = node.text.strip()
+            if text.startswith("http://"):
+                warnings.append(f"{addon_id}: uses plain HTTP in <{node_name}>: {text}")
+
+    return warnings
+
+
 def _discover_zip_from_index(
     index_url: str, filename_regex: str, zip_url_template: str | None
 ) -> tuple[str, str]:
@@ -209,6 +307,40 @@ def _find_addon_in_zip(data: bytes, expected_addon_id: str) -> ET.Element:
     )
 
 
+def _rewrite_addon_xml_in_zip(data: bytes, expected_addon_id: str, addon_xml: str) -> bytes:
+    source_buffer = io.BytesIO(data)
+    target_buffer = io.BytesIO()
+
+    with zipfile.ZipFile(source_buffer) as source_zip, zipfile.ZipFile(
+        target_buffer, "w"
+    ) as target_zip:
+        replaced = False
+        for member in source_zip.infolist():
+            member_bytes = source_zip.read(member.filename)
+            if member.filename.endswith("addon.xml"):
+                addon_root = ET.fromstring(member_bytes.decode("utf-8"))
+                if addon_root.tag == "addon" and addon_root.attrib.get("id") == expected_addon_id:
+                    member_bytes = addon_xml.encode("utf-8")
+                    replaced = True
+
+            clone_info = zipfile.ZipInfo(member.filename, member.date_time)
+            clone_info.compress_type = member.compress_type
+            clone_info.comment = member.comment
+            clone_info.extra = member.extra
+            clone_info.create_system = member.create_system
+            clone_info.external_attr = member.external_attr
+            clone_info.internal_attr = member.internal_attr
+            clone_info.flag_bits = member.flag_bits
+            target_zip.writestr(clone_info, member_bytes)
+
+    if not replaced:
+        raise ValueError(
+            f"Could not rewrite addon.xml in zip for addon id '{expected_addon_id}'"
+        )
+
+    return target_buffer.getvalue()
+
+
 def _replace_or_append_addon(root: ET.Element, incoming: ET.Element) -> bool:
     incoming_id = incoming.attrib.get("id")
     incoming_xml = _canonical_xml(incoming)
@@ -239,6 +371,14 @@ def _write_addons_files(root: ET.Element) -> None:
     ADDONS_XML_PATH.write_text(xml_text, encoding="utf-8")
     md5 = hashlib.md5(xml_text.encode("utf-8")).hexdigest()
     ADDONS_MD5_PATH.write_text(md5 + "\n", encoding="ascii")
+
+
+def _addon_xml_text(addon: ET.Element) -> str:
+    clone = ET.fromstring(ET.tostring(addon, encoding="unicode"))
+    ET.indent(clone, space="    ")
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + ET.tostring(
+        clone, encoding="unicode"
+    )
 
 
 def _clear_extracted_artifacts(target_dir: Path) -> None:
@@ -372,6 +512,27 @@ def main() -> int:
             changed = True
             extracted_artifacts_changed = True
 
+        incoming_addon = ET.fromstring(ET.tostring(source_addon, encoding="unicode"))
+        normalization_notes = _normalize_repository_addon(incoming_addon)
+        for note in normalization_notes:
+            print(f"Normalized {addon_id}: {note}")
+
+        validation_warnings = _validate_repository_addon(incoming_addon, DEFAULT_KODI_VERSION)
+        for warning in validation_warnings:
+            print(f"Warning: {warning}")
+
+        normalized_zip_bytes = _rewrite_addon_xml_in_zip(
+            target_zip.read_bytes(),
+            addon_id,
+            _addon_xml_text(incoming_addon),
+        )
+        existing_zip_bytes = target_zip.read_bytes()
+        if normalized_zip_bytes != existing_zip_bytes:
+            target_zip.write_bytes(normalized_zip_bytes)
+            print(f"Rewrote {target_zip.name} with normalized addon.xml")
+            changed = True
+            extracted_artifacts_changed = True
+
         # Keep only the newest synced zip for this external repository addon.
         for old_zip in sorted(target_dir.glob(f"{addon_id}-*.zip")):
             if old_zip.name == target_zip.name:
@@ -393,7 +554,6 @@ def main() -> int:
             _extract_zip_contents(target_zip, addon_id, target_dir)
             _write_repository_dir_index(addon_id, target_dir)
 
-        incoming_addon = ET.fromstring(ET.tostring(source_addon, encoding="unicode"))
         if _replace_or_append_addon(local_root, incoming_addon):
             print(f"Updated addon metadata in repo/addons.xml for {addon_id} ({version})")
             changed = True

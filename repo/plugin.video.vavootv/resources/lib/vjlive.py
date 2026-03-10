@@ -676,6 +676,8 @@ def livePlay(name, urls=None, group=None):
     utils.log_debug(f"Starting playback for: {name}", "livePlay")
     utils.log_debug(f"Provided URLs: {urls}, group: {group}", "livePlay")
     
+    external_resolve = urls is None and bool(group)
+
     if urls is None:
         utils.log_debug("No URLs provided, checking cache", "livePlay")
         if _channels_cache is not None and name in _channels_cache:
@@ -694,12 +696,19 @@ def livePlay(name, urls=None, group=None):
             utils.log(f"Channel not found: {name}", "livePlay", force=True)
             utils.error_dialog("Channel Not Found", f"The channel '{name}' was not found.\nPlease refresh the channel list and try again.")
             return
-    
-    stream_index, title, _ = _select_stream(name, urls)
-    if stream_index == -1:
-        utils.log_debug("Playback cancelled by user", "livePlay")
-        return
-    
+
+    if external_resolve:
+        # M3U/PVR plugin URLs do not provide an interactive Kodi plugin UI.
+        # Avoid blocking on a selection dialog and resolve streams automatically.
+        utils.log_debug("External resolve detected, forcing Auto Play", "livePlay")
+        stream_index = -2
+        title = name
+    else:
+        stream_index, title, _ = _select_stream(name, urls)
+        if stream_index == -1:
+            utils.log_debug("Playback cancelled by user", "livePlay")
+            return
+
     auto_play = (stream_index == -2)
     total = len(urls)
     
