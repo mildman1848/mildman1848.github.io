@@ -146,22 +146,42 @@
     <control type="label">
       <left>126</left>
       <top>384</top>
-      <width>420</width>
+      <width>470</width>
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFEAF3FF</textcolor>
-      <label>Jetzt: Senderliste und Programmansicht</label>
-      <visible>System.HasPVRAddon</visible>
+      <label>Jetzt auf $INFO[VideoPlayer.ChannelName]: $INFO[VideoPlayer.Title]</label>
+      <visible>System.HasPVRAddon + [PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
     </control>
     <control type="label">
       <left>126</left>
       <top>430</top>
-      <width>420</width>
+      <width>470</width>
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFEAF3FF</textcolor>
-      <label>Danach: Schnell zu Guide oder Sendern</label>
-      <visible>System.HasPVRAddon</visible>
+      <label>Naechste Sendung: $INFO[VideoPlayer.NextStartTime] $INFO[VideoPlayer.NextTitle]</label>
+      <visible>System.HasPVRAddon + [PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>392</top>
+      <width>470</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFEAF3FF</textcolor>
+      <label>TV-Guide, Senderliste und laufende Sendungen</label>
+      <visible>System.HasPVRAddon + ![PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
+    </control>
+    <control type="label">
+      <left>126</left>
+      <top>438</top>
+      <width>470</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFEAF3FF</textcolor>
+      <label>Mit OK direkt zum EPG oder zu den Sendern</label>
+      <visible>System.HasPVRAddon + ![PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
     </control>
     <control type="label">
       <left>126</left>
@@ -194,7 +214,7 @@
       <ondown>1104</ondown>
       <texturenofocus colordiffuse="FF32CD32">resources/panel.png</texturenofocus>
       <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
-      <onclick>ActivateWindow(Videos,addons://sources/video/,return)</onclick>
+      <onclick>ActivateWindow(1112)</onclick>
       <label></label>
     </control>
     <control type="label">
@@ -267,7 +287,7 @@
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFF3FFF1</textcolor>
-      <label>Alles gesammelt an einem Ort</label>
+      <label>Mit OK zur gebuendelten Mediatheken-Zentrale</label>
     </control>
 
     <control type="image">
@@ -290,7 +310,7 @@
       <ondown>1101</ondown>
       <texturenofocus colordiffuse="FFFFA500">resources/panel.png</texturenofocus>
       <texturefocus colordiffuse="FFFFC24B">resources/panel.png</texturefocus>
-      <onclick>ActivateWindow(Videos,videodb://,return)</onclick>
+      <onclick>ActivateWindow(Videos,library://video/,return)</onclick>
       <label></label>
     </control>
     <control type="label">
@@ -325,11 +345,11 @@
     <control type="label">
       <left>126</left>
       <top>708</top>
-      <width>500</width>
+      <width>560</width>
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFFFF3DE</textcolor>
-      <label>Auch Inhalte aus Mediatheken koennen hier landen</label>
+      <label>Hier koennen vorbereitete Mediatheken-Inhalte spaeter leichter gefunden werden</label>
     </control>
     <control type="image">
       <left>606</left>
@@ -369,7 +389,7 @@
       <height>48</height>
       <font>font_button</font>
       <textcolor>FF1D1D1D</textcolor>
-      <label>Einstellungen</label>
+      <label>Technikbereich</label>
       <visible>Control.HasFocus(1104)</visible>
     </control>
     <control type="label">
@@ -379,7 +399,7 @@
       <height>48</height>
       <font>font_button</font>
       <textcolor>FFF8F8F8</textcolor>
-      <label>Einstellungen</label>
+      <label>Technikbereich</label>
       <visible>!Control.HasFocus(1104)</visible>
     </control>
     <control type="label">
@@ -459,7 +479,7 @@
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Mediatheken: Sender-Add-ons gebuendelt erreichen.</label>
+        <label>Mediatheken: ARD, ZDF, Arte und weitere Angebote gebuendelt oeffnen.</label>
         <visible>Control.HasFocus(1102)</visible>
       </control>
       <control type="label">
@@ -469,7 +489,7 @@
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Bibliothek: gespeicherte Inhalte spaeter einfacher wiederfinden.</label>
+        <label>Bibliothek: vorbereitete Inhalte aus Mediatheken und eigener Sammlung leichter wiederfinden.</label>
         <visible>Control.HasFocus(1103)</visible>
       </control>
       <control type="label">
@@ -488,9 +508,9 @@
   <include name="SettingsMenuList">
     <control type="list" id="2100">
       <left>90</left>
-      <top>220</top>
+      <top>300</top>
       <width>1740</width>
-      <height>740</height>
+      <height>660</height>
       <onup>2100</onup>
       <ondown>2100</ondown>
       <scrolltime>180</scrolltime>
@@ -555,6 +575,16 @@
         </control>
       </focusedlayout>
       <content>
+        <item>
+          <label>Mediatheken vorbereiten</label>
+          <onclick>ActivateWindow(1112)</onclick>
+          <property name="description">ARD, ZDF, Arte und weitere Mediatheken gebuendelt pruefen und vorbereiten.</property>
+        </item>
+        <item>
+          <label>Bibliothek vorbereiten</label>
+          <onclick>ActivateWindow(MediaSettings)</onclick>
+          <property name="description">Quellen, Metadaten und spaetere Bibliothekswege fuer Filme und Serien einrichten.</property>
+        </item>
         <item>
           <label>Live-TV einrichten</label>
           <onclick>ActivateWindow(PVRSettings)</onclick>

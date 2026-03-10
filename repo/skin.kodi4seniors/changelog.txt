@@ -1,3 +1,8 @@
+[0.1.6]
+- Added a dedicated mediathek hub window and linked the home screen to grouped ARD, ZDF and Arte entry points.
+- Improved the TV tile with live and next programme information when Live TV is currently playing.
+- Clarified the setup area as a technician-facing preparation space and added direct preparation paths for mediatheken and library setup.
+
 [0.1.5]
 - Redesigned the start screen to match the senior launcher concept more closely with color-coded areas, larger upper tiles and clearer TV and mediathek previews.
 
