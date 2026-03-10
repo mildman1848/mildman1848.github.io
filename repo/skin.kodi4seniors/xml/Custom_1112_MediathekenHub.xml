@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<window>
+<window id="1112">
   <defaultcontrol always="true">3101</defaultcontrol>
   <controls>
     <include>FullBackground</include>

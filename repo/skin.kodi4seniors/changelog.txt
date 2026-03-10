@@ -1,3 +1,7 @@
+[0.1.8]
+- Restored the full Estuary shared include base, moved custom senior UI blocks into a dedicated include file and fixed custom window ids.
+- Switched custom fonts to Estuary-style filename references so Kodi can resolve them reliably.
+
 [0.1.7]
 - Added a locked technician mode with PIN-gated access from the home screen and a dedicated unlock window.
 - Changed the fourth home tile to a caregiver entry point when locked and added an explicit technician mode exit action.
