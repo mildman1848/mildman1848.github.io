@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2026-03-10
+- Released `plugin.audio.audiobookshelf` `0.1.32` fixing podcast playback on Kodi systems that fail direct-play checks when no audio MIME type is exposed for an episode stream.
 - Updated `plugin.video.vavootv` from version `4.9` to `5.0`.
 - Replaced the release archive with `repo/plugin.video.vavootv/plugin.video.vavootv-5.0.zip` and removed the old `4.9` ZIP.
 - Refreshed the extracted VavooTV addon payload in `repo/plugin.video.vavootv/`, including the new metadata/assets (`logo.png`, `fanart.jpg`, screenshots, `LICENSE.txt`) and the added `script.module.dateutil` dependency.
