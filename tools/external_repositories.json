@@ -1,8 +1,8 @@
 [
   {
     "addon_id": "repository.kodinerds",
-    "source_addons_xml": "https://repo.kodinerds.net/addons/addons.xml",
-    "zip_url_template": "https://repo.kodinerds.net/addons/repository.kodinerds/repository.kodinerds-{version}.zip"
+    "zip_index_url": "https://repo.kodinerds.net/webdav/",
+    "zip_filename_regex": "repository\\.kodinerds-(?P<version>[0-9][0-9A-Za-z.-]*)\\.zip"
   },
   {
     "addon_id": "repository.jellyfin.kodi",

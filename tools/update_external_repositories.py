@@ -18,6 +18,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 import re
 import shutil
+import subprocess
+import time
 from typing import Any
 from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
@@ -30,16 +32,50 @@ ADDONS_XML_PATH = REPO_DIR / "addons.xml"
 ADDONS_MD5_PATH = REPO_DIR / "addons.xml.md5"
 
 
+def _fetch_bytes_with_curl(url: str, timeout: int) -> bytes:
+    result = subprocess.run(  # nosec B603 - controlled URLs from repo config, no shell
+        [
+            "curl",
+            "-fsSL",
+            "--retry",
+            "3",
+            "--retry-all-errors",
+            "--connect-timeout",
+            "15",
+            "--max-time",
+            str(timeout),
+            "-A",
+            "mildman1848-repo-sync/1.0",
+            url,
+        ],
+        check=True,
+        capture_output=True,
+    )
+    return result.stdout
+
+
+def _fetch_bytes(url: str, timeout: int = 60) -> bytes:
+    last_error: Exception | None = None
+    for attempt in range(3):
+        try:
+            req = Request(url, headers={"User-Agent": "mildman1848-repo-sync/1.0"})
+            with urlopen(req, timeout=timeout) as resp:  # nosec B310 - controlled URLs from repo config
+                return resp.read()
+        except Exception as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(2**attempt)
+
+    try:
+        return _fetch_bytes_with_curl(url, timeout)
+    except Exception:
+        if last_error is not None:
+            raise last_error
+        raise
+
+
 def _fetch_text(url: str) -> str:
-    req = Request(url, headers={"User-Agent": "mildman1848-repo-sync/1.0"})
-    with urlopen(req, timeout=30) as resp:  # nosec B310 - controlled URLs from repo config
-        return resp.read().decode("utf-8")
-
-
-def _fetch_bytes(url: str) -> bytes:
-    req = Request(url, headers={"User-Agent": "mildman1848-repo-sync/1.0"})
-    with urlopen(req, timeout=60) as resp:  # nosec B310 - controlled URLs from repo config
-        return resp.read()
+    return _fetch_bytes(url, timeout=30).decode("utf-8")
 
 
 def _load_config() -> list[dict[str, Any]]:
@@ -295,6 +331,8 @@ def main() -> int:
 
     for entry in config:
         addon_id = entry["addon_id"]
+        print(f"Syncing {addon_id}...")
+        extracted_artifacts_changed = False
         if "zip_url" in entry:
             zip_url = entry["zip_url"]
             data = _fetch_bytes(zip_url)
@@ -332,6 +370,7 @@ def main() -> int:
             target_zip.write_bytes(data)
             print(f"Downloaded {target_zip.name} from {zip_url}")
             changed = True
+            extracted_artifacts_changed = True
 
         # Keep only the newest synced zip for this external repository addon.
         for old_zip in sorted(target_dir.glob(f"{addon_id}-*.zip")):
@@ -340,16 +379,19 @@ def main() -> int:
             old_zip.unlink()
             print(f"Removed stale zip {old_zip.name}")
             changed = True
+            extracted_artifacts_changed = True
 
         # Cleanup from legacy layout where external zips were stored at repo root.
         for root_zip in sorted(REPO_DIR.glob(f"{addon_id}-*.zip")):
             root_zip.unlink()
             print(f"Removed legacy root zip {root_zip.name}")
             changed = True
+            extracted_artifacts_changed = True
 
-        _clear_extracted_artifacts(target_dir)
-        _extract_zip_contents(target_zip, addon_id, target_dir)
-        _write_repository_dir_index(addon_id, target_dir)
+        if extracted_artifacts_changed or not (target_dir / "index.html").exists():
+            _clear_extracted_artifacts(target_dir)
+            _extract_zip_contents(target_zip, addon_id, target_dir)
+            _write_repository_dir_index(addon_id, target_dir)
 
         incoming_addon = ET.fromstring(ET.tostring(source_addon, encoding="unicode"))
         if _replace_or_append_addon(local_root, incoming_addon):

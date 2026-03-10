@@ -20,10 +20,11 @@
       </assets>
     </extension>
   </addon>
-  <addon id="plugin.video.vavootv" name="VavooTV" version="4.9" provider-name="Nobody">
+  <addon id="plugin.video.vavootv" name="VavooTV" version="5.0" provider-name="Michaz,kasi,Akisame,Codie">
     <requires>
       <import addon="script.module.requests" />
       <import addon="script.module.infotagger" />
+      <import addon="script.module.dateutil" />
       <import addon="inputstream.adaptive" optional="true" />
       <import addon="inputstream.ffmpegdirect" optional="true" />
       <import addon="script.module.pydevd" optional="true" />
@@ -33,8 +34,21 @@
     </extension>
     <extension point="xbmc.python.module" library="resources" />
     <extension point="xbmc.addon.metadata">
+      <summary lang="de">VavooTV</summary>
+      <summary lang="en_GB">VavooTV</summary>
+      <description lang="de">VavooTV ist ein Video-Addon für Kodi. VavooTV dient als Auflistung für Filme und Serien Streams auf verschiedenen Hostern und Sprachen.</description>
+      <description lang="en_GB">VavooTV is a video add-on for Kodi. VavooTV serves as a directory for streaming movies and TV series from various hosts and in different languages.</description>
+      <disclaimer lang="de">[B][COLOR red]Die von diesem Addon dargestellten Inhalte werden von den Erstellern der Software weder gehostet oder verbreitet, noch stehen die Ersteller in irgendeiner Beziehung zu den Content-Anbietern![/COLOR][/B]</disclaimer>
+      <disclaimer lang="en_GB">[B][COLOR red]The content displayed by this add-on is neither hosted nor distributed by the software creators, nor are the creators in any relationship with the content providers.[/COLOR][/B]</disclaimer>
+      <language>de en</language>
+      <platform>all</platform>
+      <license>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</license>
       <assets>
-        <icon>icon2.png</icon>
+        <icon>logo.png</icon>
+        <fanart>fanart.jpg</fanart>
+        <screenshot>screenshot1.jpg</screenshot>
+        <screenshot>screenshot2.jpg</screenshot>
+        <screenshot>screenshot3.jpg</screenshot>
       </assets>
     </extension>
   </addon>

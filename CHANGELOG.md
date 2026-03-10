@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-03-10
+- Updated `plugin.video.vavootv` from version `4.9` to `5.0`.
+- Replaced the release archive with `repo/plugin.video.vavootv/plugin.video.vavootv-5.0.zip` and removed the old `4.9` ZIP.
+- Refreshed the extracted VavooTV addon payload in `repo/plugin.video.vavootv/`, including the new metadata/assets (`logo.png`, `fanart.jpg`, screenshots, `LICENSE.txt`) and the added `script.module.dateutil` dependency.
+- Updated repository metadata files: `repo/addons.xml`, `repo/addons.xml.md5`, `repo/plugin.video.vavootv/index.html`, and `repo/index.html`.
+- Fixed the external repository sync tooling for current upstream changes: `repository.kodinerds` now resolves versions from the public WebDAV index, and network fetches fall back to `curl` with retries when Python HTTP requests time out.
+
 ## 2026-03-03
 - Updated `plugin.video.vavootv` to version `4.9` and switched release archive to `repo/plugin.video.vavootv/plugin.video.vavootv-4.9.zip` (removed `4.8`).
 - Synced VavooTV metadata in `repo/addons.xml` with the new addon manifest (provider, dependency list, and icon asset `icon2.png`).

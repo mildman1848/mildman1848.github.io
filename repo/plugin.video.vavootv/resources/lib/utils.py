@@ -28,7 +28,37 @@ import xbmcvfs
 import xbmcaddon
 import xbmcplugin
 import requests
-from urllib.parse import urlencode, parse_qsl, quote_plus
+
+# Safe imports for futhure updates
+
+# import re
+# import urllib3
+# import resolveurl
+# import base64
+# import random
+# import string
+
+from zlib import compress, decompress
+
+# from urllib.parse import urlencode, parse_qsl, quote_plus
+from urllib.parse import urlencode, urlparse, parse_qsl, quote_plus, urlsplit, quote
+
+# =============================================================================
+# PATH UTILITIES
+# =============================================================================
+
+def translatePath(*args):
+    """
+    Translate Kodi special paths to real filesystem paths.
+    """
+    return xbmcvfs.translatePath(*args)
+
+
+def exists(path):
+    """
+    Check if a path exists in the filesystem.
+    """
+    return os.path.exists(translatePath(path))
 
 # =============================================================================
 # ADDON INITIALIZATION
@@ -38,8 +68,8 @@ from urllib.parse import urlencode, parse_qsl, quote_plus
 addon = xbmcaddon.Addon()
 addonInfo = addon.getAddonInfo
 addonID = addonInfo('id')
-addonprofile = xbmcvfs.translatePath(addonInfo('profile'))
-addonpath = xbmcvfs.translatePath(addonInfo('path'))
+addonprofile = translatePath(addonInfo('profile'))
+addonpath = translatePath(addonInfo('path'))
 cachepath = os.path.join(addonprofile, "cache")
 
 # Home window for memory cache storage
@@ -51,7 +81,7 @@ home = xbmcgui.Window(10000)
 # =============================================================================
 DEFAULT_CACHE_TIMEOUT = 43200
 AUTH_API_URL = 'https://www.vavoo.tv/api/app/ping'
-
+AUTH_API_URL_LOKKE = 'https://www.lokke.app/api/app/ping'
 
 # =============================================================================
 # LOGGING
@@ -109,22 +139,6 @@ def log_exception(header=""):
         log(f"EXCEPTION:\n{tb}", header, force=True)
 
 
-# =============================================================================
-# PATH UTILITIES
-# =============================================================================
-
-def translatePath(*args):
-    """
-    Translate Kodi special paths to real filesystem paths.
-    """
-    return xbmcvfs.translatePath(*args)
-
-
-def exists(path):
-    """
-    Check if a path exists in the filesystem.
-    """
-    return os.path.exists(translatePath(path))
 
 
 # =============================================================================
@@ -204,6 +218,27 @@ def clear(auto=False):
         log_debug(f"Error clearing cache: {e}", "clear")
 
 
+# Cache Clearup in Settings
+def clearhard(auto=False):
+	for a in os.listdir(cachepath):
+		file = os.path.join(cachepath, a)
+		key = a.replace(".json", "")
+		if auto:
+			m = open(file, "rb").read()
+			try: data = decompress(m)
+			except: data = m
+			r = json.loads(data)
+			sigValidUntil = r.get('sigValidUntil', 0)
+			if sigValidUntil != False and sigValidUntil < int(time.time()):
+				os.remove(file)
+				home.clearProperty(key)
+		else: 
+			os.remove(file)
+			home.clearProperty(key)
+		
+clearhard(auto=True)
+
+
 # =============================================================================
 # AUTHENTICATION
 # =============================================================================
@@ -211,6 +246,7 @@ def clear(auto=False):
 _auth_cache = {"signature": None, "expires": 0}
 AUTH_CACHE_TTL = 3600   # Cache auth signature for 60 minutes
 
+# import resources.lib.authpathdesktop OLD VERSION
 
 def getAuthSignature():
     """
@@ -218,6 +254,7 @@ def getAuthSignature():
     Caches the signature for AUTH_CACHE_TTL seconds to avoid redundant requests.
     Returns None and shows error dialog on failure.
     """
+
     global _auth_cache
 
     # Return cached signature if still valid
@@ -227,127 +264,101 @@ def getAuthSignature():
     
     log_debug("Requesting fresh auth signature...", "getAuthSignature")
     
-    # Use Electron (desktop Vavoo app) user-agent - this is what working proxies use
-    headers = {
-        "accept": "*/*",
-        "user-agent": "electron-fetch/1.0 electron (+https://github.com/arantes555/electron-fetch)",
-        "Accept-Language": "de",
-        "Accept-Encoding": "gzip, deflate",
-        "content-type": "application/json; charset=utf-8",
-        "Connection": "close"
-    }
-    
-    import uuid as _uuid
-    unique_id = _uuid.uuid4().hex[:16]
-    
-    # Standard Vavoo Auth Payload
-    data = {
-        "token": "8Us2TfjeOFrzqFFTEjL3E5KfdAWGa5PV3wQe60uK4BmzlkJRMYFu0ufaM_eeDXKS2U04XUuhbDTgGRJrJARUwzDyCcRToXhW5AcDekfFMfwNUjuieeQ1uzeDB9YWyBL2cn5Al3L3gTnF8Vk1t7rPwkBob0swvxA",
-        "reason": "player.enter",
-        "locale": "de",
-        "theme": "dark",
-        "metadata": {
-            "device": {
-                "type": "Desktop",
-                "brand": "Unknown",
-                "model": "Unknown",
-                "name": "Unknown",
-                "uniqueId": unique_id
-            },
-            "os": {
-                "name": "windows",
-                "version": "10.0.22631",
-                "abis": [],
-                "host": "electron"
-            },
-            "app": {
-                "platform": "electron",
-                "version": "3.1.4",
-                "buildId": "288045000",
-                "engine": "jsc",
-                "signatures": [],
-                "installer": "unknown"
-            },
-            "version": {
-                "package": "tv.vavoo.app",
-                "binary": "3.1.4",
-                "js": "3.1.4"
-            }
-        },
-        "appFocusTime": 27229,
-        "playerActive": True,
-        "playDuration": 0,
-        "devMode": False,
-        "hasAddon": False,
-        "castConnected": False,
-        "package": "tv.vavoo.app",
-        "version": "3.1.4",
-        "process": "app",
-        "firstAppStart": int(time.time() * 1000) - 86400000,
-        "lastAppStart": int(time.time() * 1000),
-        "ipLocation": "",
-        "adblockEnabled": False,
-        "proxy": {
-            "supported": ["ss"],
-            "engine": "ss",
-            "enabled": False,
-            "autoServer": True,
-            "id": "ca-bhs"
-        },
-        "iap": {"supported": True}
-    }
-    
-    try:
-        log_debug(f"POST {AUTH_API_URL}", "getAuthSignature")
-        response = requests.post(AUTH_API_URL, json=data, headers=headers, timeout=10)
-        log_debug(f"Response status: {response.status_code}", "getAuthSignature")
-        
-        result = response.json()
-        
-        # Log the full response for debugging (helps diagnose watermark/auth issues)
-        # log(f"Auth ping full response: {json.dumps(result, indent=2)}", "getAuthSignature", force=True)
-        
-        signature = result.get("addonSig")
 
-        if signature:
-            log_debug("Auth signature obtained successfully", "getAuthSignature")
-            
-            # Decode and log signature data to check status
-            # try:
-                # import base64
-                # sig_data = json.loads(base64.b64decode(signature + '=='))
-                # inner = json.loads(sig_data.get("data", "{}"))
-                # log(f"Auth status: status={inner.get('status')}, verified={inner.get('verified')}, app_ok={inner.get('app', {}).get('ok')}", "getAuthSignature", force=True)
-            # except Exception:
-                # pass
-            
-            _auth_cache["signature"] = signature
-            _auth_cache["expires"] = time.time() + AUTH_CACHE_TTL
-            return signature
-        else:
-            # log(f"No addonSig in response: {result}", "getAuthSignature", force=True)
-            # error_dialog("Authentication Failed", "Failed to get auth signature from server.")
-            return None
+    i = 0
+    while i < 5:
+        i+=1
+        try:
+            # Use Android (Vavoo app) user-agent
 
-    # except requests.exceptions.Timeout:
-    #     log("Auth request timed out", "getAuthSignature", force=True)
-    #     log_exception("getAuthSignature")
-    #     error_dialog("Authentication Failed", "Request timed out. Please check your internet connection.")
-    #     return None
-    # except requests.exceptions.RequestException as e:
-    #     log(f"Auth request failed: {e}", "getAuthSignature", force=True)
-    #     log_exception("getAuthSignature")
-    #     error_dialog("Authentication Failed", f"Network error: {str(e)}")
-    #     return None
-    # except Exception as e:
-    #     log(f"Unexpected auth error: {e}", "getAuthSignature", force=True)
-    #     log_exception("getAuthSignature")
-    #     error_dialog("Authentication Failed", f"Unexpected error: {str(e)}")
-    #     return None
+            _headers = {
+				"user-agent": "okhttp/4.11.0", 
+				"accept": "application/json", 
+				"content-type": "application/json; charset=utf-8", 
+				"content-length": "1106", 
+				"accept-encoding": "gzip"
+				}
 
-    except:
-        pass
-    return None
+            # Standard Vavoo Auth Payload lokke
+            _data = {
+				"token":"ldCvE092e7gER0rVIajfsXIvRhwlrAzP6_1oEJ4q6HH89QHt24v6NNL_jQJO219hiLOXF2hqEfsUuEWitEIGN4EaHHEHb7Cd7gojc5SQYRFzU3XWo_kMeryAUbcwWnQrnf0-",
+				"reason":"app-blur",
+				"locale":"de",
+				"theme":"dark",
+				"metadata":{
+					"device":{
+						"type":"Handset",
+						"brand":"google",
+						"model":"Nexus",
+						"name":"21081111RG",
+						"uniqueId":"d10e5d99ab665233"
+						},
+						"os":{
+							"name":"android",
+							"version":"7.1.2",
+							"abis":["arm64-v8a"],
+							"host":"android"
+						},
+						"app":{
+							"platform":"android",
+							"version":"1.1.0",
+							"buildId":"97215000",
+							"engine":"hbc85",
+							"signatures":["6e8a975e3cbf07d5de823a760d4c2547f86c1403105020adee5de67ac510999e"],
+							"installer":"com.android.vending"
+						},
+						"version":{
+							"package":"app.lokke.main",
+							"binary":"1.1.0",
+							"js":"1.1.0"
+						},
+						"platform":{
+							"isAndroid":True,
+							"isIOS":False,
+							"isTV":False,
+							"isWeb":False,
+							"isMobile":True,
+							"isWebTV":False,
+							"isElectron":False}
+						},
+						"appFocusTime":0,
+						"playerActive":False,
+						"playDuration":0,
+						"devMode":True,
+						"hasAddon":True,
+						"castConnected":False,
+						"package":"app.lokke.main",
+						"version":"1.1.0",
+						"process":"app",
+						"firstAppStart":1772388338206,
+						"lastAppStart":1772388338206,
+						"ipLocation":None,
+						"adblockEnabled":False,
+						"proxy":{
+							"supported":["ss","openvpn"],
+							"engine":"openvpn","ssVersion":1,
+							"enabled":False,
+							"autoServer":True,
+							"id":"fi-hel"
+						},
+						"iap":{"supported":True}
+					}
+            log_debug(f"POST {AUTH_API_URL_LOKKE}", "getAuthSignature")
+            req = requests.post('https://www.lokke.app/api/app/ping', json=_data, headers=_headers).json()
+            log_debug(f"Response status: {req.status_code}", "getAuthSignature")
+            return req.get("addonSig")
+        except: continue
+
+def gettsSignature():
+    i = 0
+    while i < 5:
+        i+=1
+        try:
+            vec = {"vec": "9frjpxPjxSNilxJPCJ0XGYs6scej3dW/h/VWlnKUiLSG8IP7mfyDU7NirOlld+VtCKGj03XjetfliDMhIev7wcARo+YTU8KPFuVQP9E2DVXzY2BFo1NhE6qEmPfNDnm74eyl/7iFJ0EETm6XbYyz8IKBkAqPN/Spp3PZ2ulKg3QBSDxcVN4R5zRn7OsgLJ2CNTuWkd/h451lDCp+TtTuvnAEhcQckdsydFhTZCK5IiWrrTIC/d4qDXEd+GtOP4hPdoIuCaNzYfX3lLCwFENC6RZoTBYLrcKVVgbqyQZ7DnLqfLqvf3z0FVUWx9H21liGFpByzdnoxyFkue3NzrFtkRL37xkx9ITucepSYKzUVEfyBh+/3mtzKY26VIRkJFkpf8KVcCRNrTRQn47Wuq4gC7sSwT7eHCAydKSACcUMMdpPSvbvfOmIqeBNA83osX8FPFYUMZsjvYNEE3arbFiGsQlggBKgg1V3oN+5ni3Vjc5InHg/xv476LHDFnNdAJx448ph3DoAiJjr2g4ZTNynfSxdzA68qSuJY8UjyzgDjG0RIMv2h7DlQNjkAXv4k1BrPpfOiOqH67yIarNmkPIwrIV+W9TTV/yRyE1LEgOr4DK8uW2AUtHOPA2gn6P5sgFyi68w55MZBPepddfYTQ+E1N6R/hWnMYPt/i0xSUeMPekX47iucfpFBEv9Uh9zdGiEB+0P3LVMP+q+pbBU4o1NkKyY1V8wH1Wilr0a+q87kEnQ1LWYMMBhaP9yFseGSbYwdeLsX9uR1uPaN+u4woO2g8sw9Y5ze5XMgOVpFCZaut02I5k0U4WPyN5adQjG8sAzxsI3KsV04DEVymj224iqg2Lzz53Xz9yEy+7/85ILQpJ6llCyqpHLFyHq/kJxYPhDUF755WaHJEaFRPxUqbparNX+mCE9Xzy7Q/KTgAPiRS41FHXXv+7XSPp4cy9jli0BVnYf13Xsp28OGs/D8Nl3NgEn3/eUcMN80JRdsOrV62fnBVMBNf36+LbISdvsFAFr0xyuPGmlIETcFyxJkrGZnhHAxwzsvZ+Uwf8lffBfZFPRrNv+tgeeLpatVcHLHZGeTgWWml6tIHwWUqv2TVJeMkAEL5PPS4Gtbscau5HM+FEjtGS+KClfX1CNKvgYJl7mLDEf5ZYQv5kHaoQ6RcPaR6vUNn02zpq5/X3EPIgUKF0r/0ctmoT84B2J1BKfCbctdFY9br7JSJ6DvUxyde68jB+Il6qNcQwTFj4cNErk4x719Y42NoAnnQYC2/qfL/gAhJl8TKMvBt3Bno+va8ve8E0z8yEuMLUqe8OXLce6nCa+L5LYK1aBdb60BYbMeWk1qmG6Nk9OnYLhzDyrd9iHDd7X95OM6X5wiMVZRn5ebw4askTTc50xmrg4eic2U1w1JpSEjdH/u/hXrWKSMWAxaj34uQnMuWxPZEXoVxzGyuUbroXRfkhzpqmqqqOcypjsWPdq5BOUGL/Riwjm6yMI0x9kbO8+VoQ6RYfjAbxNriZ1cQ+AW1fqEgnRWXmjt4Z1M0ygUBi8w71bDML1YG6UHeC2cJ2CCCxSrfycKQhpSdI1QIuwd2eyIpd4LgwrMiY3xNWreAF+qobNxvE7ypKTISNrz0iYIhU0aKNlcGwYd0FXIRfKVBzSBe4MRK2pGLDNO6ytoHxvJweZ8h1XG8RWc4aB5gTnB7Tjiqym4b64lRdj1DPHJnzD4aqRixpXhzYzWVDN2kONCR5i2quYbnVFN4sSfLiKeOwKX4JdmzpYixNZXjLkG14seS6KR0Wl8Itp5IMIWFpnNokjRH76RYRZAcx0jP0V5/GfNNTi5QsEU98en0SiXHQGXnROiHpRUDXTl8FmJORjwXc0AjrEMuQ2FDJDmAIlKUSLhjbIiKw3iaqp5TVyXuz0ZMYBhnqhcwqULqtFSuIKpaW8FgF8QJfP2frADf4kKZG1bQ99MrRrb2A="}
+            url = 'https://www.vavoo.tv/api/box/ping2'
+            req = requests.post(url, data=vec).json()
+            return req['response'].get('signed')
+        except: continue
 
 # =============================================================================
 # URL/HEADER UTILITIES
@@ -430,7 +441,7 @@ def set_cache(key, value, timeout=DEFAULT_CACHE_TIMEOUT):
         with xbmcvfs.File(filepath, "w") as f:
             json.dump(data, f, indent=4)
         log_debug(f"Cache written to file: {filepath}", "set_cache")
-    #  except Exception as e:
+    #  except Exception as e:s
         # log(f"Failed to write cache: {e}", "set_cache")
         # log_exception("set_cache")
 

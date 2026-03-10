@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.vavootv" name="VavooTV" version="4.9" provider-name="Nobody">
+<addon id="plugin.video.vavootv" name="VavooTV" version="5.0" provider-name="Michaz,kasi,Akisame,Codie">
 	<requires>
 		<import addon="script.module.requests"/>
 		<import addon="script.module.infotagger"/>
+		<import addon="script.module.dateutil"/>
 		<import addon="inputstream.adaptive" optional="true"/>
 		<import addon="inputstream.ffmpegdirect" optional="true"/>
 		<import addon="script.module.pydevd" optional="true"/>
@@ -12,8 +13,92 @@
 	</extension>
 	<extension point="xbmc.python.module" library="resources" />
 	<extension point="xbmc.addon.metadata">
+		<summary lang="de">VavooTV</summary>
+		<summary lang="en_GB">VavooTV</summary>
+		<description lang="de">VavooTV ist ein Video-Addon für Kodi. VavooTV dient als Auflistung für Filme und Serien Streams auf verschiedenen Hostern und Sprachen.</description>
+		<description lang="en_GB">VavooTV is a video add-on for Kodi. VavooTV serves as a directory for streaming movies and TV series from various hosts and in different languages.</description>
+		<disclaimer lang="de">[B][COLOR red]Die von diesem Addon dargestellten Inhalte werden von den Erstellern der Software weder gehostet oder verbreitet, noch stehen die Ersteller in irgendeiner Beziehung zu den Content-Anbietern![/COLOR][/B]</disclaimer>
+		<disclaimer lang="en_GB">[B][COLOR red]The content displayed by this add-on is neither hosted nor distributed by the software creators, nor are the creators in any relationship with the content providers.[/COLOR][/B]</disclaimer>
+		<language>de en</language>
+		<platform>all</platform>
+		<license>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</license>
 		<assets>
-			<icon>icon2.png</icon>
+			<icon>logo.png</icon>
+			<fanart>fanart.jpg</fanart>
+            <screenshot>screenshot1.jpg</screenshot>
+			<screenshot>screenshot2.jpg</screenshot>
+			<screenshot>screenshot3.jpg</screenshot>
 		</assets>
+		<news>
+			Version 5.0
+			- Added Hard Cache Clean Option in settings
+			- Added Addon Informations
+			- Changed Auth-Method for Lokke issues
+			- Changed Signature-Method to Android
+			- Added Changelog in Addon
+			- Changed Addon to GNU L3
+
+			Version 4.9
+			- Fixed Auth Errors
+
+			Version 4.8
+			- export M3U fix
+
+			Version 4.7
+			- Path handling Fix for import/export favorites
+
+			Version 4.6
+			- Added Import/Export Favorites (long press on Favorites)
+
+			Version 4.5
+			- Added Make M3U from your Favorites (Long press on TV Favorites)
+			- Added Move Favorite to top or bottom
+
+			Version 4.4
+			- Added make M3U file locale for specific Country
+				To create the M3U file, long-press on a country and select “Create M3U”.
+				The file manager will open and ask you where to save the file (example: VavooTV-Germany-2026-02-16.m3u).
+				* The function was adapted from michaz’s version.
+			- Fixed an issue where tapping the favorites placeholder opened the settings.
+
+			EPG Service: 
+			1. Use one of these services
+				www.free-epg.de
+			2. Select your country.
+			3. Copy the EPG link.
+			4. Paste the link into your PVR client.
+
+			Version 4.3
+			- Created simple Main Menu
+
+			Version 4.2
+			- Favorite System changed/fixed
+
+			Version 4.1
+			- Added Options for Favorites
+
+			Version 3.9
+			- DebugLog prefix changed to ###VAVOO-TV###
+			- Debug Logging fix
+			- Code cleanup
+			- AuthSig Time changed to 1h instead of 10min
+
+			Version 3.7
+			- changed token
+			- changed signature
+			- changed headers
+			- changed session handle
+
+			Version 3.6
+			- rework of tokenheaders
+
+			Version 3.5
+			- Auth Errors fixed
+
+			Version 3.4:
+			Fork release of vavoo by michaz &amp; kasi
+			- rework base code
+			- clean up code
+        </news>
 	</extension>
 </addon>

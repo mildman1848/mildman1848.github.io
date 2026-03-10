@@ -12,6 +12,9 @@ This is the main entry point for the Kodi addon. It handles:
 # MAIN EXECUTION
 # =============================================================================
 # Only run when executed directly (not when imported)
+
+
+
 if __name__ == "__main__":
     
     import sys
@@ -19,6 +22,9 @@ if __name__ == "__main__":
     import xbmc
     import xbmcgui
     
+    from resources.lib import utils
+    from resources.lib.utils import clearhard
+
     # -------------------------------------------------------------------------
     # DEPENDENCY CHECK & INSTALLATION
     # -------------------------------------------------------------------------
@@ -91,6 +97,8 @@ if __name__ == "__main__":
     
     elif action is None:
         vjackson._index(params)
+
+    elif action == "clearhard": clearhard()
         
     elif action == "show_countries":
         vjackson._show_countries(params)
