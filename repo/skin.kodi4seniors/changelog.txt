@@ -1,3 +1,7 @@
+[0.1.10]
+- Removed the risky automatic settings redirect on window load to reduce crashes during skin switching.
+- Reworked the home screen to more closely match the supplied mockup with four large content cards and embedded previews.
+
 [0.1.9]
 - Fixed the last remaining DejaVu font reference for font_MainMenu.
 

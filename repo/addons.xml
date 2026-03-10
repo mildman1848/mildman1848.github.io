@@ -604,7 +604,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="skin.kodi4seniors" name="Kodi fuer Senioren" provider-name="mildman1848" version="0.1.9">
+  <addon id="skin.kodi4seniors" name="Kodi fuer Senioren" provider-name="mildman1848" version="0.1.10">
     <requires>
       <import addon="xbmc.gui" version="5.17.0" />
     </requires>

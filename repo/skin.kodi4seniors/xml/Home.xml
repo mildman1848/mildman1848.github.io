@@ -4,8 +4,6 @@
   <defaultcontrol always="true">1101</defaultcontrol>
   <controls>
     <include>FullBackground</include>
-    <include>TopHeader</include>
     <include>HomeTiles</include>
-    <include>HomeDetailPanel</include>
   </controls>
 </window>

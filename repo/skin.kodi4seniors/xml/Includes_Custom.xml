@@ -63,467 +63,431 @@
 
   <include name="HomeTiles">
     <control type="image">
-      <left>82</left>
-      <top>222</top>
-      <width>776</width>
-      <height>336</height>
-      <colordiffuse>FFFFFFFF</colordiffuse>
-      <texture>resources/panel.png</texture>
+      <left>0</left>
+      <top>0</top>
+      <width>1920</width>
+      <height>1080</height>
+      <colordiffuse>6A0A2A50</colordiffuse>
+      <texture>colors/white.png</texture>
+    </control>
+
+    <control type="image">
+      <left>54</left>
+      <top>86</top>
+      <width>516</width>
+      <height>256</height>
+      <texture border="18" colordiffuse="FFFFFFFF">dialogs/dialog-bg.png</texture>
       <visible>Control.HasFocus(1101)</visible>
     </control>
     <control type="button" id="1101">
-      <left>90</left>
-      <top>230</top>
-      <width>760</width>
-      <height>320</height>
+      <left>60</left>
+      <top>92</top>
+      <width>500</width>
+      <height>240</height>
       <onleft>1102</onleft>
       <onright>1102</onright>
       <onup>1103</onup>
       <ondown>1103</ondown>
-      <texturenofocus colordiffuse="FF1E90FF">resources/panel.png</texturenofocus>
-      <texturefocus colordiffuse="FF4FA8FF">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FF1E5FBC">colors/white.png</texturenofocus>
+      <texturefocus colordiffuse="FF2E73D6">colors/white.png</texturefocus>
       <onclick condition="System.HasPVRAddon">ActivateWindow(TVGuide)</onclick>
       <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
       <label></label>
     </control>
     <control type="label">
-      <left>126</left>
-      <top>258</top>
-      <width>360</width>
-      <height>52</height>
+      <left>88</left>
+      <top>122</top>
+      <width>220</width>
+      <height>48</height>
       <font>font_button</font>
-      <textcolor>FF0F1C2B</textcolor>
-      <label>Fernsehen</label>
-      <visible>Control.HasFocus(1101)</visible>
-    </control>
-    <control type="label">
-      <left>126</left>
-      <top>258</top>
-      <width>360</width>
-      <height>52</height>
-      <font>font_button</font>
-      <textcolor>FFF8FBFF</textcolor>
-      <label>Fernsehen</label>
-      <visible>!Control.HasFocus(1101)</visible>
+      <textcolor>FFF7FBFF</textcolor>
+      <label>Live TV</label>
     </control>
     <control type="image">
-      <left>596</left>
-      <top>250</top>
-      <width>200</width>
-      <height>200</height>
-      <texture colordiffuse="22FFFFFF">icons/settings/livetv.png</texture>
+      <left>82</left>
+      <top>178</top>
+      <width>394</width>
+      <height>50</height>
+      <texture colordiffuse="18FFFFFF">colors/white.png</texture>
+    </control>
+    <control type="image">
+      <left>90</left>
+      <top>188</top>
+      <width>132</width>
+      <height>30</height>
+      <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>126</left>
-      <top>334</top>
-      <width>360</width>
-      <height>34</height>
+      <left>104</left>
+      <top>190</top>
+      <width>110</width>
+      <height>26</height>
       <font>font_body</font>
-      <textcolor>FFF4F8FF</textcolor>
-      <label>TV-Guide mit EPG</label>
+      <align>center</align>
+      <textcolor>FF1E5FBC</textcolor>
+      <label>Das Erste</label>
+    </control>
+    <control type="image">
+      <left>228</left>
+      <top>188</top>
+      <width>128</width>
+      <height>30</height>
+      <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>126</left>
-      <top>384</top>
-      <width>470</width>
-      <height>34</height>
+      <left>244</left>
+      <top>190</top>
+      <width>96</width>
+      <height>26</height>
       <font>font_body</font>
-      <textcolor>FFEAF3FF</textcolor>
+      <align>center</align>
+      <textcolor>FFE67D00</textcolor>
+      <label>ZDF</label>
+    </control>
+    <control type="image">
+      <left>362</left>
+      <top>188</top>
+      <width>106</width>
+      <height>30</height>
+      <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
+    </control>
+    <control type="label">
+      <left>374</left>
+      <top>190</top>
+      <width>82</width>
+      <height>26</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FF8B52C9</textcolor>
+      <label>arte</label>
+    </control>
+    <control type="label">
+      <left>86</left>
+      <top>242</top>
+      <width>386</width>
+      <height>32</height>
+      <font>font_body_large</font>
+      <textcolor>FFF7FBFF</textcolor>
       <label>Jetzt auf $INFO[VideoPlayer.ChannelName]: $INFO[VideoPlayer.Title]</label>
       <visible>System.HasPVRAddon + [PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
     </control>
     <control type="label">
-      <left>126</left>
-      <top>430</top>
-      <width>470</width>
-      <height>34</height>
+      <left>86</left>
+      <top>242</top>
+      <width>386</width>
+      <height>32</height>
+      <font>font_body_large</font>
+      <textcolor>FFF7FBFF</textcolor>
+      <label>Jetzt: Die Tagesschau</label>
+      <visible>!System.HasPVRAddon | ![PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
+    </control>
+    <control type="image">
+      <left>86</left>
+      <top>280</top>
+      <width>320</width>
+      <height>6</height>
+      <texture colordiffuse="40FFFFFF">colors/white.png</texture>
+    </control>
+    <control type="image">
+      <left>86</left>
+      <top>280</top>
+      <width>180</width>
+      <height>6</height>
+      <texture colordiffuse="E0FFFFFF">colors/white.png</texture>
+    </control>
+    <control type="label">
+      <left>86</left>
+      <top>294</top>
+      <width>390</width>
+      <height>30</height>
       <font>font_body</font>
       <textcolor>FFEAF3FF</textcolor>
       <label>Naechste Sendung: $INFO[VideoPlayer.NextStartTime] $INFO[VideoPlayer.NextTitle]</label>
       <visible>System.HasPVRAddon + [PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
     </control>
     <control type="label">
-      <left>126</left>
-      <top>392</top>
-      <width>470</width>
-      <height>34</height>
+      <left>86</left>
+      <top>294</top>
+      <width>390</width>
+      <height>30</height>
       <font>font_body</font>
       <textcolor>FFEAF3FF</textcolor>
-      <label>TV-Guide, Senderliste und laufende Sendungen</label>
+      <label>Als Naechstes: Der Bergdoktor 20:15</label>
       <visible>System.HasPVRAddon + ![PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
-    </control>
-    <control type="label">
-      <left>126</left>
-      <top>438</top>
-      <width>470</width>
-      <height>34</height>
-      <font>font_body</font>
-      <textcolor>FFEAF3FF</textcolor>
-      <label>Mit OK direkt zum EPG oder zu den Sendern</label>
-      <visible>System.HasPVRAddon + ![PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
-    </control>
-    <control type="label">
-      <left>126</left>
-      <top>400</top>
-      <width>520</width>
-      <height>34</height>
-      <font>font_body</font>
-      <textcolor>FFF8F0D8</textcolor>
-      <label>Einrichtung fehlt noch. OK oeffnet die TV-Konfiguration.</label>
-      <visible>!System.HasPVRAddon</visible>
     </control>
 
     <control type="image">
-      <left>862</left>
-      <top>222</top>
-      <width>776</width>
-      <height>336</height>
+      <left>576</left>
+      <top>86</top>
+      <width>734</width>
+      <height>256</height>
       <colordiffuse>FFFFFFFF</colordiffuse>
-      <texture>resources/panel.png</texture>
+      <texture border="18" colordiffuse="FFFFFFFF">dialogs/dialog-bg.png</texture>
       <visible>Control.HasFocus(1102)</visible>
     </control>
     <control type="button" id="1102">
-      <left>870</left>
-      <top>230</top>
-      <width>760</width>
-      <height>320</height>
+      <left>582</left>
+      <top>92</top>
+      <width>722</width>
+      <height>240</height>
       <onleft>1101</onleft>
       <onright>1101</onright>
       <onup>1104</onup>
       <ondown>1104</ondown>
-      <texturenofocus colordiffuse="FF32CD32">resources/panel.png</texturenofocus>
-      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FF4C9D32">colors/white.png</texturenofocus>
+      <texturefocus colordiffuse="FF63B53E">colors/white.png</texturefocus>
       <onclick>ActivateWindow(1112)</onclick>
       <label></label>
     </control>
     <control type="label">
-      <left>906</left>
-      <top>258</top>
+      <left>608</left>
+      <top>122</top>
       <width>420</width>
-      <height>52</height>
+      <height>48</height>
       <font>font_button</font>
-      <textcolor>FF10210E</textcolor>
+      <textcolor>FFF7FFF4</textcolor>
       <label>Mediatheken</label>
-      <visible>Control.HasFocus(1102)</visible>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>258</top>
-      <width>420</width>
-      <height>52</height>
-      <font>font_button</font>
-      <textcolor>FFF5FFF4</textcolor>
-      <label>Mediatheken</label>
-      <visible>!Control.HasFocus(1102)</visible>
     </control>
     <control type="image">
-      <left>1382</left>
-      <top>252</top>
-      <width>182</width>
-      <height>182</height>
-      <texture colordiffuse="20FFFFFF">icons/sidemenu/videos.png</texture>
+      <left>604</left>
+      <top>182</top>
+      <width>140</width>
+      <height>116</height>
+      <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
     </control>
     <control type="label">
-      <left>906</left>
-      <top>334</top>
-      <width>500</width>
-      <height>34</height>
+      <left>606</left>
+      <top>184</top>
+      <width>136</width>
+      <height>26</height>
       <font>font_body</font>
-      <textcolor>FFF3FFF1</textcolor>
-      <label>ARD, ZDF, Arte und mehr</label>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>392</top>
-      <width>130</width>
-      <height>40</height>
-      <font>font_button</font>
-      <textcolor>FFF5FFF4</textcolor>
+      <align>center</align>
+      <textcolor>FF173F80</textcolor>
       <label>ARD</label>
     </control>
     <control type="label">
-      <left>1050</left>
-      <top>392</top>
-      <width>130</width>
-      <height>40</height>
-      <font>font_button</font>
-      <textcolor>FFF5FFF4</textcolor>
+      <left>612</left>
+      <top>258</top>
+      <width>124</width>
+      <height>28</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFF7FFF4</textcolor>
+      <label>Tatort</label>
+    </control>
+    <control type="image">
+      <left>754</left>
+      <top>182</top>
+      <width>140</width>
+      <height>116</height>
+      <texture colordiffuse="FFF08900">colors/white.png</texture>
+    </control>
+    <control type="label">
+      <left>756</left>
+      <top>184</top>
+      <width>136</width>
+      <height>26</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFF8FBFF</textcolor>
       <label>ZDF</label>
     </control>
     <control type="label">
-      <left>1194</left>
-      <top>392</top>
-      <width>130</width>
-      <height>40</height>
-      <font>font_button</font>
-      <textcolor>FFF5FFF4</textcolor>
-      <label>ARTE</label>
+      <left>762</left>
+      <top>258</top>
+      <width>124</width>
+      <height>28</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFF7FFF4</textcolor>
+      <label>Bergdoktor</label>
+    </control>
+    <control type="image">
+      <left>904</left>
+      <top>182</top>
+      <width>140</width>
+      <height>116</height>
+      <texture colordiffuse="FFF07A00">colors/white.png</texture>
     </control>
     <control type="label">
       <left>906</left>
-      <top>442</top>
-      <width>500</width>
-      <height>34</height>
+      <top>184</top>
+      <width>136</width>
+      <height>26</height>
       <font>font_body</font>
-      <textcolor>FFF3FFF1</textcolor>
-      <label>Mit OK zur gebuendelten Mediatheken-Zentrale</label>
+      <align>center</align>
+      <textcolor>FFF8FBFF</textcolor>
+      <label>arte</label>
+    </control>
+    <control type="label">
+      <left>918</left>
+      <top>258</top>
+      <width>112</width>
+      <height>28</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFF7FFF4</textcolor>
+      <label>Terra X</label>
+    </control>
+    <control type="image">
+      <left>1054</left>
+      <top>182</top>
+      <width>140</width>
+      <height>116</height>
+      <texture colordiffuse="FF0A5179">colors/white.png</texture>
+    </control>
+    <control type="label">
+      <left>1056</left>
+      <top>184</top>
+      <width>136</width>
+      <height>26</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFF8FBFF</textcolor>
+      <label>NDR</label>
+    </control>
+    <control type="label">
+      <left>1064</left>
+      <top>258</top>
+      <width>120</width>
+      <height>28</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFF7FFF4</textcolor>
+      <label>Dokus</label>
     </control>
 
     <control type="image">
-      <left>82</left>
-      <top>562</top>
-      <width>776</width>
-      <height>236</height>
+      <left>54</left>
+      <top>350</top>
+      <width>516</width>
+      <height>256</height>
       <colordiffuse>FFFFFFFF</colordiffuse>
-      <texture>resources/panel.png</texture>
+      <texture border="18" colordiffuse="FFFFFFFF">dialogs/dialog-bg.png</texture>
       <visible>Control.HasFocus(1103)</visible>
     </control>
     <control type="button" id="1103">
-      <left>90</left>
-      <top>570</top>
-      <width>760</width>
-      <height>220</height>
+      <left>60</left>
+      <top>356</top>
+      <width>500</width>
+      <height>240</height>
       <onleft>1104</onleft>
       <onright>1104</onright>
       <onup>1101</onup>
       <ondown>1101</ondown>
-      <texturenofocus colordiffuse="FFFFA500">resources/panel.png</texturenofocus>
-      <texturefocus colordiffuse="FFFFC24B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FFE57C05">colors/white.png</texturenofocus>
+      <texturefocus colordiffuse="FFF29625">colors/white.png</texturefocus>
       <onclick>ActivateWindow(Videos,library://video/,return)</onclick>
       <label></label>
     </control>
     <control type="label">
-      <left>126</left>
-      <top>600</top>
-      <width>380</width>
+      <left>88</left>
+      <top>386</top>
+      <width>300</width>
       <height>48</height>
       <font>font_button</font>
-      <textcolor>FF2A1700</textcolor>
+      <textcolor>FFFFFBF3</textcolor>
       <label>Bibliothek</label>
-      <visible>Control.HasFocus(1103)</visible>
-    </control>
-    <control type="label">
-      <left>126</left>
-      <top>600</top>
-      <width>380</width>
-      <height>48</height>
-      <font>font_button</font>
-      <textcolor>FFFFF8EE</textcolor>
-      <label>Bibliothek</label>
-      <visible>!Control.HasFocus(1103)</visible>
-    </control>
-    <control type="label">
-      <left>126</left>
-      <top>660</top>
-      <width>420</width>
-      <height>36</height>
-      <font>font_body</font>
-      <textcolor>FFFFF3DE</textcolor>
-      <label>Filme, Serien und Dokumentationen</label>
-    </control>
-    <control type="label">
-      <left>126</left>
-      <top>708</top>
-      <width>560</width>
-      <height>34</height>
-      <font>font_body</font>
-      <textcolor>FFFFF3DE</textcolor>
-      <label>Hier koennen vorbereitete Mediatheken-Inhalte spaeter leichter gefunden werden</label>
     </control>
     <control type="image">
-      <left>606</left>
-      <top>604</top>
-      <width>150</width>
-      <height>150</height>
-      <texture colordiffuse="22FFFFFF">icons/sidemenu/movies.png</texture>
+      <left>80</left>
+      <top>448</top>
+      <width>144</width>
+      <height>114</height>
+      <texture colordiffuse="FFF4EEE5">colors/white.png</texture>
+    </control>
+    <control type="label">
+      <left>88</left>
+      <top>454</top>
+      <width>128</width>
+      <height>24</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFC5467C</textcolor>
+      <label>Rosamunde</label>
+    </control>
+    <control type="image">
+      <left>234</left>
+      <top>448</top>
+      <width>144</width>
+      <height>114</height>
+      <texture colordiffuse="FF8B2317">colors/white.png</texture>
+    </control>
+    <control type="label">
+      <left>244</left>
+      <top>454</top>
+      <width>124</width>
+      <height>24</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFF9F1EB</textcolor>
+      <label>Krimi-Serie</label>
+    </control>
+    <control type="image">
+      <left>388</left>
+      <top>448</top>
+      <width>144</width>
+      <height>114</height>
+      <texture colordiffuse="FF6F9DB0">colors/white.png</texture>
+    </control>
+    <control type="label">
+      <left>402</left>
+      <top>454</top>
+      <width>116</width>
+      <height>24</height>
+      <font>font_body</font>
+      <align>center</align>
+      <textcolor>FFF9F1EB</textcolor>
+      <label>Naturfilm</label>
     </control>
 
     <control type="image">
-      <left>862</left>
-      <top>562</top>
-      <width>776</width>
-      <height>236</height>
+      <left>576</left>
+      <top>350</top>
+      <width>734</width>
+      <height>256</height>
       <colordiffuse>FFFFFFFF</colordiffuse>
-      <texture>resources/panel.png</texture>
+      <texture border="18" colordiffuse="FFFFFFFF">dialogs/dialog-bg.png</texture>
       <visible>Control.HasFocus(1104)</visible>
     </control>
     <control type="button" id="1104">
-      <left>870</left>
-      <top>570</top>
-      <width>760</width>
-      <height>220</height>
+      <left>582</left>
+      <top>356</top>
+      <width>722</width>
+      <height>240</height>
       <onleft>1103</onleft>
       <onright>1103</onright>
       <onup>1102</onup>
       <ondown>1102</ondown>
-      <texturenofocus colordiffuse="FFA9A9A9">resources/panel.png</texturenofocus>
-      <texturefocus colordiffuse="FFC7C7C7">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FF676D79">colors/white.png</texturenofocus>
+      <texturefocus colordiffuse="FF808791">colors/white.png</texturefocus>
       <onclick condition="Skin.HasSetting(technician_mode)">ActivateWindow(Settings)</onclick>
       <onclick condition="!Skin.HasSetting(technician_mode)">ActivateWindow(1113)</onclick>
       <label></label>
     </control>
-    <control type="label">
-      <left>906</left>
-      <top>600</top>
-      <width>420</width>
-      <height>48</height>
-      <font>font_button</font>
-      <textcolor>FF1D1D1D</textcolor>
-      <label>Betreuung</label>
-      <visible>Control.HasFocus(1104) + !Skin.HasSetting(technician_mode)</visible>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>600</top>
-      <width>420</width>
-      <height>48</height>
-      <font>font_button</font>
-      <textcolor>FF1D1D1D</textcolor>
-      <label>Technikbereich</label>
-      <visible>Control.HasFocus(1104) + Skin.HasSetting(technician_mode)</visible>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>600</top>
-      <width>420</width>
-      <height>48</height>
-      <font>font_button</font>
-      <textcolor>FFF8F8F8</textcolor>
-      <label>Betreuung</label>
-      <visible>!Control.HasFocus(1104) + !Skin.HasSetting(technician_mode)</visible>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>600</top>
-      <width>420</width>
-      <height>48</height>
-      <font>font_button</font>
-      <textcolor>FFF8F8F8</textcolor>
-      <label>Technikbereich</label>
-      <visible>!Control.HasFocus(1104) + Skin.HasSetting(technician_mode)</visible>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>660</top>
-      <width>500</width>
-      <height>34</height>
-      <font>font_body</font>
-      <textcolor>FFF2F2F2</textcolor>
-      <label>PIN-geschuetzter Zugang fuer Betreuung und Einrichtung</label>
-      <visible>!Skin.HasSetting(technician_mode)</visible>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>660</top>
-      <width>500</width>
-      <height>34</height>
-      <font>font_body</font>
-      <textcolor>FFF2F2F2</textcolor>
-      <label>Technikbereich fuer Einrichtung und Wartung</label>
-      <visible>Skin.HasSetting(technician_mode)</visible>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>708</top>
-      <width>500</width>
-      <height>34</height>
-      <font>font_body</font>
-      <textcolor>FFF2F2F2</textcolor>
-      <label>Nur mit PIN freischalten</label>
-      <visible>!Skin.HasSetting(technician_mode)</visible>
-    </control>
-    <control type="label">
-      <left>906</left>
-      <top>708</top>
-      <width>500</width>
-      <height>34</height>
-      <font>font_body</font>
-      <textcolor>FFF2F2F2</textcolor>
-      <label>Hier nichts im Alltag aendern</label>
-      <visible>Skin.HasSetting(technician_mode)</visible>
+    <control type="image">
+      <left>808</left>
+      <top>412</top>
+      <width>270</width>
+      <height>118</height>
+      <texture colordiffuse="33FFFFFF">icons/settings/system.png</texture>
     </control>
     <control type="image">
-      <left>1388</left>
-      <top>606</top>
-      <width>146</width>
-      <height>146</height>
-      <texture colordiffuse="22FFFFFF">icons/settings/system.png</texture>
+      <left>582</left>
+      <top>528</top>
+      <width>722</width>
+      <height>68</height>
+      <texture colordiffuse="1AFFFFFF">colors/white.png</texture>
     </control>
-  </include>
-
-  <include name="HomeDetailPanel">
-    <control type="group">
-      <left>90</left>
-      <top>820</top>
-      <width>1540</width>
-      <height>170</height>
-      <control type="image">
-        <left>0</left>
-        <top>0</top>
-        <width>1540</width>
-        <height>170</height>
-        <colordiffuse>D0263138</colordiffuse>
-        <texture>resources/panel.png</texture>
-        <aspectratio>stretch</aspectratio>
-      </control>
-      <control type="label">
-        <left>48</left>
-        <top>24</top>
-        <width>260</width>
-        <height>46</height>
-        <font>font_button</font>
-        <textcolor>FFF0B04A</textcolor>
-        <label>Hinweis</label>
-      </control>
-      <control type="textbox">
-        <left>48</left>
-        <top>76</top>
-        <width>1440</width>
-        <height>52</height>
-        <font>font_body_large</font>
-        <textcolor>FFE6DFD4</textcolor>
-        <label>Vier grosse Bereiche, klare Farben und direkte Wege. So ersetzt Kodi die uebliche Android-TV-Startseite mit weniger Ablenkung und weniger Menues.</label>
-      </control>
-      <control type="label">
-        <left>48</left>
-        <top>132</top>
-        <width>1440</width>
-        <height>28</height>
-        <font>font_body</font>
-        <textcolor>FFF7F3EA</textcolor>
-        <label>Fernsehen: Live-TV und EPG direkt oeffnen.</label>
-        <visible>Control.HasFocus(1101)</visible>
-      </control>
-      <control type="label">
-        <left>48</left>
-        <top>132</top>
-        <width>1440</width>
-        <height>28</height>
-        <font>font_body</font>
-        <textcolor>FFF7F3EA</textcolor>
-        <label>Mediatheken: ARD, ZDF, Arte und weitere Angebote gebuendelt oeffnen.</label>
-        <visible>Control.HasFocus(1102)</visible>
-      </control>
-      <control type="label">
-        <left>48</left>
-        <top>132</top>
-        <width>1440</width>
-        <height>28</height>
-        <font>font_body</font>
-        <textcolor>FFF7F3EA</textcolor>
-        <label>Bibliothek: vorbereitete Inhalte aus Mediatheken und eigener Sammlung leichter wiederfinden.</label>
-        <visible>Control.HasFocus(1103)</visible>
-      </control>
-      <control type="label">
-        <left>48</left>
-        <top>132</top>
-        <width>1440</width>
-        <height>28</height>
-        <font>font_body</font>
-        <textcolor>FFF7F3EA</textcolor>
-        <label>Betreuung: nur nach PIN-Freigabe fuer technische Anpassungen.</label>
-        <visible>Control.HasFocus(1104)</visible>
-      </control>
+    <control type="label">
+      <left>760</left>
+      <top>542</top>
+      <width>360</width>
+      <height>42</height>
+      <align>center</align>
+      <font>font_button</font>
+      <textcolor>FFF5F5F5</textcolor>
+      <label>Einstellungen</label>
     </control>
   </include>
 
