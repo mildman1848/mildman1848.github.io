@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
+  <onload condition="String.IsEmpty(Skin.String(technician_pin))">Skin.SetString(technician_pin,1848)</onload>
   <defaultcontrol always="true">1101</defaultcontrol>
   <controls>
     <include>FullBackground</include>

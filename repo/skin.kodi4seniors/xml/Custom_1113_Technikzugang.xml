@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+  <defaultcontrol always="true">4101</defaultcontrol>
+  <controls>
+    <include>FullBackground</include>
+    <include>TopHeader</include>
+
+    <control type="group">
+      <left>300</left>
+      <top>240</top>
+      <width>1320</width>
+      <height>580</height>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>1320</width>
+        <height>580</height>
+        <colordiffuse>EE2E343B</colordiffuse>
+        <texture>resources/panel.png</texture>
+        <aspectratio>stretch</aspectratio>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>54</top>
+        <width>900</width>
+        <height>58</height>
+        <font>font_title</font>
+        <textcolor>FFF6F1E8</textcolor>
+        <label>Technikmodus</label>
+      </control>
+      <control type="textbox">
+        <left>70</left>
+        <top>138</top>
+        <width>1180</width>
+        <height>132</height>
+        <font>font_body_large</font>
+        <textcolor>FFE6DFD4</textcolor>
+        <label>Der Technikbereich ist im Alltag gesperrt. Mit der Betreuer-PIN wird Einrichtung, Wartung und Add-on-Verwaltung temporaer freigegeben.</label>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>300</top>
+        <width>1120</width>
+        <height>38</height>
+        <font>font_body</font>
+        <textcolor>FFF0B04A</textcolor>
+        <label>Die Betreuer-PIN kann im Technikbereich geaendert werden.</label>
+        <visible>Skin.HasSetting(technician_mode)</visible>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>300</top>
+        <width>1120</width>
+        <height>38</height>
+        <font>font_body</font>
+        <textcolor>FFF0B04A</textcolor>
+        <label>Standard-PIN ist 1848, bis sie im Technikbereich geaendert wird.</label>
+        <visible>!Skin.HasSetting(technician_mode)</visible>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>352</top>
+        <width>1120</width>
+        <height>38</height>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>$INFO[Window(Home).Property(technician_mode_feedback)]</label>
+      </control>
+
+      <control type="button" id="4101">
+        <left>70</left>
+        <top>430</top>
+        <width>560</width>
+        <height>98</height>
+        <onright>4102</onright>
+        <onleft>4102</onleft>
+        <texturenofocus colordiffuse="FFA9A9A9">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+        <onclick>Skin.Reset(technician_mode_entry)</onclick>
+        <onclick>Skin.SetNumeric(technician_mode_entry)</onclick>
+        <onclick>ClearProperty(technician_mode_feedback,Home)</onclick>
+        <onclick condition="String.IsEqual(Skin.String(technician_mode_entry),Skin.String(technician_pin))">Skin.SetBool(technician_mode)</onclick>
+        <onclick condition="String.IsEqual(Skin.String(technician_mode_entry),Skin.String(technician_pin))">Skin.Reset(technician_mode_entry)</onclick>
+        <onclick condition="String.IsEqual(Skin.String(technician_mode_entry),Skin.String(technician_pin))">ActivateWindow(Settings)</onclick>
+        <onclick condition="!String.IsEqual(Skin.String(technician_mode_entry),Skin.String(technician_pin))">SetProperty(technician_mode_feedback,PIN nicht korrekt.,Home)</onclick>
+        <label>Mit PIN freischalten</label>
+      </control>
+
+      <control type="button" id="4102">
+        <left>690</left>
+        <top>430</top>
+        <width>560</width>
+        <height>98</height>
+        <onleft>4101</onleft>
+        <onright>4101</onright>
+        <texturenofocus colordiffuse="FF3C4A57">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+        <onclick>ClearProperty(technician_mode_feedback,Home)</onclick>
+        <onclick>ActivateWindow(Home)</onclick>
+        <label>Zur Startseite</label>
+      </control>
+    </control>
+  </controls>
+</window>

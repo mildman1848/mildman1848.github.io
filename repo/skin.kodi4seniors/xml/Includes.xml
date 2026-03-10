@@ -379,7 +379,8 @@
       <ondown>1102</ondown>
       <texturenofocus colordiffuse="FFA9A9A9">resources/panel.png</texturenofocus>
       <texturefocus colordiffuse="FFC7C7C7">resources/panel.png</texturefocus>
-      <onclick>ActivateWindow(Settings)</onclick>
+      <onclick condition="Skin.HasSetting(technician_mode)">ActivateWindow(Settings)</onclick>
+      <onclick condition="!Skin.HasSetting(technician_mode)">ActivateWindow(1113)</onclick>
       <label></label>
     </control>
     <control type="label">
@@ -389,8 +390,28 @@
       <height>48</height>
       <font>font_button</font>
       <textcolor>FF1D1D1D</textcolor>
+      <label>Betreuung</label>
+      <visible>Control.HasFocus(1104) + !Skin.HasSetting(technician_mode)</visible>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>600</top>
+      <width>420</width>
+      <height>48</height>
+      <font>font_button</font>
+      <textcolor>FF1D1D1D</textcolor>
       <label>Technikbereich</label>
-      <visible>Control.HasFocus(1104)</visible>
+      <visible>Control.HasFocus(1104) + Skin.HasSetting(technician_mode)</visible>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>600</top>
+      <width>420</width>
+      <height>48</height>
+      <font>font_button</font>
+      <textcolor>FFF8F8F8</textcolor>
+      <label>Betreuung</label>
+      <visible>!Control.HasFocus(1104) + !Skin.HasSetting(technician_mode)</visible>
     </control>
     <control type="label">
       <left>906</left>
@@ -400,7 +421,17 @@
       <font>font_button</font>
       <textcolor>FFF8F8F8</textcolor>
       <label>Technikbereich</label>
-      <visible>!Control.HasFocus(1104)</visible>
+      <visible>!Control.HasFocus(1104) + Skin.HasSetting(technician_mode)</visible>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>660</top>
+      <width>500</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF2F2F2</textcolor>
+      <label>PIN-geschuetzter Zugang fuer Betreuung und Einrichtung</label>
+      <visible>!Skin.HasSetting(technician_mode)</visible>
     </control>
     <control type="label">
       <left>906</left>
@@ -410,6 +441,17 @@
       <font>font_body</font>
       <textcolor>FFF2F2F2</textcolor>
       <label>Technikbereich fuer Einrichtung und Wartung</label>
+      <visible>Skin.HasSetting(technician_mode)</visible>
+    </control>
+    <control type="label">
+      <left>906</left>
+      <top>708</top>
+      <width>500</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF2F2F2</textcolor>
+      <label>Nur mit PIN freischalten</label>
+      <visible>!Skin.HasSetting(technician_mode)</visible>
     </control>
     <control type="label">
       <left>906</left>
@@ -419,6 +461,7 @@
       <font>font_body</font>
       <textcolor>FFF2F2F2</textcolor>
       <label>Hier nichts im Alltag aendern</label>
+      <visible>Skin.HasSetting(technician_mode)</visible>
     </control>
     <control type="image">
       <left>1388</left>
@@ -499,7 +542,7 @@
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Einstellungen: nur fuer die betreuende Person gedacht.</label>
+        <label>Betreuung: nur nach PIN-Freigabe fuer technische Anpassungen.</label>
         <visible>Control.HasFocus(1104)</visible>
       </control>
     </control>
@@ -576,9 +619,20 @@
       </focusedlayout>
       <content>
         <item>
+          <label>Technikmodus beenden</label>
+          <onclick>Skin.Reset(technician_mode)</onclick>
+          <onclick>ActivateWindow(Home)</onclick>
+          <property name="description">Sperrt den Technikbereich wieder und kehrt zur vereinfachten Startseite zurueck.</property>
+        </item>
+        <item>
           <label>Mediatheken vorbereiten</label>
           <onclick>ActivateWindow(1112)</onclick>
           <property name="description">ARD, ZDF, Arte und weitere Mediatheken gebuendelt pruefen und vorbereiten.</property>
+        </item>
+        <item>
+          <label>Technik-PIN aendern</label>
+          <onclick>Skin.SetNumeric(technician_pin)</onclick>
+          <property name="description">Aendert die PIN fuer den Zugang zum Technikbereich. Standard ist 1848.</property>
         </item>
         <item>
           <label>Bibliothek vorbereiten</label>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
+  <onload condition="!Skin.HasSetting(technician_mode)">ActivateWindow(1113)</onload>
   <defaultcontrol always="true">2100</defaultcontrol>
   <controls>
     <include>FullBackground</include>

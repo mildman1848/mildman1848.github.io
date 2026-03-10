@@ -1,3 +1,7 @@
+[0.1.7]
+- Added a locked technician mode with PIN-gated access from the home screen and a dedicated unlock window.
+- Changed the fourth home tile to a caregiver entry point when locked and added an explicit technician mode exit action.
+
 [0.1.6]
 - Added a dedicated mediathek hub window and linked the home screen to grouped ARD, ZDF and Arte entry points.
 - Improved the TV tile with live and next programme information when Live TV is currently playing.
