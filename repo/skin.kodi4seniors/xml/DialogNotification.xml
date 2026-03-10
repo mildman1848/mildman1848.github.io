@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+  <controls>
+    <control type="group">
+      <right>40</right>
+      <top>40</top>
+      <width>520</width>
+      <height>140</height>
+      <control type="image">
+        <width>520</width>
+        <height>140</height>
+        <colordiffuse>F0282E37</colordiffuse>
+        <texture>resources/panel.png</texture>
+      </control>
+      <control type="label" id="400">
+        <left>24</left>
+        <top>20</top>
+        <width>472</width>
+        <height>42</height>
+        <font>font_body_large</font>
+      </control>
+      <control type="label" id="401">
+        <left>24</left>
+        <top>70</top>
+        <width>472</width>
+        <height>42</height>
+        <font>font_body</font>
+      </control>
+    </control>
+  </controls>
+</window>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+  <defaultcontrol always="true">3</defaultcontrol>
+  <controls>
+    <include>FullBackground</include>
+    <control type="group">
+      <centerleft>50%</centerleft>
+      <centertop>50%</centertop>
+      <width>1100</width>
+      <height>760</height>
+      <control type="image">
+        <width>1100</width>
+        <height>760</height>
+        <colordiffuse>F0282E37</colordiffuse>
+        <texture>resources/panel.png</texture>
+      </control>
+      <control type="label" id="1">
+        <left>40</left>
+        <top>32</top>
+        <width>1020</width>
+        <height>60</height>
+        <font>font_title</font>
+        <align>center</align>
+      </control>
+      <control type="list" id="3">
+        <left>60</left>
+        <top>120</top>
+        <width>980</width>
+        <height>560</height>
+        <onup>3</onup>
+        <ondown>3</ondown>
+        <scrolltime>180</scrolltime>
+        <itemlayout width="980" height="82">
+          <control type="image">
+            <left>0</left>
+            <top>6</top>
+            <width>940</width>
+            <height>70</height>
+            <colordiffuse>FF3C4A57</colordiffuse>
+            <texture>resources/panel.png</texture>
+          </control>
+          <control type="label">
+            <left>24</left>
+            <top>8</top>
+            <width>860</width>
+            <height>60</height>
+            <font>font_body_large</font>
+            <label>$INFO[ListItem.Label]</label>
+          </control>
+        </itemlayout>
+        <focusedlayout width="980" height="82">
+          <control type="image">
+            <left>0</left>
+            <top>0</top>
+            <width>960</width>
+            <height>82</height>
+            <colordiffuse>FFF0B04A</colordiffuse>
+            <texture>resources/panel.png</texture>
+          </control>
+          <control type="label">
+            <left>24</left>
+            <top>10</top>
+            <width>860</width>
+            <height>60</height>
+            <font>font_body_large</font>
+            <textcolor>FF151515</textcolor>
+            <label>$INFO[ListItem.Label]</label>
+          </control>
+        </focusedlayout>
+      </control>
+    </control>
+  </controls>
+</window>

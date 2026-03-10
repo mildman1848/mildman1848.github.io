@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+  <default type="image">
+    <texture>resources/panel.png</texture>
+    <aspectratio>stretch</aspectratio>
+  </default>
+  <default type="label">
+    <font>font_body</font>
+    <textcolor>FFF6F1E8</textcolor>
+    <align>left</align>
+    <aligny>center</aligny>
+  </default>
+  <default type="textbox">
+    <font>font_body</font>
+    <textcolor>FFE6DFD4</textcolor>
+  </default>
+  <default type="button">
+    <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+    <texturenofocus colordiffuse="FF3C4A57">resources/panel.png</texturenofocus>
+    <font>font_body</font>
+    <textcolor>FFF6F1E8</textcolor>
+    <focusedcolor>FF151515</focusedcolor>
+    <aligny>center</aligny>
+    <textoffsetx>20</textoffsetx>
+  </default>
+  <default type="togglebutton">
+    <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+    <texturenofocus colordiffuse="FF3C4A57">resources/panel.png</texturenofocus>
+    <alttexturefocus colordiffuse="FFF0B04A">resources/panel.png</alttexturefocus>
+    <alttexturenofocus colordiffuse="FF3C4A57">resources/panel.png</alttexturenofocus>
+    <font>font_body</font>
+    <textcolor>FFF6F1E8</textcolor>
+    <focusedcolor>FF151515</focusedcolor>
+  </default>
+  <default type="radiobutton">
+    <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+    <texturenofocus colordiffuse="FF3C4A57">resources/panel.png</texturenofocus>
+    <textureradioonfocus>resources/progress.png</textureradioonfocus>
+    <textureradioonnofocus>resources/progress.png</textureradioonnofocus>
+    <textureradioofffocus>resources/overlay.png</textureradioofffocus>
+    <textureradiooffnofocus>resources/overlay.png</textureradiooffnofocus>
+    <font>font_body</font>
+    <textcolor>FFF6F1E8</textcolor>
+    <focusedcolor>FF151515</focusedcolor>
+  </default>
+  <default type="edit">
+    <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+    <texturenofocus colordiffuse="FF3C4A57">resources/panel.png</texturenofocus>
+    <font>font_body</font>
+    <textcolor>FFF6F1E8</textcolor>
+    <focusedcolor>FF151515</focusedcolor>
+    <textoffsetx>20</textoffsetx>
+  </default>
+  <default type="progress">
+    <texturebg>resources/overlay.png</texturebg>
+    <midtexture>resources/progress.png</midtexture>
+  </default>
+  <default type="scrollbar">
+    <texturesliderbackground colordiffuse="66FFFFFF">resources/overlay.png</texturesliderbackground>
+    <texturesliderbar colordiffuse="FFF0B04A">resources/panel.png</texturesliderbar>
+    <texturesliderbarfocus colordiffuse="FFF0B04A">resources/panel.png</texturesliderbarfocus>
+    <textureslidernib />
+    <textureslidernibfocus />
+    <showonepage>false</showonepage>
+    <orientation>vertical</orientation>
+  </default>
+</includes>

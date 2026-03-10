@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="skin.kodi4seniors" name="Kodi fuer Senioren" provider-name="mildman1848" version="0.1.0">
+<addon id="skin.kodi4seniors" name="Kodi fuer Senioren" provider-name="mildman1848" version="0.1.1">
   <requires>
     <import addon="xbmc.gui" version="5.17.0" />
   </requires>

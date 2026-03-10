@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+  <controls>
+    <control type="group">
+      <include>FullBackground</include>
+      <control type="image">
+        <centerleft>50%</centerleft>
+        <centertop>50%</centertop>
+        <width>360</width>
+        <height>160</height>
+        <colordiffuse>F0282E37</colordiffuse>
+        <texture>resources/panel.png</texture>
+      </control>
+      <control type="label">
+        <centerleft>50%</centerleft>
+        <centertop>50%</centertop>
+        <width>300</width>
+        <height>60</height>
+        <align>center</align>
+        <font>font_button</font>
+        <label>Bitte warten</label>
+      </control>
+    </control>
+  </controls>
+</window>
