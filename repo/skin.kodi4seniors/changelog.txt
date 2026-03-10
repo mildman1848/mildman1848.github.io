@@ -1,3 +1,6 @@
+[0.1.14]
+- Rebuilt the home screen around a simpler fixed four-group layout inspired by the original Home.xml mockup instead of the previous heavily parameterized card layout.
+
 [0.1.13]
 - Tightened the home layout against the mockup with more accurate outer margins, card heights and vertical spacing.
 
