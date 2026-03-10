@@ -29,6 +29,11 @@
     "zip_filename_regex": "repository\\.dexe-(?P<version>[0-9][0-9A-Za-z.-]*)\\.zip"
   },
   {
+    "addon_id": "repository.bingie",
+    "zip_index_url": "https://damienshomrai.com/repository.bingie/repository.bingie/",
+    "zip_filename_regex": "repository\\.bingie-(?P<version>[0-9][0-9A-Za-z.-]*)\\.zip"
+  },
+  {
     "addon_id": "repository.slyguy",
     "zip_url": "https://slyguy.uk/repository.slyguy.zip"
   },
