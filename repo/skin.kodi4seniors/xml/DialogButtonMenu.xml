@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+  <defaultcontrol always="true">9000</defaultcontrol>
+  <controls>
+    <control type="group">
+      <left>540</left>
+      <top>220</top>
+      <width>840</width>
+      <height>640</height>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>840</width>
+        <height>640</height>
+        <colordiffuse>F0282E37</colordiffuse>
+        <texture>resources/panel.png</texture>
+      </control>
+      <control type="label">
+        <left>50</left>
+        <top>36</top>
+        <width>740</width>
+        <height>60</height>
+        <align>center</align>
+        <font>font_title</font>
+        <textcolor>FFF6F1E8</textcolor>
+        <label>Systemmenue</label>
+      </control>
+      <control type="list" id="9000">
+        <left>90</left>
+        <top>140</top>
+        <width>660</width>
+        <height>430</height>
+        <onup>9000</onup>
+        <ondown>9000</ondown>
+        <scrolltime>180</scrolltime>
+        <itemlayout width="660" height="86">
+          <control type="image">
+            <left>0</left>
+            <top>6</top>
+            <width>600</width>
+            <height>74</height>
+            <colordiffuse>FF3C4A57</colordiffuse>
+            <texture>resources/panel.png</texture>
+          </control>
+          <control type="label">
+            <left>30</left>
+            <top>8</top>
+            <width>520</width>
+            <height>64</height>
+            <font>font_button</font>
+            <textcolor>FFF6F1E8</textcolor>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Label]</label>
+          </control>
+        </itemlayout>
+        <focusedlayout width="660" height="86">
+          <control type="image">
+            <left>0</left>
+            <top>0</top>
+            <width>620</width>
+            <height>86</height>
+            <colordiffuse>FFF0B04A</colordiffuse>
+            <texture>resources/panel.png</texture>
+          </control>
+          <control type="label">
+            <left>30</left>
+            <top>10</top>
+            <width>540</width>
+            <height>64</height>
+            <font>font_button</font>
+            <textcolor>FF151515</textcolor>
+            <aligny>center</aligny>
+            <label>$INFO[ListItem.Label]</label>
+          </control>
+        </focusedlayout>
+        <content>
+          <item>
+            <label>Zurueck</label>
+            <onclick>Close</onclick>
+          </item>
+          <item>
+            <label>Startseite</label>
+            <onclick>ActivateWindow(Home)</onclick>
+          </item>
+          <item>
+            <label>Einrichtung</label>
+            <onclick>ActivateWindow(Settings)</onclick>
+          </item>
+          <item>
+            <label>Kodi beenden</label>
+            <onclick>Quit</onclick>
+          </item>
+        </content>
+      </control>
+    </control>
+  </controls>
+</window>

@@ -17,6 +17,7 @@ Current first-party add-ons include:
 - `plugin.audio.audiobookshelf`
 - `metadata.albums.audible`
 - `metadata.artists.audible`
+- `skin.kodi4seniors`
 
 The repository add-on itself is:
 

@@ -16,7 +16,7 @@
       <description lang="en_GB">Kodi repository with own add-ons and maintained external sources.</description>
       <website>https://mildman1848.github.io/</website>
       <assets>
-        <icon>repository.mildman1848/icon.png</icon>
+        <icon>icon.png</icon>
       </assets>
     </extension>
   </addon>
@@ -50,6 +50,77 @@
         <screenshot>screenshot2.jpg</screenshot>
         <screenshot>screenshot3.jpg</screenshot>
       </assets>
+      <news>
+			Version 5.0
+			- Added Hard Cache Clean Option in settings
+			- Added Addon Informations
+			- Changed Auth-Method for Lokke issues
+			- Changed Signature-Method to Android
+			- Added Changelog in Addon
+			- Changed Addon to GNU L3
+
+			Version 4.9
+			- Fixed Auth Errors
+
+			Version 4.8
+			- export M3U fix
+
+			Version 4.7
+			- Path handling Fix for import/export favorites
+
+			Version 4.6
+			- Added Import/Export Favorites (long press on Favorites)
+
+			Version 4.5
+			- Added Make M3U from your Favorites (Long press on TV Favorites)
+			- Added Move Favorite to top or bottom
+
+			Version 4.4
+			- Added make M3U file locale for specific Country
+				To create the M3U file, long-press on a country and select “Create M3U”.
+				The file manager will open and ask you where to save the file (example: VavooTV-Germany-2026-02-16.m3u).
+				* The function was adapted from michaz’s version.
+			- Fixed an issue where tapping the favorites placeholder opened the settings.
+
+			EPG Service: 
+			1. Use one of these services
+				www.free-epg.de
+			2. Select your country.
+			3. Copy the EPG link.
+			4. Paste the link into your PVR client.
+
+			Version 4.3
+			- Created simple Main Menu
+
+			Version 4.2
+			- Favorite System changed/fixed
+
+			Version 4.1
+			- Added Options for Favorites
+
+			Version 3.9
+			- DebugLog prefix changed to ###VAVOO-TV###
+			- Debug Logging fix
+			- Code cleanup
+			- AuthSig Time changed to 1h instead of 10min
+
+			Version 3.7
+			- changed token
+			- changed signature
+			- changed headers
+			- changed session handle
+
+			Version 3.6
+			- rework of tokenheaders
+
+			Version 3.5
+			- Auth Errors fixed
+
+			Version 3.4:
+			Fork release of vavoo by michaz &amp; kasi
+			- rework base code
+			- clean up code
+        </news>
     </extension>
   </addon>
   <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.32" provider-name="mildman1848">
@@ -531,6 +602,29 @@
         <icon>icon.png</icon>
         <fanart>fanart.jpg</fanart>
       </assets>
+    </extension>
+  </addon>
+  <addon id="skin.kodi4seniors" name="Kodi fuer Senioren" provider-name="mildman1848" version="0.1.0">
+    <requires>
+      <import addon="xbmc.gui" version="5.17.0" />
+    </requires>
+    <extension point="xbmc.gui.skin" debugging="false">
+      <res width="1920" height="1080" aspect="16:9" default="true" folder="xml" />
+    </extension>
+    <extension point="xbmc.addon.metadata">
+      <platform>all</platform>
+      <license>GPL-3.0-or-later</license>
+      <source>https://github.com/mildman1848/kodi-for-seniors</source>
+      <website>https://github.com/mildman1848/kodi-for-seniors</website>
+      <assets>
+        <icon>resources/icon.png</icon>
+        <fanart>resources/fanart.jpg</fanart>
+        <screenshot>resources/screenshot-home.jpg</screenshot>
+      </assets>
+      <summary lang="de_DE">Kodi-Skin mit grossen Schaltflaechen fuer Senioren</summary>
+      <summary lang="en_GB">Kodi skin with large controls for seniors</summary>
+      <description lang="de_DE">Reduzierter Kodi-Skin fuer seniorengerechte Bedienung mit Fokus auf Live-TV, TV-Guide mit EPG und einfachem Zugang zu Mediatheken.</description>
+      <description lang="en_GB">Reduced Kodi skin for senior-friendly operation with focus on live TV, EPG guide and simple access to broadcaster catch-up services.</description>
     </extension>
   </addon>
 </addons>

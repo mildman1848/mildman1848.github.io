@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+  <defaultcontrol always="true">1100</defaultcontrol>
+  <controls>
+    <include>FullBackground</include>
+    <include>TopHeader</include>
+    <include>MainMenuList</include>
+    <include>InfoPanel</include>
+  </controls>
+</window>

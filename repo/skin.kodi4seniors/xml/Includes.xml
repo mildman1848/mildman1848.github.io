@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+  <include name="FullBackground">
+    <control type="image">
+      <left>0</left>
+      <top>0</top>
+      <width>1920</width>
+      <height>1080</height>
+      <texture>resources/background.png</texture>
+      <aspectratio>stretch</aspectratio>
+    </control>
+    <control type="image">
+      <left>0</left>
+      <top>0</top>
+      <width>1920</width>
+      <height>1080</height>
+      <colordiffuse>B0202020</colordiffuse>
+      <texture>resources/overlay.png</texture>
+      <aspectratio>stretch</aspectratio>
+    </control>
+  </include>
+
+  <include name="TopHeader">
+    <control type="label">
+      <left>90</left>
+      <top>60</top>
+      <width>900</width>
+      <height>80</height>
+      <font>font_title</font>
+      <textcolor>FFF6F1E8</textcolor>
+      <label>Kodi fuer Senioren</label>
+    </control>
+    <control type="label">
+      <left>90</left>
+      <top>138</top>
+      <width>900</width>
+      <height>42</height>
+      <font>font_body</font>
+      <textcolor>FFD9D2C4</textcolor>
+      <label>Klare Wege fuer Fernsehen, Mediatheken und Hilfe</label>
+    </control>
+    <control type="label">
+      <right>90</right>
+      <top>66</top>
+      <width>320</width>
+      <height>60</height>
+      <align>right</align>
+      <font>font_clock</font>
+      <textcolor>FFF6F1E8</textcolor>
+      <label>$INFO[System.Time]</label>
+    </control>
+    <control type="label">
+      <right>90</right>
+      <top>126</top>
+      <width>420</width>
+      <height>40</height>
+      <align>right</align>
+      <font>font_body</font>
+      <textcolor>FFD9D2C4</textcolor>
+      <label>$INFO[System.Date]</label>
+    </control>
+  </include>
+
+  <include name="MainMenuList">
+    <control type="list" id="1100">
+      <left>90</left>
+      <top>220</top>
+      <width>680</width>
+      <height>740</height>
+      <onup>1100</onup>
+      <ondown>1100</ondown>
+      <onleft>1100</onleft>
+      <onright>1200</onright>
+      <scrolltime>180</scrolltime>
+      <itemlayout width="680" height="92">
+        <control type="image">
+          <left>0</left>
+          <top>6</top>
+          <width>620</width>
+          <height>80</height>
+          <colordiffuse>FF3C4A57</colordiffuse>
+          <texture>resources/panel.png</texture>
+          <aspectratio>stretch</aspectratio>
+        </control>
+        <control type="label">
+          <left>34</left>
+          <top>8</top>
+          <width>540</width>
+          <height>72</height>
+          <font>font_button</font>
+          <textcolor>FFF4F0E8</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Label]</label>
+        </control>
+      </itemlayout>
+      <focusedlayout width="680" height="92">
+        <control type="image">
+          <left>0</left>
+          <top>0</top>
+          <width>640</width>
+          <height>92</height>
+          <colordiffuse>FFF0B04A</colordiffuse>
+          <texture>resources/panel.png</texture>
+          <aspectratio>stretch</aspectratio>
+        </control>
+        <control type="label">
+          <left>34</left>
+          <top>10</top>
+          <width>560</width>
+          <height>72</height>
+          <font>font_button</font>
+          <textcolor>FF151515</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Label]</label>
+        </control>
+      </focusedlayout>
+      <content>
+        <item>
+          <label>Live-TV</label>
+          <onclick condition="System.HasPVRAddon">ActivateWindow(TVChannels)</onclick>
+          <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
+          <property name="description">Direkt in die laufenden TV-Sender wechseln. Falls Live-TV noch nicht eingerichtet ist, oeffnen sich die PVR-Einstellungen.</property>
+        </item>
+        <item>
+          <label>TV-Guide</label>
+          <onclick condition="System.HasPVRAddon">ActivateWindow(TVGuide)</onclick>
+          <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
+          <property name="description">Elektronischer Programmfuehrer mit grosser Darstellung der Sendungen und Uhrzeiten.</property>
+        </item>
+        <item>
+          <label>Senderliste</label>
+          <onclick condition="System.HasPVRAddon">ActivateWindow(TVChannels)</onclick>
+          <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
+          <property name="description">Gross formatierte Uebersicht aller TV-Sender inklusive aktueller Sendung.</property>
+        </item>
+        <item>
+          <label>Mediatheken</label>
+          <onclick>ActivateWindow(Videos,addons://sources/video/,return)</onclick>
+          <property name="description">Zentrale Einstiegsseite fuer installierte Video-Add-ons wie ARD, ZDF, Arte oder weitere Mediatheken.</property>
+        </item>
+        <item>
+          <label>Aufnahmen</label>
+          <onclick condition="System.HasPVRAddon">ActivateWindow(TVRecordings)</onclick>
+          <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
+          <property name="description">Gespeicherte TV-Aufnahmen oeffnen oder PVR-Einrichtung nachholen.</property>
+        </item>
+        <item>
+          <label>Einrichtung</label>
+          <onclick>ActivateWindow(Settings)</onclick>
+          <property name="description">Bereich fuer einmalige Einrichtung von Live-TV, Add-ons, Netzwerk und Oberflaeche durch eine technisch versierte Person.</property>
+        </item>
+        <item>
+          <label>Ausschalten</label>
+          <onclick>ActivateWindow(ShutdownMenu)</onclick>
+          <property name="description">Kodi beenden, neu starten oder das Geraet ausschalten.</property>
+        </item>
+      </content>
+    </control>
+  </include>
+
+  <include name="InfoPanel">
+    <control type="group" id="1200">
+      <left>835</left>
+      <top>220</top>
+      <width>995</width>
+      <height>740</height>
+      <onleft>1100</onleft>
+      <onright>1100</onright>
+      <onup>1100</onup>
+      <ondown>1100</ondown>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>995</width>
+        <height>740</height>
+        <colordiffuse>F0282E37</colordiffuse>
+        <texture>resources/panel.png</texture>
+        <aspectratio>stretch</aspectratio>
+      </control>
+      <control type="label">
+        <left>44</left>
+        <top>36</top>
+        <width>860</width>
+        <height>60</height>
+        <font>font_title</font>
+        <textcolor>FFF6F1E8</textcolor>
+        <label>$INFO[Container(1100).ListItem.Label]</label>
+      </control>
+      <control type="textbox">
+        <left>44</left>
+        <top>118</top>
+        <width>900</width>
+        <height>170</height>
+        <font>font_body_large</font>
+        <textcolor>FFE6DFD4</textcolor>
+        <label>$INFO[Container(1100).ListItem.Property(description)]</label>
+      </control>
+      <control type="label">
+        <left>44</left>
+        <top>340</top>
+        <width>860</width>
+        <height>48</height>
+        <font>font_button</font>
+        <textcolor>FFF0B04A</textcolor>
+        <label>Systemstatus</label>
+      </control>
+      <control type="label">
+        <left>44</left>
+        <top>410</top>
+        <width>860</width>
+        <height>40</height>
+        <font>font_body_large</font>
+        <textcolor>FFF6F1E8</textcolor>
+        <label>Live-TV ist eingerichtet.</label>
+        <visible>System.HasPVRAddon</visible>
+      </control>
+      <control type="label">
+        <left>44</left>
+        <top>410</top>
+        <width>860</width>
+        <height>40</height>
+        <font>font_body_large</font>
+        <textcolor>FFF6F1E8</textcolor>
+        <label>Live-TV muss noch eingerichtet werden.</label>
+        <visible>!System.HasPVRAddon</visible>
+      </control>
+      <control type="label">
+        <left>44</left>
+        <top>472</top>
+        <width>900</width>
+        <height>80</height>
+        <font>font_body</font>
+        <textcolor>FFD9D2C4</textcolor>
+        <wrapmultiline>true</wrapmultiline>
+        <label>Fuer die alltaegliche Nutzung reichen meist Live-TV, TV-Guide und Mediatheken. Die Einrichtung ist absichtlich getrennt gehalten.</label>
+      </control>
+      <control type="label">
+        <left>44</left>
+        <top>610</top>
+        <width>900</width>
+        <height>40</height>
+        <font>font_body_large</font>
+        <textcolor>FFF0B04A</textcolor>
+        <label>Empfohlene Mediatheken</label>
+      </control>
+      <control type="textbox">
+        <left>44</left>
+        <top>664</top>
+        <width>900</width>
+        <height>110</height>
+        <font>font_body</font>
+        <textcolor>FFE6DFD4</textcolor>
+        <label>Installierte Video-Add-ons fuer ARD, ZDF, Arte oder 3sat erscheinen gesammelt unter "Mediatheken".</label>
+      </control>
+    </control>
+  </include>
+
+  <include name="SettingsMenuList">
+    <control type="list" id="2100">
+      <left>90</left>
+      <top>220</top>
+      <width>1740</width>
+      <height>740</height>
+      <onup>2100</onup>
+      <ondown>2100</ondown>
+      <scrolltime>180</scrolltime>
+      <itemlayout width="1740" height="96">
+        <control type="image">
+          <left>0</left>
+          <top>6</top>
+          <width>1660</width>
+          <height>84</height>
+          <colordiffuse>F0282E37</colordiffuse>
+          <texture>resources/panel.png</texture>
+        </control>
+        <control type="label">
+          <left>32</left>
+          <top>8</top>
+          <width>720</width>
+          <height>72</height>
+          <font>font_button</font>
+          <textcolor>FFF4F0E8</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Label]</label>
+        </control>
+        <control type="label">
+          <left>760</left>
+          <top>8</top>
+          <width>840</width>
+          <height>72</height>
+          <font>font_body</font>
+          <textcolor>FFD9D2C4</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Property(description)]</label>
+        </control>
+      </itemlayout>
+      <focusedlayout width="1740" height="96">
+        <control type="image">
+          <left>0</left>
+          <top>0</top>
+          <width>1690</width>
+          <height>96</height>
+          <colordiffuse>FFF0B04A</colordiffuse>
+          <texture>resources/panel.png</texture>
+        </control>
+        <control type="label">
+          <left>32</left>
+          <top>12</top>
+          <width>720</width>
+          <height>72</height>
+          <font>font_button</font>
+          <textcolor>FF151515</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Label]</label>
+        </control>
+        <control type="label">
+          <left>760</left>
+          <top>12</top>
+          <width>840</width>
+          <height>72</height>
+          <font>font_body</font>
+          <textcolor>FF151515</textcolor>
+          <aligny>center</aligny>
+          <label>$INFO[ListItem.Property(description)]</label>
+        </control>
+      </focusedlayout>
+      <content>
+        <item>
+          <label>Live-TV einrichten</label>
+          <onclick>ActivateWindow(PVRSettings)</onclick>
+          <property name="description">PVR-Backend, Sender und EPG einmalig einrichten.</property>
+        </item>
+        <item>
+          <label>Interface</label>
+          <onclick>ActivateWindow(InterfaceSettings)</onclick>
+          <property name="description">Sprache, Region, Bildschirmschoner und Bedienoberflaeche anpassen.</property>
+        </item>
+        <item>
+          <label>System</label>
+          <onclick>ActivateWindow(SystemSettings)</onclick>
+          <property name="description">Audio, Anzeige, Stromoptionen und Hardware-bezogene Einstellungen.</property>
+        </item>
+        <item>
+          <label>Dienste und Netzwerk</label>
+          <onclick>ActivateWindow(ServiceSettings)</onclick>
+          <property name="description">Netzwerkdienste und Fernzugriff konfigurieren.</property>
+        </item>
+        <item>
+          <label>Player</label>
+          <onclick>ActivateWindow(PlayerSettings)</onclick>
+          <property name="description">Wiedergabeverhalten fuer Video, Audio und Untertitel festlegen.</property>
+        </item>
+        <item>
+          <label>Medien</label>
+          <onclick>ActivateWindow(MediaSettings)</onclick>
+          <property name="description">Bibliotheken, Metadaten und Quellen verwalten.</property>
+        </item>
+        <item>
+          <label>Add-ons</label>
+          <onclick>ActivateWindow(AddonBrowser)</onclick>
+          <property name="description">Mediatheken und weitere Kodi-Add-ons installieren oder aktualisieren.</property>
+        </item>
+        <item>
+          <label>Zur Startseite</label>
+          <onclick>ActivateWindow(Home)</onclick>
+          <property name="description">Zur vereinfachten Startseite zurueckkehren.</property>
+        </item>
+      </content>
+    </control>
+  </include>
+</includes>

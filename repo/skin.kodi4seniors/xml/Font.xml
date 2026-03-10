@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fonts>
+  <fontset id="Default" unicode="true">
+    <font>
+      <name>font_body</name>
+      <filename>fonts/DejaVuSans.ttf</filename>
+      <size>30</size>
+    </font>
+    <font>
+      <name>font_body_large</name>
+      <filename>fonts/DejaVuSans.ttf</filename>
+      <size>36</size>
+    </font>
+    <font>
+      <name>font_button</name>
+      <filename>fonts/DejaVuSans-Bold.ttf</filename>
+      <size>40</size>
+    </font>
+    <font>
+      <name>font_title</name>
+      <filename>fonts/DejaVuSans-Bold.ttf</filename>
+      <size>56</size>
+    </font>
+    <font>
+      <name>font_clock</name>
+      <filename>fonts/DejaVuSans-Bold.ttf</filename>
+      <size>48</size>
+    </font>
+    <font>
+      <name>font_epg_channel</name>
+      <filename>fonts/DejaVuSans-Bold.ttf</filename>
+      <size>34</size>
+    </font>
+    <font>
+      <name>font_epg_item</name>
+      <filename>fonts/DejaVuSans.ttf</filename>
+      <size>24</size>
+    </font>
+  </fontset>
+</fonts>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+  <defaultcontrol always="true">2100</defaultcontrol>
+  <controls>
+    <include>FullBackground</include>
+    <include>TopHeader</include>
+    <control type="label">
+      <left>90</left>
+      <top>180</top>
+      <width>1000</width>
+      <height>52</height>
+      <font>font_button</font>
+      <textcolor>FFF0B04A</textcolor>
+      <label>Einrichtung und Verwaltung</label>
+    </control>
+    <include>SettingsMenuList</include>
+  </controls>
+</window>
