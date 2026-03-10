@@ -5,7 +5,7 @@
 - Replaced the release archive with `repo/plugin.video.vavootv/plugin.video.vavootv-5.0.zip` and removed the old `4.9` ZIP.
 - Refreshed the extracted VavooTV addon payload in `repo/plugin.video.vavootv/`, including the new metadata/assets (`logo.png`, `fanart.jpg`, screenshots, `LICENSE.txt`) and the added `script.module.dateutil` dependency.
 - Updated repository metadata files: `repo/addons.xml`, `repo/addons.xml.md5`, `repo/plugin.video.vavootv/index.html`, and `repo/index.html`.
-- Added external repository `repository.bingie` `1.0.2` to the automated sync/import and published it under `repo/repository.bingie/`.
+- Added external repository `repository.bingie` to the automated sync/import and switched the source to `https://matke-84.github.io/repository.bingie/repository.bingie/`, publishing the currently available version `1.0.0` under `repo/repository.bingie/`.
 - Fixed the external repository sync tooling for current upstream changes: `repository.kodinerds` now resolves versions from the public WebDAV index, and network fetches fall back to `curl` with retries when Python HTTP requests time out.
 - Updated `.github/workflows/codeql.yml` to `github/codeql-action@v4`, matching the currently open Dependabot PR for GitHub Actions dependencies.
 

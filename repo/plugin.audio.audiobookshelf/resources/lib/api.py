@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import os
 from urllib.parse import urljoin
 
 import requests
@@ -249,6 +250,40 @@ def iter_audio_urls(data):
         for value in data:
             for nested in iter_audio_urls(value):
                 yield nested
+
+
+def iter_audio_mime_types(data):
+    if isinstance(data, dict):
+        for key, value in data.items():
+            low = key.lower()
+            if low in ("mimetype", "contenttype", "content-type", "mime") and isinstance(value, str):
+                mime = value.split(";", 1)[0].strip().lower()
+                if mime.startswith("audio/"):
+                    yield mime
+            for nested in iter_audio_mime_types(value):
+                yield nested
+    elif isinstance(data, list):
+        for value in data:
+            for nested in iter_audio_mime_types(value):
+                yield nested
+
+
+def mime_type_from_url(url):
+    if not url:
+        return ""
+    clean = url.split("?", 1)[0].lower()
+    ext = os.path.splitext(clean)[1]
+    return {
+        ".mp3": "audio/mpeg",
+        ".m4a": "audio/mp4",
+        ".m4b": "audio/mp4",
+        ".aac": "audio/aac",
+        ".ogg": "audio/ogg",
+        ".opus": "audio/ogg",
+        ".flac": "audio/flac",
+        ".wav": "audio/wav",
+        ".m3u8": "application/vnd.apple.mpegurl",
+    }.get(ext, "")
 
 
 def parse_libraries(payload):

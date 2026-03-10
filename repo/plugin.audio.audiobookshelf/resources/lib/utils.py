@@ -178,10 +178,16 @@ def add_dir(label, action, folder=True, art=None, info=None, **kwargs):
     xbmcplugin.addDirectoryItem(HANDLE, url, li, isFolder=folder)
 
 
-def add_playable(label, action, art=None, info=None, **kwargs):
+def add_playable(label, action, art=None, info=None, mime_type="", **kwargs):
     url = plugin_url(action=action, **kwargs)
     li = xbmcgui.ListItem(label=label)
     li.setProperty("IsPlayable", "true")
+    if mime_type:
+        try:
+            li.setMimeType(mime_type)
+            li.setContentLookup(False)
+        except Exception:
+            pass
     if art:
         if isinstance(art, str):
             art = {"thumb": art, "icon": art, "poster": art}

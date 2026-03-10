@@ -30,7 +30,7 @@
   },
   {
     "addon_id": "repository.bingie",
-    "zip_index_url": "https://damienshomrai.com/repository.bingie/repository.bingie/",
+    "zip_index_url": "https://matke-84.github.io/repository.bingie/repository.bingie/",
     "zip_filename_regex": "repository\\.bingie-(?P<version>[0-9][0-9A-Za-z.-]*)\\.zip"
   },
   {

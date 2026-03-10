@@ -12,7 +12,9 @@ from resources.lib.api import (
     AbsApiError,
     AbsClient,
     find_first_key,
+    iter_audio_mime_types,
     iter_audio_urls,
+    mime_type_from_url,
     parse_entities,
     parse_items,
     parse_libraries,
@@ -958,7 +960,17 @@ def list_episodes(client, item_id, title="Podcast", art=""):
             duration = 0
         info = {"title": ep_title, "album": title, "comment": ep.get("description") or "", "duration": duration}
         art_data = {"thumb": cover, "icon": cover, "poster": cover}
-        utils.add_playable(label, "play", item_id=item_id, episode_id=ep_id, title=ep_title, art=art_data, info=info)
+        mime_type = next(iter_audio_mime_types(ep), "")
+        utils.add_playable(
+            label,
+            "play",
+            item_id=item_id,
+            episode_id=ep_id,
+            title=ep_title,
+            art=art_data,
+            info=info,
+            mime_type=mime_type,
+        )
     utils.end("songs")
 
 
@@ -1285,16 +1297,21 @@ def list_entity_items(client, library_id, entity_type, entity_id, entity_name=""
 def resolve_play_url(client, item_id, episode_id=None):
     play = client.play_item(item_id, episode_id=episode_id)
     for candidate in iter_audio_urls(play):
-        return client.stream_url_with_token(candidate)
+        stream_url = client.stream_url_with_token(candidate)
+        mime_type = next(iter_audio_mime_types(play), "") or mime_type_from_url(candidate)
+        return stream_url, mime_type
 
     item = client.item(item_id)
     for candidate in iter_audio_urls(item):
-        return client.stream_url_with_token(candidate)
+        stream_url = client.stream_url_with_token(candidate)
+        mime_type = next(iter_audio_mime_types(item), "") or mime_type_from_url(candidate)
+        return stream_url, mime_type
 
     inode = find_first_key(item, ["ino", "inode"])
     if inode:
-        return client.stream_url_with_token("/api/items/%s/file/%s" % (item_id, inode))
-    return ""
+        stream_url = client.stream_url_with_token("/api/items/%s/file/%s" % (item_id, inode))
+        return stream_url, mime_type_from_url(stream_url)
+    return "", ""
 
 
 def play_item(client, item_id, episode_id=None, resume=0.0, duration=0.0, title=""):
@@ -1308,12 +1325,18 @@ def play_item(client, item_id, episode_id=None, resume=0.0, duration=0.0, title=
         except Exception:
             resume = 0.0
 
-    stream_url = resolve_play_url(client, item_id, episode_id=episode_id or None)
+    stream_url, mime_type = resolve_play_url(client, item_id, episode_id=episode_id or None)
     if not stream_url:
         raise AbsApiError("No stream URL found for selected item")
 
     li = xbmcgui.ListItem(path=stream_url)
     li.setProperty("IsPlayable", "true")
+    if mime_type:
+        try:
+            li.setMimeType(mime_type)
+            li.setContentLookup(False)
+        except Exception:
+            pass
     if resume > 0:
         li.setProperty("ResumeTime", str(resume))
         if duration > 0:
