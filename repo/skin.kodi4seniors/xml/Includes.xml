@@ -37,7 +37,7 @@
       <height>42</height>
       <font>font_body</font>
       <textcolor>FFD9D2C4</textcolor>
-      <label>Klare Wege fuer Fernsehen, Mediatheken und Hilfe</label>
+      <label>Klare Wege fuer Fernsehen, Mediatheken, Bibliothek und Einstellungen</label>
     </control>
     <control type="label">
       <right>90</right>
@@ -65,49 +65,49 @@
     <control type="list" id="1100">
       <left>90</left>
       <top>220</top>
-      <width>680</width>
+      <width>760</width>
       <height>740</height>
       <onup>1100</onup>
       <ondown>1100</ondown>
       <onleft>1100</onleft>
       <onright>1200</onright>
       <scrolltime>180</scrolltime>
-      <itemlayout width="680" height="92">
+      <itemlayout width="760" height="150">
         <control type="image">
           <left>0</left>
-          <top>6</top>
-          <width>620</width>
-          <height>80</height>
+          <top>8</top>
+          <width>720</width>
+          <height>134</height>
           <colordiffuse>FF3C4A57</colordiffuse>
           <texture>resources/panel.png</texture>
           <aspectratio>stretch</aspectratio>
         </control>
         <control type="label">
-          <left>34</left>
-          <top>8</top>
-          <width>540</width>
-          <height>72</height>
+          <left>44</left>
+          <top>22</top>
+          <width>620</width>
+          <height>96</height>
           <font>font_button</font>
           <textcolor>FFF4F0E8</textcolor>
           <aligny>center</aligny>
           <label>$INFO[ListItem.Label]</label>
         </control>
       </itemlayout>
-      <focusedlayout width="680" height="92">
+      <focusedlayout width="760" height="150">
         <control type="image">
           <left>0</left>
           <top>0</top>
-          <width>640</width>
-          <height>92</height>
+          <width>740</width>
+          <height>150</height>
           <colordiffuse>FFF0B04A</colordiffuse>
           <texture>resources/panel.png</texture>
           <aspectratio>stretch</aspectratio>
         </control>
         <control type="label">
-          <left>34</left>
-          <top>10</top>
-          <width>560</width>
-          <height>72</height>
+          <left>44</left>
+          <top>28</top>
+          <width>640</width>
+          <height>96</height>
           <font>font_button</font>
           <textcolor>FF151515</textcolor>
           <aligny>center</aligny>
@@ -116,43 +116,25 @@
       </focusedlayout>
       <content>
         <item>
-          <label>Live-TV</label>
-          <onclick condition="System.HasPVRAddon">ActivateWindow(TVChannels)</onclick>
-          <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
-          <property name="description">Direkt in die laufenden TV-Sender wechseln. Falls Live-TV noch nicht eingerichtet ist, oeffnen sich die PVR-Einstellungen.</property>
-        </item>
-        <item>
-          <label>TV-Guide</label>
+          <label>Fernsehen</label>
           <onclick condition="System.HasPVRAddon">ActivateWindow(TVGuide)</onclick>
           <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
-          <property name="description">Elektronischer Programmfuehrer mit grosser Darstellung der Sendungen und Uhrzeiten.</property>
-        </item>
-        <item>
-          <label>Senderliste</label>
-          <onclick condition="System.HasPVRAddon">ActivateWindow(TVChannels)</onclick>
-          <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
-          <property name="description">Gross formatierte Uebersicht aller TV-Sender inklusive aktueller Sendung.</property>
+          <property name="description">Live-TV mit EPG. Hier oeffnet sich direkt das Fernsehprogramm mit Sendern, Uhrzeiten und laufenden Sendungen.</property>
         </item>
         <item>
           <label>Mediatheken</label>
           <onclick>ActivateWindow(Videos,addons://sources/video/,return)</onclick>
-          <property name="description">Zentrale Einstiegsseite fuer installierte Video-Add-ons wie ARD, ZDF, Arte oder weitere Mediatheken.</property>
+          <property name="description">Zentrale Einstiegsseite fuer installierte Mediatheken wie ARD, ZDF, Arte und weitere oeffentlich-rechtliche Angebote.</property>
         </item>
         <item>
-          <label>Aufnahmen</label>
-          <onclick condition="System.HasPVRAddon">ActivateWindow(TVRecordings)</onclick>
-          <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
-          <property name="description">Gespeicherte TV-Aufnahmen oeffnen oder PVR-Einrichtung nachholen.</property>
+          <label>Bibliothek</label>
+          <onclick>ActivateWindow(Videos,videodb://,return)</onclick>
+          <property name="description">Eigene Filme, Serien und weitere eingebundene Inhalte aus der Kodi-Bibliothek oeffnen.</property>
         </item>
         <item>
-          <label>Einrichtung</label>
+          <label>Einstellung</label>
           <onclick>ActivateWindow(Settings)</onclick>
-          <property name="description">Bereich fuer einmalige Einrichtung von Live-TV, Add-ons, Netzwerk und Oberflaeche durch eine technisch versierte Person.</property>
-        </item>
-        <item>
-          <label>Ausschalten</label>
-          <onclick>ActivateWindow(ShutdownMenu)</onclick>
-          <property name="description">Kodi beenden, neu starten oder das Geraet ausschalten.</property>
+          <property name="description">Bereich fuer die einmalige technische Einrichtung von Live-TV, Add-ons, Netzwerk und Oberflaeche.</property>
         </item>
       </content>
     </control>
@@ -160,9 +142,9 @@
 
   <include name="InfoPanel">
     <control type="group" id="1200">
-      <left>835</left>
+      <left>915</left>
       <top>220</top>
-      <width>995</width>
+      <width>915</width>
       <height>740</height>
       <onleft>1100</onleft>
       <onright>1100</onright>
@@ -171,7 +153,7 @@
       <control type="image">
         <left>0</left>
         <top>0</top>
-        <width>995</width>
+        <width>915</width>
         <height>740</height>
         <colordiffuse>F0282E37</colordiffuse>
         <texture>resources/panel.png</texture>
@@ -180,7 +162,7 @@
       <control type="label">
         <left>44</left>
         <top>36</top>
-        <width>860</width>
+        <width>780</width>
         <height>60</height>
         <font>font_title</font>
         <textcolor>FFF6F1E8</textcolor>
@@ -189,7 +171,7 @@
       <control type="textbox">
         <left>44</left>
         <top>118</top>
-        <width>900</width>
+        <width>820</width>
         <height>170</height>
         <font>font_body_large</font>
         <textcolor>FFE6DFD4</textcolor>
@@ -202,7 +184,7 @@
         <height>48</height>
         <font>font_button</font>
         <textcolor>FFF0B04A</textcolor>
-        <label>Systemstatus</label>
+        <label>Hinweis</label>
       </control>
       <control type="label">
         <left>44</left>
@@ -211,7 +193,7 @@
         <height>40</height>
         <font>font_body_large</font>
         <textcolor>FFF6F1E8</textcolor>
-        <label>Live-TV ist eingerichtet.</label>
+        <label>Fernsehen ist eingerichtet.</label>
         <visible>System.HasPVRAddon</visible>
       </control>
       <control type="label">
@@ -221,36 +203,36 @@
         <height>40</height>
         <font>font_body_large</font>
         <textcolor>FFF6F1E8</textcolor>
-        <label>Live-TV muss noch eingerichtet werden.</label>
+        <label>Fernsehen muss noch eingerichtet werden.</label>
         <visible>!System.HasPVRAddon</visible>
       </control>
       <control type="label">
         <left>44</left>
         <top>472</top>
-        <width>900</width>
+        <width>820</width>
         <height>80</height>
         <font>font_body</font>
         <textcolor>FFD9D2C4</textcolor>
         <wrapmultiline>true</wrapmultiline>
-        <label>Fuer die alltaegliche Nutzung reichen meist Live-TV, TV-Guide und Mediatheken. Die Einrichtung ist absichtlich getrennt gehalten.</label>
+        <label>Die Startseite zeigt bewusst nur vier grosse Kacheln. So bleiben die wichtigsten Wege im Alltag leicht merkbar und gut erreichbar.</label>
       </control>
       <control type="label">
         <left>44</left>
         <top>610</top>
-        <width>900</width>
+        <width>820</width>
         <height>40</height>
         <font>font_body_large</font>
         <textcolor>FFF0B04A</textcolor>
-        <label>Empfohlene Mediatheken</label>
+        <label>Empfohlene Nutzung</label>
       </control>
       <control type="textbox">
         <left>44</left>
         <top>664</top>
-        <width>900</width>
+        <width>820</width>
         <height>110</height>
         <font>font_body</font>
         <textcolor>FFE6DFD4</textcolor>
-        <label>Installierte Video-Add-ons fuer ARD, ZDF, Arte oder 3sat erscheinen gesammelt unter "Mediatheken".</label>
+        <label>Fernsehen fuehrt direkt zum TV-Guide. Mediatheken sammeln installierte Sender-Add-ons. Bibliothek zeigt eigene Inhalte. Einstellungen bleiben fuer die technische Betreuung getrennt.</label>
       </control>
     </control>
   </include>

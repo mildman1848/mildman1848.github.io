@@ -1,5 +1,5 @@
 [0.1.0]
 - Erste oeffentliche Vorschau des seniorenfreundlichen Kodi-Skins
-- Vereinfachte Startseite fuer Live-TV, TV-Guide und Mediatheken
+- Vereinfachte Startseite mit vier grossen Kacheln: Fernsehen, Mediatheken, Bibliothek und Einstellung
 - Grosses PVR-Guide-Layout mit EPG-Fokus
 - Packaging- und Publish-Automation fuer die Kodi-Repo
