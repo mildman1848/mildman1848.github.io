@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="1112">
+  <defaultcontrol always="true">3101</defaultcontrol>
+  <controls>
+    <include>FullBackground</include>
+    <include>TopHeader</include>
+
+    <control type="label">
+      <left>90</left>
+      <top>188</top>
+      <width>760</width>
+      <height>52</height>
+      <font>font_button</font>
+      <textcolor>FF6BE56B</textcolor>
+      <label>Mediatheken-Zentrale</label>
+    </control>
+    <control type="textbox">
+      <left>90</left>
+      <top>246</top>
+      <width>1560</width>
+      <height>72</height>
+      <font>font_body</font>
+      <textcolor>FFF1FFF1</textcolor>
+      <label>Hier werden oeffentlich-rechtliche Mediatheken gebuendelt. Eine betreuende Person kann Add-ons einmalig vorbereiten, spaeter reichen wenige Tasten.</label>
+    </control>
+
+    <control type="button" id="3101">
+      <left>90</left>
+      <top>340</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3102</onleft>
+      <onright>3102</onright>
+      <onup>3105</onup>
+      <ondown>3103</ondown>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FF2E8B57">resources/panel.png</texturenofocus>
+      <onclick condition="System.AddonIsEnabled(plugin.video.ardmediathek)">ActivateWindow(Videos,plugin://plugin.video.ardmediathek/,return)</onclick>
+      <onclick condition="!System.AddonIsEnabled(plugin.video.ardmediathek)">ActivateWindow(AddonBrowser,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>382</top>
+      <width>300</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>ARD Mediathek</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>432</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFE8F8E8</textcolor>
+      <label>Sendungen, Dokumentationen und Serien</label>
+    </control>
+
+    <control type="button" id="3102">
+      <left>890</left>
+      <top>340</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3101</onleft>
+      <onright>3101</onright>
+      <onup>3106</onup>
+      <ondown>3104</ondown>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FF2E8B57">resources/panel.png</texturenofocus>
+      <onclick condition="System.AddonIsEnabled(plugin.video.zdf)">ActivateWindow(Videos,plugin://plugin.video.zdf/,return)</onclick>
+      <onclick condition="!System.AddonIsEnabled(plugin.video.zdf)">ActivateWindow(AddonBrowser,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>382</top>
+      <width>300</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>ZDF Mediathek</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>432</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFE8F8E8</textcolor>
+      <label>Magazin, Filme, Nachrichten und Serien</label>
+    </control>
+
+    <control type="button" id="3103">
+      <left>90</left>
+      <top>520</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3104</onleft>
+      <onright>3104</onright>
+      <onup>3101</onup>
+      <ondown>3105</ondown>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FF2E8B57">resources/panel.png</texturenofocus>
+      <onclick condition="System.AddonIsEnabled(plugin.video.arte)">ActivateWindow(Videos,plugin://plugin.video.arte/,return)</onclick>
+      <onclick condition="!System.AddonIsEnabled(plugin.video.arte)">ActivateWindow(AddonBrowser,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>562</top>
+      <width>300</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>Arte</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>612</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFE8F8E8</textcolor>
+      <label>Kultur, Dokus und europaeische Filme</label>
+    </control>
+
+    <control type="button" id="3104">
+      <left>890</left>
+      <top>520</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3103</onleft>
+      <onright>3103</onright>
+      <onup>3102</onup>
+      <ondown>3106</ondown>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FF2E8B57">resources/panel.png</texturenofocus>
+      <onclick>ActivateWindow(Videos,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>562</top>
+      <width>300</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>Alle Mediatheken</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>612</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFE8F8E8</textcolor>
+      <label>Weitere Video-Add-ons und Sender erreichen</label>
+    </control>
+
+    <control type="button" id="3105">
+      <left>90</left>
+      <top>700</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3106</onleft>
+      <onright>3106</onright>
+      <onup>3103</onup>
+      <ondown>3101</ondown>
+      <texturefocus colordiffuse="FFFFC24B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FFB97A00">resources/panel.png</texturenofocus>
+      <onclick>ActivateWindow(Videos,library://video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>742</top>
+      <width>360</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFFFFAF2</textcolor>
+      <label>Bibliothek</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>792</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFFFF5E1</textcolor>
+      <label>Vorbereitete Mediatheken-Inhalte spaeter leichter wiederfinden</label>
+    </control>
+
+    <control type="button" id="3106">
+      <left>890</left>
+      <top>700</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3105</onleft>
+      <onright>3105</onright>
+      <onup>3104</onup>
+      <ondown>3102</ondown>
+      <texturefocus colordiffuse="FFA9A9A9">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="FF7D7D7D">resources/panel.png</texturenofocus>
+      <onclick>ActivateWindow(Home)</onclick>
+      <label></label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>742</top>
+      <width>360</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF8F8F8</textcolor>
+      <label>Zur Startseite</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>792</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF2F2F2</textcolor>
+      <label>Zurueck zu den vier Hauptbereichen</label>
+    </control>
+  </controls>
+</window>
