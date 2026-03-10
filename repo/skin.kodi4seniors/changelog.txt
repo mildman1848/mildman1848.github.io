@@ -1,3 +1,6 @@
+[0.1.12]
+- Increased the home card scale and redistributed the 2x2 layout so the start screen uses the full TV area more like the mockup.
+
 [0.1.11]
 - Rescaled and repositioned the four start cards so the home screen fills the TV area instead of clustering in the upper-left corner.
 
