@@ -1,3 +1,6 @@
+[0.1.18]
+- Fokusdarstellung optisch naeher an das Mockup gezogen: aktive Kachelrahmen direkt auf den Karten, ruhigere Hinweis-Pills unten und staerkere Nutzung der Preview-Grafiken.
+
 [0.1.17]
 - Sichtbare Fokus-Rueckmeldung auf der Startseite ergaenzt und den Home-Focus-Handler waehrend der aktiven Home-Ansicht weiter synchronisieren lassen.
 

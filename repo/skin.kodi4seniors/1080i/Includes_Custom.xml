@@ -75,6 +75,16 @@
       <top>150</top>
       <width>828</width>
       <height>410</height>
+      <control type="image">
+        <left>-8</left>
+        <top>-8</top>
+        <width>844</width>
+        <height>426</height>
+        <texture>resources/media/focus_frame.png</texture>
+        <aspectratio>stretch</aspectratio>
+        <colordiffuse>F2FFFFFF</colordiffuse>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1101)</visible>
+      </control>
       <control type="button" id="1101">
         <left>0</left>
         <top>0</top>
@@ -99,17 +109,6 @@
         <textcolor>FFF4F8FF</textcolor>
         <label>Live TV</label>
       </control>
-      <control type="label">
-        <right>28</right>
-        <top>22</top>
-        <width>224</width>
-        <height>42</height>
-        <align>right</align>
-        <font>font_button</font>
-        <textcolor>FFF4F8FF</textcolor>
-        <label>Ausgewaehlt</label>
-        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1101)</visible>
-      </control>
       <control type="image">
         <left>26</left>
         <top>84</top>
@@ -119,71 +118,11 @@
       </control>
       <control type="image">
         <left>32</left>
-        <top>106</top>
-        <width>182</width>
-        <height>72</height>
-        <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>44</left>
-        <top>126</top>
-        <width>158</width>
-        <height>30</height>
-        <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FF144C9A</textcolor>
-        <label>Das Erste</label>
-      </control>
-      <control type="image">
-        <left>224</left>
-        <top>106</top>
-        <width>182</width>
-        <height>72</height>
-        <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>236</left>
-        <top>126</top>
-        <width>158</width>
-        <height>30</height>
-        <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FFE07A00</textcolor>
-        <label>ZDF</label>
-      </control>
-      <control type="image">
-        <left>416</left>
-        <top>106</top>
-        <width>182</width>
-        <height>72</height>
-        <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>428</left>
-        <top>126</top>
-        <width>158</width>
-        <height>30</height>
-        <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FF8B52C9</textcolor>
-        <label>arte</label>
-      </control>
-      <control type="image">
-        <left>608</left>
-        <top>106</top>
-        <width>182</width>
-        <height>72</height>
-        <texture colordiffuse="F0FFFFFF">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>620</left>
-        <top>126</top>
-        <width>158</width>
-        <height>30</height>
-        <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FF303030</textcolor>
-        <label>VOX</label>
+        <top>100</top>
+        <width>758</width>
+        <height>86</height>
+        <texture>resources/media/live_tv_preview.png</texture>
+        <aspectratio>stretch</aspectratio>
       </control>
       <control type="label">
         <left>32</left>
@@ -239,6 +178,17 @@
         <label>Als Naechstes: Der Bergdoktor 20:15</label>
         <visible>System.HasPVRAddon + ![PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
       </control>
+      <control type="label">
+        <right>36</right>
+        <bottom>30</bottom>
+        <width>220</width>
+        <height>36</height>
+        <align>center</align>
+        <font>font_body_large</font>
+        <textcolor>FFF4F8FF</textcolor>
+        <label>OK oeffnen</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1101)</visible>
+      </control>
     </control>
 
     <control type="group">
@@ -246,6 +196,16 @@
       <top>150</top>
       <width>828</width>
       <height>410</height>
+      <control type="image">
+        <left>-8</left>
+        <top>-8</top>
+        <width>844</width>
+        <height>426</height>
+        <texture>resources/media/focus_frame.png</texture>
+        <aspectratio>stretch</aspectratio>
+        <colordiffuse>F2FFFFFF</colordiffuse>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1102)</visible>
+      </control>
       <control type="button" id="1102">
         <left>0</left>
         <top>0</top>
@@ -269,17 +229,6 @@
         <textcolor>FFF6FFF4</textcolor>
         <label>Mediatheken</label>
       </control>
-      <control type="label">
-        <right>28</right>
-        <top>22</top>
-        <width>224</width>
-        <height>42</height>
-        <align>right</align>
-        <font>font_button</font>
-        <textcolor>FFF6FFF4</textcolor>
-        <label>Ausgewaehlt</label>
-        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1102)</visible>
-      </control>
       <control type="image">
         <left>26</left>
         <top>84</top>
@@ -290,106 +239,21 @@
       <control type="image">
         <left>30</left>
         <top>104</top>
-        <width>182</width>
-        <height>190</height>
-        <texture colordiffuse="FF173F80">colors/white.png</texture>
+        <width>752</width>
+        <height>212</height>
+        <texture>resources/media/mediatheken_preview.png</texture>
+        <aspectratio>stretch</aspectratio>
       </control>
       <control type="label">
-        <left>42</left>
-        <top>116</top>
-        <width>156</width>
-        <height>28</height>
-        <font>font_body_large</font>
-        <textcolor>FFF6FFF4</textcolor>
-        <label>ARD</label>
-      </control>
-      <control type="label">
-        <left>52</left>
-        <top>246</top>
-        <width>132</width>
-        <height>30</height>
-        <font>font_body_large</font>
+        <right>36</right>
+        <bottom>30</bottom>
+        <width>220</width>
+        <height>36</height>
         <align>center</align>
-        <textcolor>FFF6FFF4</textcolor>
-        <label>Tatort</label>
-      </control>
-      <control type="image">
-        <left>220</left>
-        <top>104</top>
-        <width>182</width>
-        <height>190</height>
-        <texture colordiffuse="FFE78400">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>232</left>
-        <top>116</top>
-        <width>156</width>
-        <height>28</height>
         <font>font_body_large</font>
         <textcolor>FFF6FFF4</textcolor>
-        <label>ZDF</label>
-      </control>
-      <control type="label">
-        <left>240</left>
-        <top>246</top>
-        <width>142</width>
-        <height>30</height>
-        <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FFF6FFF4</textcolor>
-        <label>Der Bergdoktor</label>
-      </control>
-      <control type="image">
-        <left>410</left>
-        <top>104</top>
-        <width>182</width>
-        <height>190</height>
-        <texture colordiffuse="FFF06D00">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>422</left>
-        <top>116</top>
-        <width>156</width>
-        <height>28</height>
-        <font>font_body_large</font>
-        <textcolor>FFF6FFF4</textcolor>
-        <label>arte</label>
-      </control>
-      <control type="label">
-        <left>446</left>
-        <top>246</top>
-        <width>110</width>
-        <height>30</height>
-        <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FFF6FFF4</textcolor>
-        <label>Terra X</label>
-      </control>
-      <control type="image">
-        <left>600</left>
-        <top>104</top>
-        <width>182</width>
-        <height>190</height>
-        <texture colordiffuse="FF0E4F78">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>612</left>
-        <top>116</top>
-        <width>156</width>
-        <height>28</height>
-        <font>font_body_large</font>
-        <textcolor>FFF6FFF4</textcolor>
-        <label>NDR</label>
-      </control>
-      <control type="label">
-        <left>634</left>
-        <top>246</top>
-        <width>118</width>
-        <height>30</height>
-        <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FFF6FFF4</textcolor>
-        <label>Dokus</label>
+        <label>OK oeffnen</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1102)</visible>
       </control>
     </control>
 
@@ -398,6 +262,16 @@
       <top>590</top>
       <width>828</width>
       <height>320</height>
+      <control type="image">
+        <left>-8</left>
+        <top>-8</top>
+        <width>844</width>
+        <height>336</height>
+        <texture>resources/media/focus_frame.png</texture>
+        <aspectratio>stretch</aspectratio>
+        <colordiffuse>F2FFFFFF</colordiffuse>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1103)</visible>
+      </control>
       <control type="button" id="1103">
         <left>0</left>
         <top>0</top>
@@ -421,67 +295,24 @@
         <textcolor>FFFFFAF3</textcolor>
         <label>Bibliothek</label>
       </control>
-      <control type="label">
-        <right>28</right>
-        <top>22</top>
-        <width>224</width>
-        <height>42</height>
-        <align>right</align>
-        <font>font_button</font>
-        <textcolor>FFFFFAF3</textcolor>
-        <label>Ausgewaehlt</label>
-        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1103)</visible>
-      </control>
       <control type="image">
         <left>30</left>
         <top>104</top>
-        <width>244</width>
+        <width>768</width>
         <height>176</height>
-        <texture colordiffuse="FFF0E7E0">colors/white.png</texture>
+        <texture>resources/media/library_preview.png</texture>
+        <aspectratio>stretch</aspectratio>
       </control>
       <control type="label">
-        <left>48</left>
-        <top>118</top>
-        <width>206</width>
-        <height>28</height>
-        <font>font_body_large</font>
+        <right>36</right>
+        <bottom>24</bottom>
+        <width>220</width>
+        <height>36</height>
         <align>center</align>
-        <textcolor>FFC54B7D</textcolor>
-        <label>Rosamunde</label>
-      </control>
-      <control type="image">
-        <left>292</left>
-        <top>104</top>
-        <width>244</width>
-        <height>176</height>
-        <texture colordiffuse="FF7C241A">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>314</left>
-        <top>118</top>
-        <width>198</width>
-        <height>28</height>
         <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FFFFF7F2</textcolor>
-        <label>Krimi-Serie</label>
-      </control>
-      <control type="image">
-        <left>554</left>
-        <top>104</top>
-        <width>244</width>
-        <height>176</height>
-        <texture colordiffuse="FF6D97A8">colors/white.png</texture>
-      </control>
-      <control type="label">
-        <left>578</left>
-        <top>118</top>
-        <width>194</width>
-        <height>28</height>
-        <font>font_body_large</font>
-        <align>center</align>
-        <textcolor>FFFFF7F2</textcolor>
-        <label>Naturfilm</label>
+        <textcolor>FFFFFAF3</textcolor>
+        <label>OK oeffnen</label>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1103)</visible>
       </control>
     </control>
 
@@ -490,6 +321,16 @@
       <top>590</top>
       <width>828</width>
       <height>320</height>
+      <control type="image">
+        <left>-8</left>
+        <top>-8</top>
+        <width>844</width>
+        <height>336</height>
+        <texture>resources/media/focus_frame.png</texture>
+        <aspectratio>stretch</aspectratio>
+        <colordiffuse>F2FFFFFF</colordiffuse>
+        <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1104)</visible>
+      </control>
       <control type="button" id="1104">
         <left>0</left>
         <top>0</top>
@@ -510,7 +351,7 @@
         <top>44</top>
         <width>206</width>
         <height>146</height>
-        <texture colordiffuse="38FFFFFF">icons/settings/system.png</texture>
+        <texture colordiffuse="38FFFFFF">resources/media/settings_icon.png</texture>
       </control>
       <control type="image">
         <left>0</left>
@@ -530,67 +371,83 @@
         <label>Einstellungen</label>
       </control>
       <control type="label">
-        <right>28</right>
-        <top>22</top>
-        <width>224</width>
-        <height>42</height>
-        <align>right</align>
-        <font>font_button</font>
+        <right>36</right>
+        <bottom>24</bottom>
+        <width>220</width>
+        <height>36</height>
+        <align>center</align>
+        <font>font_body_large</font>
         <textcolor>FFF5F5F5</textcolor>
-        <label>Ausgewaehlt</label>
+        <label>OK oeffnen</label>
         <visible>String.IsEqual(Window.Property(k4s.home.focus_id),1104)</visible>
       </control>
     </control>
 
     <control type="group">
-      <left>96</left>
-      <top>944</top>
-      <width>1728</width>
-      <height>88</height>
+      <left>620</left>
+      <top>952</top>
+      <width>680</width>
+      <height>64</height>
       <control type="image">
         <left>0</left>
         <top>0</top>
-        <width>1728</width>
-        <height>88</height>
-        <colordiffuse>D81E2430</colordiffuse>
+        <width>680</width>
+        <height>64</height>
+        <colordiffuse>C81A202A</colordiffuse>
         <texture>dialogs/dialog-bg.png</texture>
       </control>
       <control type="label">
-        <left>32</left>
-        <top>20</top>
-        <width>520</width>
-        <height>42</height>
+        <left>30</left>
+        <top>12</top>
+        <width>620</width>
+        <height>40</height>
+        <align>center</align>
         <font>font_button</font>
         <textcolor>FFF5F1E8</textcolor>
-        <label>Aktive Kachel: $INFO[Window.Property(k4s.home.focus_label)]</label>
+        <label>OK startet $INFO[Window.Property(k4s.home.focus_label)]</label>
+      </control>
+    </control>
+    <control type="group">
+      <right>96</right>
+      <top>952</top>
+      <width>320</width>
+      <height>64</height>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>320</width>
+        <height>64</height>
+        <colordiffuse>B8303642</colordiffuse>
+        <texture>dialogs/dialog-bg.png</texture>
+        <visible>String.IsEqual(Window.Property(k4s.home.technician_locked),true)</visible>
+      </control>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>320</width>
+        <height>64</height>
+        <colordiffuse>B8254630</colordiffuse>
+        <texture>dialogs/dialog-bg.png</texture>
+        <visible>String.IsEqual(Window.Property(k4s.home.technician_locked),false)</visible>
       </control>
       <control type="label">
-        <left>610</left>
-        <top>20</top>
-        <width>520</width>
-        <height>42</height>
-        <font>font_body_large</font>
-        <textcolor>FFD7D0C4</textcolor>
-        <label>Ziel: $INFO[Window.Property(k4s.home.focus_target)]</label>
-      </control>
-      <control type="label">
-        <right>32</right>
-        <top>20</top>
-        <width>500</width>
-        <height>42</height>
-        <align>right</align>
-        <font>font_body_large</font>
+        <left>20</left>
+        <top>12</top>
+        <width>280</width>
+        <height>40</height>
+        <align>center</align>
+        <font>font_button</font>
         <textcolor>FFE4D39C</textcolor>
         <label>Technikbereich gesperrt</label>
         <visible>String.IsEqual(Window.Property(k4s.home.technician_locked),true)</visible>
       </control>
       <control type="label">
-        <right>32</right>
-        <top>20</top>
-        <width>500</width>
-        <height>42</height>
-        <align>right</align>
-        <font>font_body_large</font>
+        <left>20</left>
+        <top>12</top>
+        <width>280</width>
+        <height>40</height>
+        <align>center</align>
+        <font>font_button</font>
         <textcolor>FFBEE7C1</textcolor>
         <label>Technikbereich entsperrt</label>
         <visible>String.IsEqual(Window.Property(k4s.home.technician_locked),false)</visible>
