@@ -286,46 +286,36 @@
       </assets>
     </extension>
   </addon>
-  <addon id="repository.emby.kodi" name="Kodi Emby Addons" version="1.0.8" provider-name="">
+  <addon id="repository.embycon" name="EmbyCon Addons" version="0.0.2" provider-name="">
     <requires>
       <import addon="xbmc.addon" version="12.0.0" />
     </requires>
-    <extension point="xbmc.addon.repository" name="Kodi Emby Repository">
-      <dir>
-        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/repositories/addons.xml</info>
-        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/repositories/addons.xml.md5</checksum>
-        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/repositories/</datadir>
-      </dir>
-      <dir minversion="20.999.0">
-        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v21_omega/addons.xml</info>
-        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v21_omega/addons.xml.md5</checksum>
-        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v21_omega/</datadir>
-      </dir>
-      <dir minversion="19.999.0">
-        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v20_nexus/addons.xml</info>
-        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v20_nexus/addons.xml.md5</checksum>
-        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v20_nexus/</datadir>
+    <extension point="xbmc.addon.repository" name="EmbyCon Repository">
+      <dir minversion="16.999.0">
+        <info compressed="false">https://faush01.github.io/embycon_kodi_repo/repo/release/v17_krypton/addons.xml</info>
+        <checksum>https://faush01.github.io/embycon_kodi_repo/repo/release/v17_krypton/addons.xml.md5</checksum>
+        <datadir zip="true">https://faush01.github.io/embycon_kodi_repo/repo/release/v17_krypton/</datadir>
       </dir>
       <dir minversion="18.999.0">
-        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v19_matrix/addons.xml</info>
-        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v19_matrix/addons.xml.md5</checksum>
-        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v19_matrix/</datadir>
+        <info compressed="false">https://faush01.github.io/embycon_kodi_repo/repo/release/v19_matrix/addons.xml</info>
+        <checksum>https://faush01.github.io/embycon_kodi_repo/repo/release/v19_matrix/addons.xml.md5</checksum>
+        <datadir zip="true">https://faush01.github.io/embycon_kodi_repo/repo/release/v19_matrix/</datadir>
       </dir>
-      <dir minversion="17.999.0">
-        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v18_leia/addons.xml</info>
-        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v18_leia/addons.xml.md5</checksum>
-        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v18_leia/</datadir>
+      <dir minversion="19.999.0">
+        <info compressed="false">https://faush01.github.io/embycon_kodi_repo/repo/release/v20_nexus/addons.xml</info>
+        <checksum>https://faush01.github.io/embycon_kodi_repo/repo/release/v20_nexus/addons.xml.md5</checksum>
+        <datadir zip="true">https://faush01.github.io/embycon_kodi_repo/repo/release/v20_nexus/</datadir>
       </dir>
-      <dir minversion="16.999.0">
-        <info compressed="false">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v17_krypton/addons.xml</info>
-        <checksum>https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v17_krypton/addons.xml.md5</checksum>
-        <datadir zip="true">https://embydata.com/downloads/addons/xbmb3c/multi-repo/release/v17_krypton/</datadir>
+      <dir minversion="20.999.0">
+        <info compressed="false">https://faush01.github.io/embycon_kodi_repo/repo/release/v21_omega/addons.xml</info>
+        <checksum>https://faush01.github.io/embycon_kodi_repo/repo/release/v21_omega/addons.xml.md5</checksum>
+        <datadir zip="true">https://faush01.github.io/embycon_kodi_repo/repo/release/v21_omega/</datadir>
       </dir>
     </extension>
     <extension point="xbmc.addon.metadata">
-      <summary>Kodi Emby Addon Repository</summary>
-      <description>This repo contains add-ons for Emby related support</description>
-      <disclaimer />
+      <summary>EmbyCon Addon Repository</summary>
+      <description>This repo contains add-ons for EmbyCon</description>
+      <disclaimer></disclaimer>
       <platform>all</platform>
       <assets>
         <icon>resources/icon.png</icon>
@@ -568,6 +558,32 @@
       </assets>
     </extension>
   </addon>
+  <addon id="repository.rector.stuff" name="Rector Stuff" version="1.0.4" provider-name="rmrector">
+    <requires>
+      <import addon="xbmc.addon" version="12.0.0" />
+    </requires>
+    <extension point="xbmc.addon.repository" name="Rector Repository">
+      <dir maxversion="18.9.0">
+        <info>https://raw.githubusercontent.com/rmrector/repository.rector.stuff/python2/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/rmrector/repository.rector.stuff/python2/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/rmrector/repository.rector.stuff/python2/</datadir>
+      </dir>
+      <dir minversion="18.9.700">
+        <info>https://raw.githubusercontent.com/rmrector/repository.rector.stuff/python3/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/rmrector/repository.rector.stuff/python3/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/rmrector/repository.rector.stuff/python3/</datadir>
+      </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+      <summary lang="en">A little place for my stuff.</summary>
+      <description lang="en">I'm Rector, I do stuff, I put it here.</description>
+      <platform>all</platform>
+      <disclaimer />
+      <assets>
+        <icon>icon.png</icon>
+      </assets>
+    </extension>
+  </addon>
   <addon id="repository.kodi.yatse.tv" name="Yatse Kodi Add-on repository" version="1.1.0" provider-name="Yatse">
     <requires>
       <import addon="xbmc.addon" version="12.0.0" />
@@ -614,6 +630,52 @@
         <icon>icon.png</icon>
         <fanart>fanart.jpg</fanart>
       </assets>
+    </extension>
+  </addon>
+  <addon id="script.ryot" name="Ryot" version="3.1.1" provider-name="ignisda">
+    <requires>
+      <import addon="xbmc.python" version="3.0.0" />
+    </requires>
+    <extension library="default.py" point="xbmc.service" />
+    <extension point="xbmc.addon.metadata">
+      <summary lang="en_GB">Ryot scrobbler</summary>
+      <description lang="en_GB">Sync movies and shows directly to your Ryot instance.</description>
+      <language>en</language>
+      <platform>all</platform>
+    </extension>
+  </addon>
+  <addon id="script.preshowexperience" name="PreShow Experience" version="0.3.2.1" provider-name="PreShowExperience">
+    <requires>
+      <import addon="xbmc.python" version="3.0.0" />
+      <import addon="script.module.beautifulsoup4" version="4.9.3" />
+      <import addon="script.module.requests" version="2.22.0.1" />
+    </requires>
+    <extension point="xbmc.python.script" library="addon.py">
+      <provides>executable</provides>
+    </extension>
+    <extension point="kodi.context.item">
+      <menu id="kodi.core.main">
+        <item library="context.py">
+          <label>32000</label>
+          <visible>true</visible>
+        </item>
+      </menu>
+    </extension>
+    <extension point="xbmc.service" library="resources/lib/service.py" start="login" />
+    <extension point="xbmc.addon.metadata">
+      <summary lang="en">Movie theater preshow experience</summary>
+      <description lang="en">Create a completely customizable movie preshow containing trailers, trivia, video bumpers or slideshows for your home theater.</description>
+      <platform>all</platform>
+      <forum>https://preshowexperience.com/forums/</forum>
+      <website>https://preshowexperience.com/</website>
+      <assets>
+        <icon>resources/media/icon.png</icon>
+        <fanart>resources/media/fanart.jpg</fanart>
+        <screenshot>resources/media/screenshot1.jpg</screenshot>
+        <screenshot>resources/media/screenshot2.jpg</screenshot>
+        <screenshot>resources/media/screenshot3.jpg</screenshot>
+      </assets>
+      <news>Added TMDB language options</news>
     </extension>
   </addon>
   <addon id="skin.kodi4seniors" version="0.1.18" name="Kodi4Seniors" provider-name="mildman1848">
