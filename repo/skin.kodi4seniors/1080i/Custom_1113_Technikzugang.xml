@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="1113">
+  <defaultcontrol always="true">4101</defaultcontrol>
+  <controls>
+    <include>FullBackground</include>
+    <include>TopHeader</include>
+
+    <control type="group">
+      <left>300</left>
+      <top>240</top>
+      <width>1320</width>
+      <height>580</height>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>1320</width>
+        <height>580</height>
+        <colordiffuse>EE2E343B</colordiffuse>
+        <texture>resources/panel.png</texture>
+        <aspectratio>stretch</aspectratio>
+      </control>
+      <control type="image">
+        <left>934</left>
+        <top>48</top>
+        <width>250</width>
+        <height>250</height>
+        <texture colordiffuse="20FFFFFF">media/icons/sidemenu/manage.png</texture>
+        <aspectratio>keep</aspectratio>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>54</top>
+        <width>900</width>
+        <height>58</height>
+        <font>font_title</font>
+        <textcolor>FFF6F1E8</textcolor>
+        <label>Technikmodus</label>
+      </control>
+      <control type="textbox">
+        <left>70</left>
+        <top>138</top>
+        <width>1180</width>
+        <height>132</height>
+        <font>font_body_large</font>
+        <textcolor>FFE6DFD4</textcolor>
+        <label>Der Technikbereich ist im Alltag gesperrt. Mit der Betreuer-PIN wird Einrichtung, Wartung und Add-on-Verwaltung temporaer freigegeben.</label>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>300</top>
+        <width>1120</width>
+        <height>38</height>
+        <font>font_body</font>
+        <textcolor>FFF0B04A</textcolor>
+        <label>Die Betreuer-PIN kann im Technikbereich geaendert werden.</label>
+        <visible>Skin.HasSetting(technician_mode)</visible>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>300</top>
+        <width>1120</width>
+        <height>38</height>
+        <font>font_body</font>
+        <textcolor>FFF0B04A</textcolor>
+        <label>Standard-PIN ist 1848, bis sie im Technikbereich geaendert wird.</label>
+        <visible>!Skin.HasSetting(technician_mode)</visible>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>352</top>
+        <width>1120</width>
+        <height>38</height>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>$INFO[Window(Home).Property(technician_mode_feedback)]</label>
+      </control>
+      <control type="image">
+        <left>70</left>
+        <top>384</top>
+        <width>1180</width>
+        <height>2</height>
+        <texture colordiffuse="26FFFFFF">colors/white.png</texture>
+      </control>
+      <control type="label">
+        <left>70</left>
+        <top>398</top>
+        <width>720</width>
+        <height>30</height>
+        <font>font_body</font>
+        <textcolor>FFCFC8BC</textcolor>
+        <label>OK auf dem linken Feld fragt die PIN ab. Rechts geht es ohne Aenderung zurueck.</label>
+      </control>
+
+      <control type="button" id="4101">
+        <left>70</left>
+        <top>430</top>
+        <width>560</width>
+        <height>98</height>
+        <onright>4102</onright>
+        <onleft>4102</onleft>
+        <texturenofocus colordiffuse="E2919AA4">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+        <onclick>Skin.Reset(technician_mode_entry)</onclick>
+        <onclick>Skin.SetNumeric(technician_mode_entry)</onclick>
+        <onclick>ClearProperty(technician_mode_feedback,Home)</onclick>
+        <onclick condition="String.IsEqual(Skin.String(technician_mode_entry),Skin.String(technician_pin))">Skin.SetBool(technician_mode)</onclick>
+        <onclick condition="String.IsEqual(Skin.String(technician_mode_entry),Skin.String(technician_pin))">Skin.Reset(technician_mode_entry)</onclick>
+        <onclick condition="String.IsEqual(Skin.String(technician_mode_entry),Skin.String(technician_pin))">ActivateWindow(Settings)</onclick>
+        <onclick condition="!String.IsEqual(Skin.String(technician_mode_entry),Skin.String(technician_pin))">SetProperty(technician_mode_feedback,PIN nicht korrekt.,Home)</onclick>
+        <label>Mit PIN freischalten</label>
+      </control>
+      <control type="label">
+        <left>108</left>
+        <top>446</top>
+        <width>360</width>
+        <height>40</height>
+        <font>font_button</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>Technikbereich oeffnen</label>
+      </control>
+      <control type="label">
+        <left>108</left>
+        <top>490</top>
+        <width>340</width>
+        <height>28</height>
+        <font>font_body</font>
+        <textcolor>FFE3DED3</textcolor>
+        <label>PIN-Eingabe mit grosser Bildschirmtastatur</label>
+      </control>
+      <control type="label">
+        <right>712</right>
+        <top>464</top>
+        <width>152</width>
+        <height>30</height>
+        <align>center</align>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>OK pruefen</label>
+        <visible>Control.HasFocus(4101)</visible>
+      </control>
+
+      <control type="button" id="4102">
+        <left>690</left>
+        <top>430</top>
+        <width>560</width>
+        <height>98</height>
+        <onleft>4101</onleft>
+        <onright>4101</onright>
+        <texturenofocus colordiffuse="E23C4A57">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FFF0B04A">resources/panel.png</texturefocus>
+        <onclick>ClearProperty(technician_mode_feedback,Home)</onclick>
+        <onclick>ActivateWindow(Home)</onclick>
+        <label>Zur Startseite</label>
+      </control>
+      <control type="label">
+        <left>728</left>
+        <top>446</top>
+        <width>280</width>
+        <height>40</height>
+        <font>font_button</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>Ohne Freischaltung zurueck</label>
+      </control>
+      <control type="label">
+        <left>728</left>
+        <top>490</top>
+        <width>320</width>
+        <height>28</height>
+        <font>font_body</font>
+        <textcolor>FFE3DED3</textcolor>
+        <label>Kehrt direkt auf die einfache Startseite zurueck</label>
+      </control>
+      <control type="label">
+        <right>92</right>
+        <top>464</top>
+        <width>152</width>
+        <height>30</height>
+        <align>center</align>
+        <font>font_body</font>
+        <textcolor>FFF7F3EA</textcolor>
+        <label>OK zurueck</label>
+        <visible>Control.HasFocus(4102)</visible>
+      </control>
+    </control>
+  </controls>
+</window>

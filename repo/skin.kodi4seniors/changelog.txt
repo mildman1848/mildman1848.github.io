@@ -1,0 +1,70 @@
+[0.1.19]
+- Reworked the four home tiles so focus, action hints and content blocks match the selectable areas more reliably.
+- Extended the clearer focus model to the Mediatheken hub and technician access screens.
+
+[0.1.18]
+- Fokusdarstellung optisch naeher an das Mockup gezogen: aktive Kachelrahmen direkt auf den Karten, ruhigere Hinweis-Pills unten und staerkere Nutzung der Preview-Grafiken.
+
+[0.1.17]
+- Sichtbare Fokus-Rueckmeldung auf der Startseite ergaenzt und den Home-Focus-Handler waehrend der aktiven Home-Ansicht weiter synchronisieren lassen.
+
+[0.1.16]
+- `focus_handler.py` zu einem echten Home-Initialisierer ausgebaut: Startfokus wird gesetzt und die aktive Kachel als Window-Property synchronisiert.
+
+[0.1.15]
+- Struktur auf `1080i/`, `resources/lib/` und `resources/media/` umgestellt und ein root-`fanart.jpg` ergaenzt.
+- `focus_handler.py` als mitgelieferte Hilfsdatei aufgenommen und die Addon-Metadaten an die neue Skin-Struktur angepasst.
+
+[0.1.14]
+- Rebuilt the home screen around a simpler fixed four-group layout inspired by the original Home.xml mockup instead of the previous heavily parameterized card layout.
+
+[0.1.13]
+- Tightened the home layout against the mockup with more accurate outer margins, card heights and vertical spacing.
+
+[0.1.12]
+- Increased the home card scale and redistributed the 2x2 layout so the start screen uses the full TV area more like the mockup.
+
+[0.1.11]
+- Rescaled and repositioned the four start cards so the home screen fills the TV area instead of clustering in the upper-left corner.
+
+[0.1.10]
+- Removed the risky automatic settings redirect on window load to reduce crashes during skin switching.
+- Reworked the home screen to more closely match the supplied mockup with four large content cards and embedded previews.
+
+[0.1.9]
+- Fixed the last remaining DejaVu font reference for font_MainMenu.
+
+[0.1.8]
+- Restored the full Estuary shared include base, moved custom senior UI blocks into a dedicated include file and fixed custom window ids.
+- Switched custom fonts to Estuary-style filename references so Kodi can resolve them reliably.
+
+[0.1.7]
+- Added a locked technician mode with PIN-gated access from the home screen and a dedicated unlock window.
+- Changed the fourth home tile to a caregiver entry point when locked and added an explicit technician mode exit action.
+
+[0.1.6]
+- Added a dedicated mediathek hub window and linked the home screen to grouped ARD, ZDF and Arte entry points.
+- Improved the TV tile with live and next programme information when Live TV is currently playing.
+- Clarified the setup area as a technician-facing preparation space and added direct preparation paths for mediatheken and library setup.
+
+[0.1.5]
+- Redesigned the start screen to match the senior launcher concept more closely with color-coded areas, larger upper tiles and clearer TV and mediathek previews.
+
+[0.1.4]
+- Reworked the home screen into four large 2x2 tiles with calmer guidance text so the skin better matches the senior-focused concept.
+
+[0.1.3]
+- Fixed Linux font loading and restored the global skin include chain so windows, dialogs and variables resolve correctly.
+
+[0.1.2]
+- Added the full runtime skin asset bundle so Kodi can render windows and dialogs instead of blank screens.
+
+[0.1.1]
+- Fehlerbehebung fuer Skin-Aktivierung und fehlende Basisfenster
+- Vier-Kachel-Startseite beibehalten
+
+[0.1.0]
+- Erste oeffentliche Vorschau des seniorenfreundlichen Kodi-Skins
+- Vereinfachte Startseite mit vier grossen Kacheln: Fernsehen, Mediatheken, Bibliothek und Einstellung
+- Grosses PVR-Guide-Layout mit EPG-Fokus
+- Packaging- und Publish-Automation fuer die Kodi-Repo

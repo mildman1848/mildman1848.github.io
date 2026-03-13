@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="1112">
+  <defaultcontrol always="true">3101</defaultcontrol>
+  <controls>
+    <include>FullBackground</include>
+    <include>TopHeader</include>
+
+    <control type="image">
+      <left>72</left>
+      <top>178</top>
+      <width>1776</width>
+      <height>724</height>
+      <colordiffuse>76091418</colordiffuse>
+      <texture>resources/panel.png</texture>
+      <aspectratio>stretch</aspectratio>
+    </control>
+
+    <control type="label">
+      <left>90</left>
+      <top>188</top>
+      <width>760</width>
+      <height>52</height>
+      <font>font_button</font>
+      <textcolor>FF6BE56B</textcolor>
+      <label>Mediatheken-Zentrale</label>
+    </control>
+    <control type="textbox">
+      <left>90</left>
+      <top>246</top>
+      <width>1560</width>
+      <height>72</height>
+      <font>font_body</font>
+      <textcolor>FFF1FFF1</textcolor>
+      <label>Hier werden oeffentlich-rechtliche Mediatheken gebuendelt. Eine betreuende Person kann Add-ons einmalig vorbereiten, spaeter reichen wenige Tasten.</label>
+    </control>
+    <control type="label">
+      <right>116</right>
+      <top>192</top>
+      <width>460</width>
+      <height>42</height>
+      <align>right</align>
+      <font>font_body</font>
+      <textcolor>FFC7F0C1</textcolor>
+      <label>Links/Rechts und Hoch/Runter wechseln die grossen Felder</label>
+    </control>
+    <control type="label">
+      <left>90</left>
+      <top>900</top>
+      <width>1540</width>
+      <height>40</height>
+      <font>font_button</font>
+      <textcolor>FFF5F1E8</textcolor>
+      <label>OK startet $INFO[Control.GetLabel(9001)]</label>
+    </control>
+
+    <control type="label" id="9001">
+      <visible>false</visible>
+      <label>ARD Mediathek</label>
+      <visible>Control.HasFocus(3101)</visible>
+    </control>
+    <control type="label" id="9002">
+      <visible>false</visible>
+      <label>ZDF Mediathek</label>
+      <visible>Control.HasFocus(3102)</visible>
+    </control>
+    <control type="label" id="9003">
+      <visible>false</visible>
+      <label>Arte</label>
+      <visible>Control.HasFocus(3103)</visible>
+    </control>
+    <control type="label" id="9004">
+      <visible>false</visible>
+      <label>Alle Mediatheken</label>
+      <visible>Control.HasFocus(3104)</visible>
+    </control>
+    <control type="label" id="9005">
+      <visible>false</visible>
+      <label>Bibliothek</label>
+      <visible>Control.HasFocus(3105)</visible>
+    </control>
+    <control type="label" id="9006">
+      <visible>false</visible>
+      <label>Zur Startseite</label>
+      <visible>Control.HasFocus(3106)</visible>
+    </control>
+
+    <control type="button" id="3101">
+      <left>90</left>
+      <top>340</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3102</onleft>
+      <onright>3102</onright>
+      <onup>3105</onup>
+      <ondown>3103</ondown>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="E22E8B57">resources/panel.png</texturenofocus>
+      <onclick condition="System.AddonIsEnabled(plugin.video.ardmediathek)">ActivateWindow(Videos,plugin://plugin.video.ardmediathek/,return)</onclick>
+      <onclick condition="!System.AddonIsEnabled(plugin.video.ardmediathek)">ActivateWindow(AddonBrowser,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="image">
+      <left>652</left>
+      <top>366</top>
+      <width>118</width>
+      <height>118</height>
+      <texture colordiffuse="26FFFFFF">media/icons/sidemenu/videos.png</texture>
+      <aspectratio>keep</aspectratio>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>382</top>
+      <width>300</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>ARD Mediathek</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>432</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFE8F8E8</textcolor>
+      <label>Sendungen, Dokumentationen und Serien</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>456</top>
+      <width>460</width>
+      <height>28</height>
+      <font>font_body</font>
+      <textcolor>FFCFE9D4</textcolor>
+      <label>Oeffnet direkt das vorbereitete Add-on.</label>
+    </control>
+    <control type="label">
+      <right>54</right>
+      <top>438</top>
+      <width>160</width>
+      <height>34</height>
+      <align>center</align>
+      <font>font_body</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>OK oeffnen</label>
+      <visible>Control.HasFocus(3101)</visible>
+    </control>
+
+    <control type="button" id="3102">
+      <left>890</left>
+      <top>340</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3101</onleft>
+      <onright>3101</onright>
+      <onup>3106</onup>
+      <ondown>3104</ondown>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="E22E8B57">resources/panel.png</texturenofocus>
+      <onclick condition="System.AddonIsEnabled(plugin.video.zdf)">ActivateWindow(Videos,plugin://plugin.video.zdf/,return)</onclick>
+      <onclick condition="!System.AddonIsEnabled(plugin.video.zdf)">ActivateWindow(AddonBrowser,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="image">
+      <left>1452</left>
+      <top>366</top>
+      <width>118</width>
+      <height>118</height>
+      <texture colordiffuse="26FFFFFF">media/icons/sidemenu/videos.png</texture>
+      <aspectratio>keep</aspectratio>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>382</top>
+      <width>300</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>ZDF Mediathek</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>432</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFE8F8E8</textcolor>
+      <label>Magazin, Filme, Nachrichten und Serien</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>456</top>
+      <width>460</width>
+      <height>28</height>
+      <font>font_body</font>
+      <textcolor>FFCFE9D4</textcolor>
+      <label>Falls nicht installiert, geht es direkt zum Add-on-Bereich.</label>
+    </control>
+    <control type="label">
+      <right>54</right>
+      <top>438</top>
+      <width>160</width>
+      <height>34</height>
+      <align>center</align>
+      <font>font_body</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>OK oeffnen</label>
+      <visible>Control.HasFocus(3102)</visible>
+    </control>
+
+    <control type="button" id="3103">
+      <left>90</left>
+      <top>520</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3104</onleft>
+      <onright>3104</onright>
+      <onup>3101</onup>
+      <ondown>3105</ondown>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="E22E8B57">resources/panel.png</texturenofocus>
+      <onclick condition="System.AddonIsEnabled(plugin.video.arte)">ActivateWindow(Videos,plugin://plugin.video.arte/,return)</onclick>
+      <onclick condition="!System.AddonIsEnabled(plugin.video.arte)">ActivateWindow(AddonBrowser,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="image">
+      <left>652</left>
+      <top>546</top>
+      <width>118</width>
+      <height>118</height>
+      <texture colordiffuse="26FFFFFF">media/icons/sidemenu/videos.png</texture>
+      <aspectratio>keep</aspectratio>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>562</top>
+      <width>300</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>Arte</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>612</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFE8F8E8</textcolor>
+      <label>Kultur, Dokus und europaeische Filme</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>636</top>
+      <width>460</width>
+      <height>28</height>
+      <font>font_body</font>
+      <textcolor>FFCFE9D4</textcolor>
+      <label>Geeignet fuer ruhige Inhalte und Dokumentationen.</label>
+    </control>
+    <control type="label">
+      <right>54</right>
+      <top>618</top>
+      <width>160</width>
+      <height>34</height>
+      <align>center</align>
+      <font>font_body</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>OK oeffnen</label>
+      <visible>Control.HasFocus(3103)</visible>
+    </control>
+
+    <control type="button" id="3104">
+      <left>890</left>
+      <top>520</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3103</onleft>
+      <onright>3103</onright>
+      <onup>3102</onup>
+      <ondown>3106</ondown>
+      <texturefocus colordiffuse="FF6BE56B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="E22E8B57">resources/panel.png</texturenofocus>
+      <onclick>ActivateWindow(Videos,addons://sources/video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="image">
+      <left>1452</left>
+      <top>546</top>
+      <width>118</width>
+      <height>118</height>
+      <texture colordiffuse="26FFFFFF">media/icons/sidemenu/addons.png</texture>
+      <aspectratio>keep</aspectratio>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>562</top>
+      <width>300</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>Alle Mediatheken</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>612</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFE8F8E8</textcolor>
+      <label>Weitere Video-Add-ons und Sender erreichen</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>636</top>
+      <width>500</width>
+      <height>28</height>
+      <font>font_body</font>
+      <textcolor>FFCFE9D4</textcolor>
+      <label>Hilfreich, wenn eine Mediathek noch fehlt oder neu installiert werden muss.</label>
+    </control>
+    <control type="label">
+      <right>54</right>
+      <top>618</top>
+      <width>160</width>
+      <height>34</height>
+      <align>center</align>
+      <font>font_body</font>
+      <textcolor>FFF7FFF7</textcolor>
+      <label>OK oeffnen</label>
+      <visible>Control.HasFocus(3104)</visible>
+    </control>
+
+    <control type="button" id="3105">
+      <left>90</left>
+      <top>700</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3106</onleft>
+      <onright>3106</onright>
+      <onup>3103</onup>
+      <ondown>3101</ondown>
+      <texturefocus colordiffuse="FFFFC24B">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="E2B97A00">resources/panel.png</texturenofocus>
+      <onclick>ActivateWindow(Videos,library://video/,return)</onclick>
+      <label></label>
+    </control>
+    <control type="image">
+      <left>652</left>
+      <top>726</top>
+      <width>118</width>
+      <height>118</height>
+      <texture colordiffuse="2AFFFFFF">media/icons/sidemenu/videos.png</texture>
+      <aspectratio>keep</aspectratio>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>742</top>
+      <width>360</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFFFFAF2</textcolor>
+      <label>Bibliothek</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>792</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFFFF5E1</textcolor>
+      <label>Vorbereitete Mediatheken-Inhalte spaeter leichter wiederfinden</label>
+    </control>
+    <control type="label">
+      <left>132</left>
+      <top>816</top>
+      <width>520</width>
+      <height>28</height>
+      <font>font_body</font>
+      <textcolor>FFFFEBC8</textcolor>
+      <label>Fuehrt direkt in die eigene Video-Bibliothek.</label>
+    </control>
+    <control type="label">
+      <right>54</right>
+      <top>798</top>
+      <width>160</width>
+      <height>34</height>
+      <align>center</align>
+      <font>font_body</font>
+      <textcolor>FFFFFAF2</textcolor>
+      <label>OK oeffnen</label>
+      <visible>Control.HasFocus(3105)</visible>
+    </control>
+
+    <control type="button" id="3106">
+      <left>890</left>
+      <top>700</top>
+      <width>740</width>
+      <height>150</height>
+      <onleft>3105</onleft>
+      <onright>3105</onright>
+      <onup>3104</onup>
+      <ondown>3102</ondown>
+      <texturefocus colordiffuse="FFA9A9A9">resources/panel.png</texturefocus>
+      <texturenofocus colordiffuse="E27D7D7D">resources/panel.png</texturenofocus>
+      <onclick>ActivateWindow(Home)</onclick>
+      <label></label>
+    </control>
+    <control type="image">
+      <left>1452</left>
+      <top>726</top>
+      <width>118</width>
+      <height>118</height>
+      <texture colordiffuse="2AFFFFFF">media/icons/back.png</texture>
+      <aspectratio>keep</aspectratio>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>742</top>
+      <width>360</width>
+      <height>46</height>
+      <font>font_button</font>
+      <textcolor>FFF8F8F8</textcolor>
+      <label>Zur Startseite</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>792</top>
+      <width>520</width>
+      <height>34</height>
+      <font>font_body</font>
+      <textcolor>FFF2F2F2</textcolor>
+      <label>Zurueck zu den vier Hauptbereichen</label>
+    </control>
+    <control type="label">
+      <left>932</left>
+      <top>816</top>
+      <width>520</width>
+      <height>28</height>
+      <font>font_body</font>
+      <textcolor>FFDADADA</textcolor>
+      <label>Bringt wieder auf die vereinfachte Startseite.</label>
+    </control>
+    <control type="label">
+      <right>54</right>
+      <top>798</top>
+      <width>160</width>
+      <height>34</height>
+      <align>center</align>
+      <font>font_body</font>
+      <textcolor>FFF8F8F8</textcolor>
+      <label>OK oeffnen</label>
+      <visible>Control.HasFocus(3106)</visible>
+    </control>
+  </controls>
+</window>
