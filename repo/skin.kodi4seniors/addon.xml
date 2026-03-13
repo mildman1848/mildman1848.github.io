@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="skin.kodi4seniors" version="0.1.19" name="Kodi4Seniors" provider-name="mildman1848">
+<addon id="skin.kodi4seniors" version="0.1.20" name="Kodi4Seniors" provider-name="mildman1848">
   <requires>
     <import addon="xbmc.gui" version="5.17.0" />
     <import addon="xbmc.python" version="3.0.0" />
@@ -19,7 +19,7 @@
     </assets>
     <summary lang="de_DE">Senior-friendly Kodi Skin</summary>
     <summary lang="en_GB">Senior-friendly Kodi Skin</summary>
-    <description lang="de_DE">Grosse Kacheln, Live-TV, Mediatheken, Bibliothek und einfacher Zugang fuer Senioren.</description>
+    <description lang="de_DE">Große Kacheln, Live-TV, Mediatheken, Bibliothek und einfacher Zugang für Senioren.</description>
     <description lang="en_GB">Large tiles, Live TV, mediatheken, library access and simplified operation for seniors.</description>
   </extension>
 </addon>

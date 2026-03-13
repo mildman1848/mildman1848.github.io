@@ -1,18 +1,22 @@
+[0.1.20]
+- Die farblich getrennte 2x2-Startseite wieder stärker an das Mockup angenähert.
+- Deutsche Texte in den aktualisierten Senioren-Oberflächen auf echte Umlaute umgestellt.
+
 [0.1.19]
 - Reworked the four home tiles so focus, action hints and content blocks match the selectable areas more reliably.
 - Extended the clearer focus model to the Mediatheken hub and technician access screens.
 
 [0.1.18]
-- Fokusdarstellung optisch naeher an das Mockup gezogen: aktive Kachelrahmen direkt auf den Karten, ruhigere Hinweis-Pills unten und staerkere Nutzung der Preview-Grafiken.
+- Fokusdarstellung optisch näher an das Mockup gezogen: aktive Kachelrahmen direkt auf den Karten, ruhigere Hinweis-Pills unten und stärkere Nutzung der Preview-Grafiken.
 
 [0.1.17]
-- Sichtbare Fokus-Rueckmeldung auf der Startseite ergaenzt und den Home-Focus-Handler waehrend der aktiven Home-Ansicht weiter synchronisieren lassen.
+- Sichtbare Fokus-Rückmeldung auf der Startseite ergänzt und den Home-Focus-Handler während der aktiven Home-Ansicht weiter synchronisieren lassen.
 
 [0.1.16]
 - `focus_handler.py` zu einem echten Home-Initialisierer ausgebaut: Startfokus wird gesetzt und die aktive Kachel als Window-Property synchronisiert.
 
 [0.1.15]
-- Struktur auf `1080i/`, `resources/lib/` und `resources/media/` umgestellt und ein root-`fanart.jpg` ergaenzt.
+- Struktur auf `1080i/`, `resources/lib/` und `resources/media/` umgestellt und ein root-`fanart.jpg` ergänzt.
 - `focus_handler.py` als mitgelieferte Hilfsdatei aufgenommen und die Addon-Metadaten an die neue Skin-Struktur angepasst.
 
 [0.1.14]
@@ -60,11 +64,11 @@
 - Added the full runtime skin asset bundle so Kodi can render windows and dialogs instead of blank screens.
 
 [0.1.1]
-- Fehlerbehebung fuer Skin-Aktivierung und fehlende Basisfenster
+- Fehlerbehebung für Skin-Aktivierung und fehlende Basisfenster
 - Vier-Kachel-Startseite beibehalten
 
 [0.1.0]
-- Erste oeffentliche Vorschau des seniorenfreundlichen Kodi-Skins
-- Vereinfachte Startseite mit vier grossen Kacheln: Fernsehen, Mediatheken, Bibliothek und Einstellung
-- Grosses PVR-Guide-Layout mit EPG-Fokus
-- Packaging- und Publish-Automation fuer die Kodi-Repo
+- Erste öffentliche Vorschau des seniorenfreundlichen Kodi-Skins
+- Vereinfachte Startseite mit vier großen Kacheln: Fernsehen, Mediatheken, Bibliothek und Einstellung
+- Großes PVR-Guide-Layout mit EPG-Fokus
+- Packaging- und Publish-Automation für die Kodi-Repo

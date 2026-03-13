@@ -31,7 +31,7 @@
       <height>72</height>
       <font>font_body</font>
       <textcolor>FFF1FFF1</textcolor>
-      <label>Hier werden oeffentlich-rechtliche Mediatheken gebuendelt. Eine betreuende Person kann Add-ons einmalig vorbereiten, spaeter reichen wenige Tasten.</label>
+      <label>Hier werden öffentlich-rechtliche Mediatheken gebündelt. Eine betreuende Person kann Add-ons einmalig vorbereiten, später reichen wenige Tasten.</label>
     </control>
     <control type="label">
       <right>116</right>
@@ -41,7 +41,7 @@
       <align>right</align>
       <font>font_body</font>
       <textcolor>FFC7F0C1</textcolor>
-      <label>Links/Rechts und Hoch/Runter wechseln die grossen Felder</label>
+      <label>Links/Rechts und Hoch/Runter wechseln die großen Felder</label>
     </control>
     <control type="label">
       <left>90</left>
@@ -142,7 +142,7 @@
       <align>center</align>
       <font>font_body</font>
       <textcolor>FFF7FFF7</textcolor>
-      <label>OK oeffnen</label>
+      <label>OK öffnen</label>
       <visible>Control.HasFocus(3101)</visible>
     </control>
 
@@ -204,7 +204,7 @@
       <align>center</align>
       <font>font_body</font>
       <textcolor>FFF7FFF7</textcolor>
-      <label>OK oeffnen</label>
+      <label>OK öffnen</label>
       <visible>Control.HasFocus(3102)</visible>
     </control>
 
@@ -247,7 +247,7 @@
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFE8F8E8</textcolor>
-      <label>Kultur, Dokus und europaeische Filme</label>
+      <label>Kultur, Dokus und europäische Filme</label>
     </control>
     <control type="label">
       <left>132</left>
@@ -256,7 +256,7 @@
       <height>28</height>
       <font>font_body</font>
       <textcolor>FFCFE9D4</textcolor>
-      <label>Geeignet fuer ruhige Inhalte und Dokumentationen.</label>
+      <label>Geeignet für ruhige Inhalte und Dokumentationen.</label>
     </control>
     <control type="label">
       <right>54</right>
@@ -266,7 +266,7 @@
       <align>center</align>
       <font>font_body</font>
       <textcolor>FFF7FFF7</textcolor>
-      <label>OK oeffnen</label>
+      <label>OK öffnen</label>
       <visible>Control.HasFocus(3103)</visible>
     </control>
 
@@ -327,7 +327,7 @@
       <align>center</align>
       <font>font_body</font>
       <textcolor>FFF7FFF7</textcolor>
-      <label>OK oeffnen</label>
+      <label>OK öffnen</label>
       <visible>Control.HasFocus(3104)</visible>
     </control>
 
@@ -369,7 +369,7 @@
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFFFF5E1</textcolor>
-      <label>Vorbereitete Mediatheken-Inhalte spaeter leichter wiederfinden</label>
+      <label>Vorbereitete Mediatheken-Inhalte später leichter wiederfinden</label>
     </control>
     <control type="label">
       <left>132</left>
@@ -378,7 +378,7 @@
       <height>28</height>
       <font>font_body</font>
       <textcolor>FFFFEBC8</textcolor>
-      <label>Fuehrt direkt in die eigene Video-Bibliothek.</label>
+      <label>Führt direkt in die eigene Video-Bibliothek.</label>
     </control>
     <control type="label">
       <right>54</right>
@@ -388,7 +388,7 @@
       <align>center</align>
       <font>font_body</font>
       <textcolor>FFFFFAF2</textcolor>
-      <label>OK oeffnen</label>
+      <label>OK öffnen</label>
       <visible>Control.HasFocus(3105)</visible>
     </control>
 
@@ -430,7 +430,7 @@
       <height>34</height>
       <font>font_body</font>
       <textcolor>FFF2F2F2</textcolor>
-      <label>Zurueck zu den vier Hauptbereichen</label>
+      <label>Zurück zu den vier Hauptbereichen</label>
     </control>
     <control type="label">
       <left>932</left>
@@ -449,7 +449,7 @@
       <align>center</align>
       <font>font_body</font>
       <textcolor>FFF8F8F8</textcolor>
-      <label>OK oeffnen</label>
+      <label>OK öffnen</label>
       <visible>Control.HasFocus(3106)</visible>
     </control>
   </controls>

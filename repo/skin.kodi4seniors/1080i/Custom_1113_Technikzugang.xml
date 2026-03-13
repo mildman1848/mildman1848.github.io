@@ -43,7 +43,7 @@
         <height>132</height>
         <font>font_body_large</font>
         <textcolor>FFE6DFD4</textcolor>
-        <label>Der Technikbereich ist im Alltag gesperrt. Mit der Betreuer-PIN wird Einrichtung, Wartung und Add-on-Verwaltung temporaer freigegeben.</label>
+        <label>Der Technikbereich ist im Alltag gesperrt. Mit der Betreuer-PIN wird Einrichtung, Wartung und Add-on-Verwaltung temporär freigegeben.</label>
       </control>
       <control type="label">
         <left>70</left>
@@ -52,7 +52,7 @@
         <height>38</height>
         <font>font_body</font>
         <textcolor>FFF0B04A</textcolor>
-        <label>Die Betreuer-PIN kann im Technikbereich geaendert werden.</label>
+        <label>Die Betreuer-PIN kann im Technikbereich geändert werden.</label>
         <visible>Skin.HasSetting(technician_mode)</visible>
       </control>
       <control type="label">
@@ -62,7 +62,7 @@
         <height>38</height>
         <font>font_body</font>
         <textcolor>FFF0B04A</textcolor>
-        <label>Standard-PIN ist 1848, bis sie im Technikbereich geaendert wird.</label>
+        <label>Standard-PIN ist 1848, bis sie im Technikbereich geändert wird.</label>
         <visible>!Skin.HasSetting(technician_mode)</visible>
       </control>
       <control type="label">
@@ -88,7 +88,7 @@
         <height>30</height>
         <font>font_body</font>
         <textcolor>FFCFC8BC</textcolor>
-        <label>OK auf dem linken Feld fragt die PIN ab. Rechts geht es ohne Aenderung zurueck.</label>
+        <label>OK auf dem linken Feld fragt die PIN ab. Rechts geht es ohne Änderung zurück.</label>
       </control>
 
       <control type="button" id="4101">
@@ -116,7 +116,7 @@
         <height>40</height>
         <font>font_button</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Technikbereich oeffnen</label>
+        <label>Technikbereich öffnen</label>
       </control>
       <control type="label">
         <left>108</left>
@@ -125,7 +125,7 @@
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFE3DED3</textcolor>
-        <label>PIN-Eingabe mit grosser Bildschirmtastatur</label>
+        <label>PIN-Eingabe mit großer Bildschirmtastatur</label>
       </control>
       <control type="label">
         <right>712</right>
@@ -135,7 +135,7 @@
         <align>center</align>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>OK pruefen</label>
+        <label>OK prüfen</label>
         <visible>Control.HasFocus(4101)</visible>
       </control>
 
@@ -159,7 +159,7 @@
         <height>40</height>
         <font>font_button</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>Ohne Freischaltung zurueck</label>
+        <label>Ohne Freischaltung zurück</label>
       </control>
       <control type="label">
         <left>728</left>
@@ -168,7 +168,7 @@
         <height>28</height>
         <font>font_body</font>
         <textcolor>FFE3DED3</textcolor>
-        <label>Kehrt direkt auf die einfache Startseite zurueck</label>
+        <label>Kehrt direkt auf die einfache Startseite zurück</label>
       </control>
       <control type="label">
         <right>92</right>
@@ -178,7 +178,7 @@
         <align>center</align>
         <font>font_body</font>
         <textcolor>FFF7F3EA</textcolor>
-        <label>OK zurueck</label>
+        <label>OK zurück</label>
         <visible>Control.HasFocus(4102)</visible>
       </control>
     </control>

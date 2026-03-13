@@ -28,7 +28,7 @@
       <height>86</height>
       <font>font_title</font>
       <textcolor>FFF6F1E8</textcolor>
-      <label>Kodi fuer Senioren</label>
+      <label>Kodi für Senioren</label>
     </control>
     <control type="label">
       <left>90</left>
@@ -67,7 +67,7 @@
       <top>0</top>
       <width>1920</width>
       <height>1080</height>
-      <colordiffuse>6A0A2A50</colordiffuse>
+      <colordiffuse>30000000</colordiffuse>
       <texture>colors/white.png</texture>
     </control>
     <control type="group">
@@ -94,11 +94,18 @@
         <onright>1102</onright>
         <onup>1103</onup>
         <ondown>1103</ondown>
-        <texturenofocus colordiffuse="E61E5FBC">resources/panel.png</texturenofocus>
-        <texturefocus colordiffuse="F22974D9">resources/panel.png</texturefocus>
+        <texturenofocus colordiffuse="F0205AA8">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FF2F86F6">resources/panel.png</texturefocus>
         <onclick condition="System.HasPVRAddon">ActivateWindow(TVGuide)</onclick>
         <onclick condition="!System.HasPVRAddon">ActivateWindow(PVRSettings)</onclick>
         <label></label>
+      </control>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>828</width>
+        <height>96</height>
+        <texture colordiffuse="44112448">colors/white.png</texture>
       </control>
       <control type="image">
         <left>592</left>
@@ -124,6 +131,22 @@
         <height>4</height>
         <texture colordiffuse="26FFFFFF">colors/white.png</texture>
       </control>
+      <control type="image">
+        <left>30</left>
+        <top>108</top>
+        <width>260</width>
+        <height>170</height>
+        <texture colordiffuse="1811335F">resources/panel.png</texture>
+        <aspectratio>stretch</aspectratio>
+      </control>
+      <control type="image">
+        <left>306</left>
+        <top>108</top>
+        <width>486</width>
+        <height>170</height>
+        <texture colordiffuse="12000000">resources/panel.png</texture>
+        <aspectratio>stretch</aspectratio>
+      </control>
       <control type="label">
         <left>32</left>
         <top>106</top>
@@ -140,7 +163,7 @@
         <height>38</height>
         <font>font_body</font>
         <textcolor>B8F2F7FF</textcolor>
-        <label>Groesse Kacheln, klare Texte und nur eine Taste zum Starten.</label>
+        <label>Größere Kacheln, klare Texte und nur eine Taste zum Starten.</label>
       </control>
       <control type="group">
         <left>32</left>
@@ -152,7 +175,7 @@
           <top>0</top>
           <width>764</width>
           <height>120</height>
-          <texture colordiffuse="18000000">resources/panel.png</texture>
+          <texture colordiffuse="220B2240">resources/panel.png</texture>
           <aspectratio>stretch</aspectratio>
         </control>
       <control type="label">
@@ -196,7 +219,7 @@
         <height>38</height>
         <font>font_body_large</font>
         <textcolor>FFF2F7FF</textcolor>
-        <label>Als Naechstes: $INFO[VideoPlayer.NextTitle] $INFO[VideoPlayer.NextStartTime]</label>
+        <label>Als Nächstes: $INFO[VideoPlayer.NextTitle] $INFO[VideoPlayer.NextStartTime]</label>
         <visible>System.HasPVRAddon + [PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
       </control>
       <control type="label">
@@ -206,7 +229,7 @@
         <height>38</height>
         <font>font_body_large</font>
         <textcolor>FFF2F7FF</textcolor>
-        <label>Als Naechstes: Der Bergdoktor 20:15</label>
+        <label>Als Nächstes: Der Bergdoktor 20:15</label>
         <visible>System.HasPVRAddon + ![PVR.IsPlayingTV | VideoPlayer.Content(livetv)]</visible>
       </control>
       </control>
@@ -218,7 +241,7 @@
         <align>center</align>
         <font>font_body_large</font>
         <textcolor>FFF4F8FF</textcolor>
-        <label>OK oeffnen</label>
+        <label>OK öffnen</label>
         <visible>Control.HasFocus(1101)</visible>
       </control>
     </control>
@@ -247,10 +270,17 @@
         <onright>1101</onright>
         <onup>1104</onup>
         <ondown>1104</ondown>
-        <texturenofocus colordiffuse="E6489342">resources/panel.png</texturenofocus>
-        <texturefocus colordiffuse="F260B64F">resources/panel.png</texturefocus>
+        <texturenofocus colordiffuse="F0468C34">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FF6ACB4C">resources/panel.png</texturefocus>
         <onclick>ActivateWindow(1112)</onclick>
         <label></label>
+      </control>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>828</width>
+        <height>96</height>
+        <texture colordiffuse="44223612">colors/white.png</texture>
       </control>
       <control type="image">
         <left>598</left>
@@ -275,6 +305,30 @@
         <width>776</width>
         <height>4</height>
         <texture colordiffuse="22FFFFFF">colors/white.png</texture>
+      </control>
+      <control type="image">
+        <left>30</left>
+        <top>172</top>
+        <width>236</width>
+        <height>132</height>
+        <texture colordiffuse="220D2B12">resources/panel.png</texture>
+        <aspectratio>stretch</aspectratio>
+      </control>
+      <control type="image">
+        <left>288</left>
+        <top>172</top>
+        <width>236</width>
+        <height>132</height>
+        <texture colordiffuse="220F3214">resources/panel.png</texture>
+        <aspectratio>stretch</aspectratio>
+      </control>
+      <control type="image">
+        <left>546</left>
+        <top>172</top>
+        <width>236</width>
+        <height>132</height>
+        <texture colordiffuse="22133818">resources/panel.png</texture>
+        <aspectratio>stretch</aspectratio>
       </control>
       <control type="label">
         <left>30</left>
@@ -383,7 +437,7 @@
         <align>center</align>
         <font>font_body_large</font>
         <textcolor>FFF6FFF4</textcolor>
-        <label>OK oeffnen</label>
+        <label>OK öffnen</label>
         <visible>Control.HasFocus(1102)</visible>
       </control>
     </control>
@@ -412,10 +466,17 @@
         <onright>1104</onright>
         <onup>1101</onup>
         <ondown>1101</ondown>
-        <texturenofocus colordiffuse="E6B66B12">resources/panel.png</texturenofocus>
-        <texturefocus colordiffuse="F0E18C23">resources/panel.png</texturefocus>
+        <texturenofocus colordiffuse="F0BC6A16">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FFFFA53A">resources/panel.png</texturefocus>
         <onclick>ActivateWindow(Videos,library://video/,return)</onclick>
         <label></label>
+      </control>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>828</width>
+        <height>88</height>
+        <texture colordiffuse="44391E05">colors/white.png</texture>
       </control>
       <control type="image">
         <left>620</left>
@@ -441,7 +502,28 @@
         <height>42</height>
         <font>font_body</font>
         <textcolor>FFFFF1D6</textcolor>
-        <label>Filme, Serien und spaeter wiederfindbare Lieblingsinhalte.</label>
+        <label>Filme, Serien und später wiederfindbare Lieblingsinhalte.</label>
+      </control>
+      <control type="image">
+        <left>30</left>
+        <top>156</top>
+        <width>244</width>
+        <height>112</height>
+        <texture colordiffuse="26FFF1D6">colors/white.png</texture>
+      </control>
+      <control type="image">
+        <left>292</left>
+        <top>156</top>
+        <width>214</width>
+        <height>112</height>
+        <texture colordiffuse="16FFFFFF">colors/white.png</texture>
+      </control>
+      <control type="image">
+        <left>524</left>
+        <top>156</top>
+        <width>274</width>
+        <height>112</height>
+        <texture colordiffuse="1E8B3C00">colors/white.png</texture>
       </control>
       <control type="group">
         <left>30</left>
@@ -519,7 +601,7 @@
         <align>center</align>
         <font>font_body_large</font>
         <textcolor>FFFFFAF3</textcolor>
-        <label>OK oeffnen</label>
+        <label>OK öffnen</label>
         <visible>Control.HasFocus(1103)</visible>
       </control>
     </control>
@@ -548,11 +630,18 @@
         <onright>1103</onright>
         <onup>1102</onup>
         <ondown>1102</ondown>
-        <texturenofocus colordiffuse="E6545A67">resources/panel.png</texturenofocus>
-        <texturefocus colordiffuse="F0757D8B">resources/panel.png</texturefocus>
+        <texturenofocus colordiffuse="F05A4C58">resources/panel.png</texturenofocus>
+        <texturefocus colordiffuse="FF8D7788">resources/panel.png</texturefocus>
         <onclick condition="Skin.HasSetting(technician_mode)">ActivateWindow(Settings)</onclick>
         <onclick condition="!Skin.HasSetting(technician_mode)">ActivateWindow(1113)</onclick>
         <label></label>
+      </control>
+      <control type="image">
+        <left>0</left>
+        <top>0</top>
+        <width>828</width>
+        <height>92</height>
+        <texture colordiffuse="4436222A">colors/white.png</texture>
       </control>
       <control type="image">
         <centerleft>50%</centerleft>
@@ -567,7 +656,7 @@
         <top>198</top>
         <width>828</width>
         <height>122</height>
-        <texture colordiffuse="18000000">resources/panel.png</texture>
+        <texture colordiffuse="22311F27">resources/panel.png</texture>
         <aspectratio>stretch</aspectratio>
       </control>
       <control type="label">
@@ -598,7 +687,7 @@
         <align>center</align>
         <font>font_body_large</font>
         <textcolor>FFF5F5F5</textcolor>
-        <label>OK oeffnen</label>
+        <label>OK öffnen</label>
         <visible>Control.HasFocus(1104)</visible>
       </control>
     </control>
@@ -749,22 +838,22 @@
           <label>Technikmodus beenden</label>
           <onclick>Skin.Reset(technician_mode)</onclick>
           <onclick>ActivateWindow(Home)</onclick>
-          <property name="description">Sperrt den Technikbereich wieder und kehrt zur vereinfachten Startseite zurueck.</property>
+          <property name="description">Sperrt den Technikbereich wieder und kehrt zur vereinfachten Startseite zurück.</property>
         </item>
         <item>
           <label>Mediatheken vorbereiten</label>
           <onclick>ActivateWindow(1112)</onclick>
-          <property name="description">ARD, ZDF, Arte und weitere Mediatheken gebuendelt pruefen und vorbereiten.</property>
+          <property name="description">ARD, ZDF, Arte und weitere Mediatheken gebündelt prüfen und vorbereiten.</property>
         </item>
         <item>
-          <label>Technik-PIN aendern</label>
+          <label>Technik-PIN ändern</label>
           <onclick>Skin.SetNumeric(technician_pin)</onclick>
-          <property name="description">Aendert die PIN fuer den Zugang zum Technikbereich. Standard ist 1848.</property>
+          <property name="description">Ändert die PIN für den Zugang zum Technikbereich. Standard ist 1848.</property>
         </item>
         <item>
           <label>Bibliothek vorbereiten</label>
           <onclick>ActivateWindow(MediaSettings)</onclick>
-          <property name="description">Quellen, Metadaten und spaetere Bibliothekswege fuer Filme und Serien einrichten.</property>
+          <property name="description">Quellen, Metadaten und spätere Bibliothekswege für Filme und Serien einrichten.</property>
         </item>
         <item>
           <label>Live-TV einrichten</label>
@@ -774,7 +863,7 @@
         <item>
           <label>Interface</label>
           <onclick>ActivateWindow(InterfaceSettings)</onclick>
-          <property name="description">Sprache, Region, Bildschirmschoner und Bedienoberflaeche anpassen.</property>
+          <property name="description">Sprache, Region, Bildschirmschoner und Bedienoberfläche anpassen.</property>
         </item>
         <item>
           <label>System</label>
@@ -789,7 +878,7 @@
         <item>
           <label>Player</label>
           <onclick>ActivateWindow(PlayerSettings)</onclick>
-          <property name="description">Wiedergabeverhalten fuer Video, Audio und Untertitel festlegen.</property>
+          <property name="description">Wiedergabeverhalten für Video, Audio und Untertitel festlegen.</property>
         </item>
         <item>
           <label>Medien</label>
@@ -804,7 +893,7 @@
         <item>
           <label>Zur Startseite</label>
           <onclick>ActivateWindow(Home)</onclick>
-          <property name="description">Zur vereinfachten Startseite zurueckkehren.</property>
+          <property name="description">Zur vereinfachten Startseite zurückkehren.</property>
         </item>
       </content>
     </control>
