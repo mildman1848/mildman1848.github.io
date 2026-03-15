@@ -123,7 +123,7 @@
         </news>
     </extension>
   </addon>
-  <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.33" provider-name="mildman1848">
+  <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.34" provider-name="mildman1848">
     <requires>
       <import addon="xbmc.python" version="3.0.0" />
       <import addon="script.module.requests" />
@@ -672,8 +672,8 @@
     </extension>
     <extension point="xbmc.addon.metadata">
       <summary>Various Addons for Kodi</summary>
-      <description></description>
-      <disclaimer></disclaimer>
+      <description />
+      <disclaimer />
       <platform>all</platform>
       <assets>
         <icon>icon.png</icon>
