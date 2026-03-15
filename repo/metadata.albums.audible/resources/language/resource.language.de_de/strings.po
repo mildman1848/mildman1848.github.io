@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Kodi Addons\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "#30000"
+msgid "Audible scraper settings"
+msgstr "Audible-Scraper-Einstellungen"
+
+msgctxt "#30001"
+msgid "General"
+msgstr "Allgemein"
+
+msgctxt "#30002"
+msgid "API"
+msgstr "API"
+
+msgctxt "#30010"
+msgid "Audible domain"
+msgstr "Audible-Domain"
+
+msgctxt "#30011"
+msgid "Set the Audible marketplace domain, for example audible.de or audible.com."
+msgstr "Setzt die Audible-Marketplace-Domain, zum Beispiel audible.de oder audible.com."
+
+msgctxt "#30012"
+msgid "Result limit"
+msgstr "Ergebnislimit"
+
+msgctxt "#30013"
+msgid "Maximum number of items fetched in one API query."
+msgstr "Maximale Anzahl von Einträgen pro API-Abfrage."
+
+msgctxt "#30030"
+msgid "Debug"
+msgstr "Debug"
+
+msgctxt "#30031"
+msgid "Diagnostics"
+msgstr "Diagnose"
+
+msgctxt "#30032"
+msgid "Enable debug mode"
+msgstr "Debug-Modus aktivieren"
+
+msgctxt "#30033"
+msgid "Enable additional debugging workflow using the local script tools/debug_audible_scraper.py."
+msgstr "Aktiviert einen erweiterten Debug-Workflow über das lokale Skript tools/debug_audible_scraper.py."
