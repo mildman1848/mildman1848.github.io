@@ -161,7 +161,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="metadata.artists.audible" name="Audible Artist Scraper" version="1.0.6" provider-name="mildman1848">
+  <addon id="metadata.artists.audible" name="Audible Artist Scraper" version="1.0.7" provider-name="mildman1848">
     <requires>
       <import addon="xbmc.metadata" version="2.1.0" />
     </requires>
