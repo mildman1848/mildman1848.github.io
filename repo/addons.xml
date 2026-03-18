@@ -537,7 +537,8 @@
       <news>First release for Multi-version</news>
       <summary lang="en_GB">Alex Bratchik Kodi repository</summary>
       <description lang="en_GB">This repository is created for distributing my own Kodi plugins. Enjoy!</description>
-      <disclaimer lang="en_GB">This repository is non-commercial GPL-3. You may use it as is at your own discretion and risk.</disclaimer>
+      <disclaimer lang="en_GB">This repository is non-commercial GPL-3. You may use it as is at your own discretion and risk.
+        </disclaimer>
       <assets>
         <icon>icon.png</icon>
         <fanart>fanart.jpg</fanart>
@@ -658,7 +659,7 @@
     <extension point="xbmc.addon.metadata">
       <summary lang="en">Latts' Kodi Repo</summary>
       <description lang="en">KODI addons provided by Latts.</description>
-      <disclaimer></disclaimer>
+      <disclaimer />
       <platform>all</platform>
       <assets>
         <fanart>resources/fanart.jpg</fanart>
@@ -667,7 +668,7 @@
       <news>[B][COLOR=FF2CD13B]v4.0.3[/COLOR][/B] - Release date October 18, 2024[CR]
 [B][COLOR=FFFFA500]ADDITIONS[/COLOR][/B]
 • Piers repo added.
-      </news>
+		</news>
     </extension>
   </addon>
 </addons>
