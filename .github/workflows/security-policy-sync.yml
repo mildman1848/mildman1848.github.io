@@ -1,0 +1,30 @@
+name: Security Policy Sync
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - SECURITY.md
+      - SECURITY.DE.md
+      - VERSION
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-security-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate security documentation links
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f SECURITY.md
+          test -f SECURITY.DE.md
+          grep -q 'SECURITY.DE.md' SECURITY.md
+          grep -q 'SECURITY.md' SECURITY.DE.md
+          test -f VERSION

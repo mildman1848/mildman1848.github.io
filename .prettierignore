@@ -1,0 +1,5 @@
+.git/
+repo/**/*.zip
+repo/**/*.png
+repo/**/*.jpg
+repo/**/*.gif

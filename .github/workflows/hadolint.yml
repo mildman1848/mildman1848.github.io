@@ -1,0 +1,32 @@
+name: Hadolint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  dockerfile-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run hadolint when Dockerfiles exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find . -type f \( -name 'Dockerfile' -o -name 'Dockerfile.*' \) | sort)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No Dockerfiles found. Skipping hadolint."
+            exit 0
+          fi
+          config=""
+          if [ -f .hadolint.yaml ]; then
+            config="--config .hadolint.yaml"
+          fi
+          for file in "${files[@]}"; do
+            docker run --rm -v "$PWD:/work" -w /work hadolint/hadolint hadolint $config "$file"
+          done
