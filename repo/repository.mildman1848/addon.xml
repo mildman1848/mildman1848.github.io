@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.mildman1848" name="mildman1848 Repository" provider-name="mildman1848" version="1.0.7">
+<addon id="repository.mildman1848" name="mildman1848 Repository" provider-name="mildman1848" version="1.0.8">
+  <requires>
+    <import addon="xbmc.addon" version="12.0.0" />
+  </requires>
   <extension point="xbmc.addon.repository" name="mildman1848 Repository">
     <dir>
       <info compressed="false">https://mildman1848.github.io/repo/addons.xml</info>
@@ -13,6 +16,7 @@
     <summary lang="en_GB">Kodi repository by mildman1848</summary>
     <description lang="de_DE">Kodi-Repository mit eigenen Addons und gepflegten externen Quellen.</description>
     <description lang="en_GB">Kodi repository with own add-ons and maintained external sources.</description>
+    <news>Added the standard xbmc.addon repository dependency for broader Kodi compatibility.</news>
     <website>https://mildman1848.github.io/</website>
     <assets>
       <icon>icon.png</icon>
