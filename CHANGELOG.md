@@ -4,6 +4,11 @@ Deutsch: [CHANGELOG.DE.md](CHANGELOG.DE.md)
 
 All notable changes to the `mildman1848.github.io` repository website will be documented in this file.
 
+## 1.0.3 - 2026-03-24
+
+- Fixed the committed `repo/addons.xml.md5` value so the CI checksum validation matches the published feed content.
+- Replaced the root and repository landing pages with simpler Kodi-friendly index pages that expose direct relative links for ZIP installation and repository browsing.
+
 ## 1.0.2 - 2026-03-24
 
 - Published `repository.mildman1848` version `1.0.8` with the standard `xbmc.addon` dependency for improved Kodi repository compatibility.
