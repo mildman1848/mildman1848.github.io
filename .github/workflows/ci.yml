@@ -21,9 +21,20 @@ jobs:
         run: xmllint --noout repo/addons.xml
 
       - name: Validate addons.xml.md5
-        shell: bash
         run: |
-          set -euo pipefail
-          expected="$(md5sum repo/addons.xml | awk '{print $1}')"
-          actual="$(tr -d '\n\r' < repo/addons.xml.md5)"
-          test "$expected" = "$actual"
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+
+          xml_path = Path("repo/addons.xml")
+          md5_path = Path("repo/addons.xml.md5")
+
+          normalized = xml_path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+          expected = hashlib.md5(normalized).hexdigest()
+          actual = md5_path.read_text(encoding="utf-8").strip()
+
+          if expected != actual:
+              raise SystemExit(
+                  "addons.xml.md5 mismatch: expected %s, found %s" % (expected, actual)
+              )
+          PY
