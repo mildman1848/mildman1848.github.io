@@ -4,6 +4,10 @@ Deutsch: [CHANGELOG.DE.md](CHANGELOG.DE.md)
 
 All notable changes to the `mildman1848.github.io` repository website will be documented in this file.
 
+## 1.0.5 - 2026-03-25
+
+- Published `repository.mildman1848` version `1.0.9` with a rebuilt ZIP archive that includes an explicit top-level directory entry, matching the structure used by working Kodi repository ZIPs.
+
 ## 1.0.4 - 2026-03-24
 
 - Added direct ZIP links for the main repository package and core add-ons on the root and `/repo/` index pages so Kodi file browsing can reach installable packages without relying on directory navigation.
