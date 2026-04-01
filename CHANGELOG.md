@@ -4,6 +4,12 @@ Deutsch: [CHANGELOG.DE.md](CHANGELOG.DE.md)
 
 All notable changes to the `mildman1848.github.io` repository website will be documented in this file.
 
+## 1.0.8 - 2026-04-01
+
+- Restored the themed page layout (orderedlist-style) for `/`, `/de/`, `/repo/`, and `/de/repo/` instead of plain directory-style index pages.
+- Updated landing and package pages to show current repository packages, including `plugin.audio.audiobookshelf` `0.1.48`, `skin.kodi4seniors`, and the maintained `plugin.video.themoviedb.helper` fork.
+- Removed outdated ZIP artifacts from `repo/repository.mildman1848/` and `repo/repository.abratchik/` so only current releases remain.
+
 ## 1.0.7 - 2026-04-01
 
 - Published `plugin.audio.audiobookshelf` version `0.1.48` in the Kodi repository feed, including updated package artifacts and `addons.xml` metadata.
