@@ -3,3 +3,6 @@ node_modules/
 dist/
 build/
 coverage/
+
+# Keep placeholder files
+!.gitkeep
