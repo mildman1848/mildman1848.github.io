@@ -15,9 +15,9 @@
       <platform>all</platform>
       <summary lang="de_DE">Kodi Repository von mildman1848</summary>
       <summary lang="en_GB">Kodi repository by mildman1848</summary>
-      <description lang="de_DE">Kodi-Repository mit eigenen Addons und gepflegten externen Quellen.</description>
-      <description lang="en_GB">Kodi repository with own add-ons and maintained external sources.</description>
-      <news>Rebuilt the repository ZIP with an explicit top-level directory entry for better Kodi ZIP compatibility.</news>
+      <description lang="de_DE">Kodi-Repository mit eigenen Addons (inkl. Kodi4Seniors) sowie gepflegten externen Quellen und Forks wie plugin.video.themoviedb.helper.</description>
+      <description lang="en_GB">Kodi repository with own add-ons (including Kodi4Seniors), maintained external sources, and forks like plugin.video.themoviedb.helper.</description>
+      <news>Added plugin.video.themoviedb.helper as a mildman1848-maintained fork and published plugin.audio.audiobookshelf 0.1.48.</news>
       <website>https://mildman1848.github.io/</website>
       <assets>
         <icon>icon.png</icon>
@@ -127,7 +127,7 @@
         </news>
     </extension>
   </addon>
-  <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.47" provider-name="mildman1848">
+  <addon id="plugin.audio.audiobookshelf" name="Audiobookshelf" version="0.1.48" provider-name="mildman1848">
     <requires>
       <import addon="xbmc.python" version="3.0.0" />
       <import addon="script.module.requests" />
@@ -614,10 +614,10 @@
         <fanart>fanart.jpg</fanart>
         <screenshot>resources/screenshot-home.jpg</screenshot>
       </assets>
-      <summary lang="de_DE">Senior-friendly Kodi Skin</summary>
-      <summary lang="en_GB">Senior-friendly Kodi Skin</summary>
-      <description lang="de_DE">Große Kacheln, Live-TV, Mediatheken, Bibliothek und einfacher Zugang für Senioren.</description>
-      <description lang="en_GB">Large tiles, Live TV, mediatheken, library access and simplified operation for seniors.</description>
+      <summary lang="de_DE">Kodi4Seniors (offizielles mildman1848 Projekt)</summary>
+      <summary lang="en_GB">Kodi4Seniors (official mildman1848 project)</summary>
+      <description lang="de_DE">Offizielles Kodi4Seniors-Skin von mildman1848: große Kacheln, Live-TV, Mediatheken, Bibliothek und einfacher Zugang für Senioren.</description>
+      <description lang="en_GB">Official Kodi4Seniors skin by mildman1848: large tiles, live TV, media libraries, and simplified operation for seniors.</description>
     </extension>
   </addon>
   <addon id="repository.lattsrepo" name="[COLOR red]Latts'[/COLOR] [COLOR white]KODI[/COLOR] [COLOR blue]Repo[/COLOR]" version="4.0.3" provider-name="Latts">
@@ -674,6 +674,50 @@
 [B][COLOR=FFFFA500]ADDITIONS[/COLOR][/B]
 • Piers repo added.
 		</news>
+    </extension>
+  </addon>
+  <addon id="plugin.video.themoviedb.helper" version="6.15.1" name="TMDb Helper" provider-name="mildman1848 (fork of jurialmunkey)">
+    <requires>
+      <import addon="xbmc.python" version="3.0.1" />
+      <import addon="script.module.requests" version="2.9.1" />
+      <import addon="script.module.pil" version="1.1.7" />
+      <import addon="script.module.addon.signals" version="0.0.6" />
+      <import addon="script.module.jurialmunkey" version="0.2.31" />
+      <import addon="script.module.infotagger" version="0.0.5" />
+      <import addon="script.module.qrcode" version="6.1.0" />
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="resources/plugin.py">
+      <provides>video</provides>
+    </extension>
+    <extension point="xbmc.python.script" library="resources/script.py" />
+    <extension point="xbmc.service" library="resources/service.py" />
+    <extension point="xbmc.python.module" library="resources/modules" />
+    <extension point="xbmc.addon.metadata">
+      <reuselanguageinvoker>false</reuselanguageinvoker>
+      <summary lang="de_DE">TMDb Helfer</summary>
+      <summary lang="en_GB">TMDb Helper</summary>
+      <summary lang="zh_CN">TMDb 助手</summary>
+      <description lang="de_DE">Fork von jurialmunkey/plugin.video.themoviedb.helper mit Headless-Kodi-Anpassungen. TMDb Helper liefert Details über Filme, Fernsehsendungen und Schauspieler aus TMDb. Benutzer können auf eine Vielzahl von Listen aus TMDb TVDb MDbList und Trakt zugreifen.</description>
+      <description lang="en_GB">Fork of jurialmunkey/plugin.video.themoviedb.helper with headless Kodi adjustments. TMDb Helper provides details about movies, tvshows and actors from TMDb. Users can access a variety of lists from TMDb TVDb MDbList and Trakt.</description>
+      <description lang="pl_PL">TMDb Helper dostarcza szczegółowych informacji o filmach, serialach i aktorach z serwisu TMDb. Użytkownicy mają dostęp do szeregu list z serwisów TMDb, TVDb, MDbList i Trakt.</description>
+      <description lang="sv_SE">TMDb Helper tillhandahåller information om filmer, tv-serier och skådespelare från TMDb. Användare kan få tillgång till en mängd olika listor från TMDb, TVDb, MDbList och Trakt.</description>
+      <description lang="zh_CN">TMDb 助手从 TMDb（影视数据库） 获取电影、电视剧及演员的详细信息。用户可访问来自 TMDb、TVDb、MDbList 和 Trakt 的各类影视列表。</description>
+      <disclaimer lang="de_DE">Daten bereitgestellt von TMDb TVDb MDbList OMDb FanartTV und Trakt. Einige der Informationen werden von TheTVDB.com bereitgestellt. Bitte erwäge sie zu unterstützen. https://thetvdb.com/subscribe</disclaimer>
+      <disclaimer lang="en_GB">Data provided by TMDb TVDb MDbList OMDb FanartTV and Trakt. Some of the information is provided by TheTVDB.com. Please consider supporting them. https://thetvdb.com/subscribe</disclaimer>
+      <disclaimer lang="pl_PL">Dane dostarczane przez TMDb TVDb MDbList OMDb FanartTV i Trakt. Niektóre informacje pochodzą z serwisu TheTVDB.com. Prosimy o rozważenie wsparcia tych serwisów. https://thetvdb.com/subscribe</disclaimer>
+      <disclaimer lang="sv_SE">Data tillhandahållen av TMDb TVDb MDbList OMDb FanartTV och Trakt. En del av informationen tillhandahålls av TheTVDB.com. Stöd dem gärna. https://thetvdb.com/subscribe</disclaimer>
+      <disclaimer lang="zh_CN">数据由 TMDb、TVDb、MDbList、OMDb、FanartTV 和 Trakt 提供。部分信息由 TheTVDB.com 提供，建议您支持他们。订阅链接：https://thetvdb.com/subscribe</disclaimer>
+      <license>GPL-3.0-or-later</license>
+      <source>https://github.com/jurialmunkey/plugin.video.themoviedb.helper</source>
+      <website>https://github.com/mildman1848/plugin.video.themoviedb.helper</website>
+      <forum>https://forum.kodi.tv/showthread.php?tid=345847</forum>
+      <assets>
+        <icon>icon.png</icon>
+        <fanart>fanart.jpg</fanart>
+        <clearlogo>clearlogo.png</clearlogo>
+        <screenshot>resources/screenshot-01.jpg</screenshot>
+        <screenshot>resources/screenshot-02.jpg</screenshot>
+      </assets>
     </extension>
   </addon>
 </addons>

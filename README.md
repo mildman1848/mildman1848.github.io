@@ -10,6 +10,11 @@ Static GitHub Pages site for the Kodi repository feed maintained under `mildman1
 - Mirrors selected repository ZIP files and metadata.
 - Provides English and German package overview pages.
 
+## Ownership And Fork Notes
+
+- `skin.kodi4seniors` is an official project maintained by `mildman1848`.
+- `plugin.video.themoviedb.helper` is published as a `mildman1848`-maintained fork of `jurialmunkey/plugin.video.themoviedb.helper`.
+
 ## Main Areas
 
 - `index.html`: site landing page

@@ -4,6 +4,12 @@ Deutsch: [CHANGELOG.DE.md](CHANGELOG.DE.md)
 
 All notable changes to the `mildman1848.github.io` repository website will be documented in this file.
 
+## 1.0.7 - 2026-04-01
+
+- Published `plugin.audio.audiobookshelf` version `0.1.48` in the Kodi repository feed, including updated package artifacts and `addons.xml` metadata.
+- Added `plugin.video.themoviedb.helper` to the feed as a `mildman1848`-maintained fork of `jurialmunkey/plugin.video.themoviedb.helper`.
+- Updated English and German index pages to clearly label `skin.kodi4seniors` as an official `mildman1848` project and TMDb Helper as a fork.
+
 ## 1.0.6 - 2026-03-25
 
 - Added direct ZIP links for the bundled external Kodi repositories on the root and `/repo/` index pages so Kodi's file manager can see and install them without relying on folder traversal.

@@ -14,9 +14,9 @@
     <platform>all</platform>
     <summary lang="de_DE">Kodi Repository von mildman1848</summary>
     <summary lang="en_GB">Kodi repository by mildman1848</summary>
-    <description lang="de_DE">Kodi-Repository mit eigenen Addons und gepflegten externen Quellen.</description>
-    <description lang="en_GB">Kodi repository with own add-ons and maintained external sources.</description>
-    <news>Rebuilt the repository ZIP with an explicit top-level directory entry for better Kodi ZIP compatibility.</news>
+    <description lang="de_DE">Kodi-Repository mit eigenen Addons (inkl. Kodi4Seniors) sowie gepflegten externen Quellen und Forks wie plugin.video.themoviedb.helper.</description>
+    <description lang="en_GB">Kodi repository with own add-ons (including Kodi4Seniors), maintained external sources, and forks like plugin.video.themoviedb.helper.</description>
+    <news>Added plugin.video.themoviedb.helper as a mildman1848-maintained fork and published plugin.audio.audiobookshelf 0.1.48.</news>
     <website>https://mildman1848.github.io/</website>
     <assets>
       <icon>icon.png</icon>

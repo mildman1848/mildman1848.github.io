@@ -17,9 +17,9 @@
       <fanart>fanart.jpg</fanart>
       <screenshot>resources/screenshot-home.jpg</screenshot>
     </assets>
-    <summary lang="de_DE">Senior-friendly Kodi Skin</summary>
-    <summary lang="en_GB">Senior-friendly Kodi Skin</summary>
-    <description lang="de_DE">Große Kacheln, Live-TV, Mediatheken, Bibliothek und einfacher Zugang für Senioren.</description>
-    <description lang="en_GB">Large tiles, Live TV, mediatheken, library access and simplified operation for seniors.</description>
+    <summary lang="de_DE">Kodi4Seniors (offizielles mildman1848 Projekt)</summary>
+    <summary lang="en_GB">Kodi4Seniors (official mildman1848 project)</summary>
+    <description lang="de_DE">Offizielles Kodi4Seniors-Skin von mildman1848: große Kacheln, Live-TV, Mediatheken, Bibliothek und einfacher Zugang für Senioren.</description>
+    <description lang="en_GB">Official Kodi4Seniors skin by mildman1848: large tiles, live TV, media libraries, and simplified operation for seniors.</description>
   </extension>
 </addon>
