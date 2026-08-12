@@ -15,6 +15,5 @@ jobs:
     steps:
       - uses: actions/first-interaction@v3
         with:
-          issue-message: "Thanks for opening your first issue. Please make sure the issue template is fully filled in."
-          pr-message: "Thanks for your first pull request. Please make sure the PR template is fully filled in."
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue_message: "Thanks for opening your first issue. Please make sure the issue template is fully filled in."
+          pr_message: "Thanks for your first pull request. Please make sure the PR template is fully filled in."
